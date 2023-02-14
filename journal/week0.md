@@ -6,6 +6,13 @@ As pre-requisite to billing (before setting cloudwatch alarm and creating budget
 
 I created 2 users and grouped these users under group admin. The users individually have admin policy attached. (It is possible to create group with admin policy attached and users under the group will also have same policy applied).
 
+### Create access key for IAM users (use with CLI, CDK etc)
+  Navigate to security credentials from AWS console main page
+  Scroll down to create access keys and click create access key
+  Only 2 Access key can be active at a time.
+  Before deleting an access key, it should be deactivated
+  #### Note: Download the .csv file and make sure to save this which is required while configuring aws for CLI access 
+
  ### Activate Billing for IAM users
   Logged as root user 
   Goto Account
@@ -49,7 +56,15 @@ Note: It is recommended to access AWS console as Admin IAM user and avoid ROOT u
   I do not have any credit to check, so skipped this. Any credit can be viewed  and redeeemed here
   Explore Free tier (12 month free, always free services)
   
-  
+  # CloudShell
+    Cloudshell is available only for selected region. Ensure the region selection to use cloudshell
+    aws --cli-auto-prompt enables auto prompt and make it easy to type aws cli commands
     
+  ### Install aws ali in gitpod
+  ###### _Execute the following in gitpod terminal_
+  #######         _curl -fSsl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"_
+  #######          _unzip -qq awscliv2.zip_
+  #######          _sudo ./aws/install --update_
+  #######          _rm awscliv2.zip  _
     
     
