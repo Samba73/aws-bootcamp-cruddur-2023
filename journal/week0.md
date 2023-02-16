@@ -105,7 +105,24 @@ https://lucid.app/lucidchart/966366bf-c705-4e3a-b9aa-c057c6f6e6fd/edit?page=0_0&
       
    ***Unfortunately, I couldnt save environment variable with AWS credenntials and everytime try the cli command in gotpod, had to configure. This I felt I was doing something wrong. Need to get this correct***
       
-   
+## Homework Challenges
+
+### Destroy root user credentials, Set MFA, IAM role
+      <sub>Root user is not used to access any AWS service, have not saved credentials to access as Root user</sub>
+      <sub>MFA is set for Root user and using Authy app to access as Root user</sub
+      <sub>It is my understanding that IAM role cannot be / not required for Root user. No policies can restrict Root user acccess, Only organizations and SCP can be used</sub>
+      
+### User Eventbridge to Hookup Health Dashboard to SNS and send notification when there is service health issue
+   ***Created an eventbridge rule for EC2 issues and set existing SNS topic as Target, but unable to get an issue trigged to test it***
+### Create architectural diagram the CI/CD logical pipeline in Lucid charts
+
+https://lucid.app/lucidchart/e627d320-f6f5-480e-85df-8edd98df7fe4/edit?invitationId=inv_0fe42d94-da25-49f2-b4d3-aedc27bc6c22&page=0_0#
+
+### Research the technical and service limits of specific services and how they could impact the technical pth for technical feasibility
+DynamoDB - Concurrent control plane operations is limited to 500. 
+ This could impact concurrent access to DynamoDB table operations
+ 
+
             
             
     
