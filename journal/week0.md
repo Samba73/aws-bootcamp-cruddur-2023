@@ -73,8 +73,7 @@
   
     <sub>did this along with everyone during the live session</sub>
   
-https://lucid.app/lucidchart/966366bf-c705-4e3a-b9aa-c057c6f6e6fd/edit?page=0_0&invitationId=inv_9162ee28-d7ec-412e-8f02-38f7cddaad92#
-
+https://lucid.app/lucidchart/966366bf-c705-4e3a-b9aa-c057c6f6e6fd/edit?viewport_loc=-41%2C55%2C2183%2C859%2C0_0&invitationId=inv_9162ee28-d7ec-412e-8f02-38f7cddaad92
   ### Recreate Logical Architectural Diagram in Lucid charts 
   
       <sub>Watched the video to rethink about the design and added some ideas. </sub>
@@ -116,8 +115,7 @@ https://lucid.app/lucidchart/966366bf-c705-4e3a-b9aa-c057c6f6e6fd/edit?page=0_0&
    ***Created an eventbridge rule for EC2 issues and set existing SNS topic as Target, but unable to get an issue trigged to test it***
 ### Create architectural diagram the CI/CD logical pipeline in Lucid charts
 
-https://lucid.app/lucidchart/e627d320-f6f5-480e-85df-8edd98df7fe4/edit?invitationId=inv_0fe42d94-da25-49f2-b4d3-aedc27bc6c22&page=0_0#
-
+https://lucid.app/lucidchart/e627d320-f6f5-480e-85df-8edd98df7fe4/edit?viewport_loc=-18%2C-55%2C2362%2C870%2C0_0&invitationId=inv_0fe42d94-da25-49f2-b4d3-aedc27bc6c22
 ### Research the technical and service limits of specific services and how they could impact the technical pth for technical feasibility
 DynamoDB - Concurrent control plane operations is limited to 500. 
  This could impact concurrent access to DynamoDB table operations
