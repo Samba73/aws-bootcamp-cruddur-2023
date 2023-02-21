@@ -148,7 +148,21 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Message'
-
+  /api/activities/notifications:
+    get:
+      description: Return activities from user that is followed
+      tags:
+        - activities
+      responses:
+        '200':
+          description: Return array of activities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Activity'
+ 
 components:
   schemas:
     Activity:
@@ -159,10 +173,10 @@ components:
           example: 0056a369-4618-43a4-ad88-e7c371bf5582
         display_name:
           type: string
-          example: "Andrew Brown"
+          example: "Samba Krishnamurthy"
         handle:
           type: string
-          example: "andrewbrown"
+          example: "Samba"
         message:
           type: string
           example: "Who likes pineapple on their pizza?"
@@ -192,7 +206,7 @@ components:
           example: 0056a369-4618-43a4-ad88-e7c371bf5582
         handle:
           type: string
-          example: "andrewbrown"
+          example: "Samba"
         message:
           type: string
           example: "Who likes pineapple on their pizza?"
@@ -217,10 +231,10 @@ components:
           example: 0056a369-4618-43a4-ad88-e7c371bf5582
         display_name:
           type: string
-          example: "Andrew Brown"
+          example: "Samba Krishnamurthy"
         handle:
           type: string
-          example: "andrewbrown"
+          example: "Samba"
         message:
           type: string
           example: "Who likes pineapple on their pizza?"
@@ -235,7 +249,7 @@ components:
           example: 0056a369-4618-43a4-ad88-e7c371bf5582
         display_name:
           type: string
-          example: "Worf"
+          example: "Wakanda"
         handle:
           type: string
-          example: "worf"
+          example: "Wakanda"
