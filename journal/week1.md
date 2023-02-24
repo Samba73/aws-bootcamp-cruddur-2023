@@ -20,3 +20,32 @@
                 ii) used nginx server in stage 1 and moved the build to nginx server
                 iii) nginx server configuration is updated to listen to port 3000 (react-js)
             3) Was able to launch the frontend page in web browser
+            4) Did exec to container and checked the build files in /usr/share/nginx/html folder to confirm
+### 4) Tried healthcheck in docker compose for nginx but always give unheathy even though healthcheck provided was for existence of index.html file which was always available
+              version: "3.8"
+              services:
+              ....
+                frontend-react-js:
+                  ...
+                  build: 
+                    context: ./frontend-react-js
+                    dockerfile: Dockerfile-ms
+                  ...   
+                  healthcheck:
+                    test: stat /usr/share/ngix/html/index.html || exit 1
+                    interval: 30s
+                    start_period: 10s
+                    retries: 2
+                    timeout: 5s
+### 5) Dockerfile best practices
+              1) Multistage option (demonstrated in homework 3
+              2) Docker build through stdin
+                     docker build -<<EOF
+                     FROM busybox
+                     RUN echo "Hello World"
+              3) Docker build without sending build context
+                      docker build -t img1:latest -<<EOF
+                     FROM busybox
+                     RUN echo "Hello World"
+###                      
+                     EOF
