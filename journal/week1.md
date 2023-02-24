@@ -1,8 +1,8 @@
 # Week 1 — App Containerization
 
-## Pariticipated in live session
-## Completed all videos for this week
-## Completed the quiz for security and spend
+### Pariticipated in live session
+### Completed all videos for this week
+### Completed the quiz for security and spend
 
 # Stretch Homework
 
