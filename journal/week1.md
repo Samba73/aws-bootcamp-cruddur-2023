@@ -47,5 +47,12 @@
                       docker build -t img1:latest -<<EOF
                      FROM busybox
                      RUN echo "Hello World"
-###                      
                      EOF
+### 6) Run docker locally and build same images
+              1) Unable to resolve the Docker daemon at /var/run/docker.sock error to run docker client
+              tried many help by google but unable to resolve. Need to deep dive into it
+### 7) Run docker container in EC2
+              1) Created a new EC2 with ubuntu 20
+              2) Installed docker
+              3) Ran container docker run busyvbox echo hello world
+              4) The container ran and displayed hello world
