@@ -18,3 +18,11 @@ vscode:
   extensions:
     - 42Crunch.vscode-openapi
     - cweijan.vscode-postgresql-client2
+ports:
+  - name: backend
+    port: 4567
+    visibility: public
+  - name: frontend
+    port: 3000
+    visibility: public
+    onOpen: open-browser
