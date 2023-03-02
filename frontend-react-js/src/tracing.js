@@ -5,8 +5,10 @@ import { ZoneContextManager } from '@opentelemetry/context-zone';
 import { Resource }  from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 
+
 const exporter = new OTLPTraceExporter({
-  url: 'https://api.honeycomb.io:443/v1/traces'
+  url: 'https://api.honeycomb.io:443/v1/traces',
+  serviceName: "React-js"
 });
 const provider = new WebTracerProvider({
   resource: new Resource({
