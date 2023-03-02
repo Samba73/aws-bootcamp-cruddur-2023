@@ -2,7 +2,6 @@ receivers:
   otlp:
     protocols:
       http:
-        endpoint: https://4318-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}
         cors:
           allowed_origins:
             - https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}
@@ -20,7 +19,6 @@ extensions:
   health_check:
   pprof:
   zpages:
-    endpoint: https://55679-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}
 
 service:
   extensions: [health_check, pprof, zpages]
