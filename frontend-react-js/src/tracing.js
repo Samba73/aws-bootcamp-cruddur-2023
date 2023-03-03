@@ -7,7 +7,7 @@ import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions'
 
 
 const exporter = new OTLPTraceExporter({
-  url: "api.honeycomb.io:443",
+  url: "https://honeycomb.io:443/v1/traces",
   headers: "x-honeycomb-team=${HONEYCOMB_API_KEY}"
 
 });

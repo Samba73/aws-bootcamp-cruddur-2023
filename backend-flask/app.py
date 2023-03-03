@@ -63,9 +63,10 @@ backend = os.getenv('BACKEND_URL')
 origins = [frontend, backend]
 cors = CORS(
   app, 
-  resources={r"/api/*": {"origins": origins}},
+  resources={r"/api/*": {"origins": "*"}},
   expose_headers="location,link",
-  allow_headers="content-type,if-modified-since",
+  allow_origins="*",
+  #allow_headers="content-type,authorization",
   methods="OPTIONS,GET,HEAD,POST"
 )
 #-- Rollbar
@@ -137,7 +138,7 @@ def data_create_message():
 @app.route("/api/activities/home", methods=['GET'])
 def data_home():
 #  data = HomeActivities.run(LOGGER)
-  data = HomeActivities.run(LOGGER)
+  data = HomeActivities.run()
   return data, 200
  
 @app.route("/api/activities/notifications", methods=['GET'])

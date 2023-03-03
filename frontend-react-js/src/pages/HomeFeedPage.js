@@ -7,30 +7,10 @@ import ActivityFeed from '../components/ActivityFeed';
 import ActivityForm from '../components/ActivityForm';
 import ReplyForm from '../components/ReplyForm';
 
-import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
-import { WebTracerProvider, BatchSpanProcessor } from '@opentelemetry/sdk-trace-web';
-import { ZoneContextManager } from '@opentelemetry/context-zone';
-import { Resource }  from '@opentelemetry/resources';
-import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
-
-const exporter = new OTLPTraceExporter({
-  url: "api.honeycomb.io:443",
-  headers: "x-honeycomb-team=${HONEYCOMB_API_KEY}"
-
-});
-const provider = new WebTracerProvider({
-  resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: 'react-js',
-  }),
-});
-provider.addSpanProcessor(new BatchSpanProcessor(exporter));
-provider.register({
-  contextManager: new ZoneContextManager()
-});
-
 
 // [TODO] Authenication
 import Cookies from 'js-cookie'
+
 
 export default function HomeFeedPage() {
   const [activities, setActivities] = React.useState([]);
@@ -40,7 +20,7 @@ export default function HomeFeedPage() {
   const [user, setUser] = React.useState(null);
   const dataFetchedRef = React.useRef(false);
 
-  const loadData = async () => {
+    const loadData = async () => {
     try {
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/home`
       const res = await fetch(backend_url, {
