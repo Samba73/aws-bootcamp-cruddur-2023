@@ -62,6 +62,9 @@ services:
     ports:
       - 2000:2000/udp 
   otel-collector:
+    environment:
+      - FRONTEND_URL_HTTPS="https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      - FRONTEND_URL_HTTP="http://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
     image: otel/opentelemetry-collector
     command: [--config=/conf/otel-collector-config.yaml]
     volumes:
