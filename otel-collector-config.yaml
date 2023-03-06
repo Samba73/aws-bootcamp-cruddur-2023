@@ -4,20 +4,22 @@ receivers:
       http:
         cors:
           allowed_origins:
-            - "*"
-          allowed_headers:
-            - "*"
-        include_metadata: true      
+            - FRONTEND_URL_HTTPS
+            - FRONTEND_URL_HTTP
+#          allowed_headers:
+#            - "*"
+#        include_metadata: true      
 
 processors:
   batch:
 
 exporters:
-  otlp:
+  otlphttp:
     endpoint: "api.honeycomb.io:443"
     headers:
       "x-honeycomb-team": "x7SiweGe4mB0cY0ompYTeN"
-
+  logging:
+    loglevel: debug  
 extensions:
   health_check:
   pprof:

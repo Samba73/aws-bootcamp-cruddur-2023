@@ -63,10 +63,10 @@ backend = os.getenv('BACKEND_URL')
 origins = [frontend, backend]
 cors = CORS(
   app, 
-  resources={r"/api/*": {"origins": "*"}},
+  resources={r"/api/*": {"origins": origins}},
   expose_headers="location,link",
-  allow_origins="*",
-  #allow_headers="content-type,authorization",
+  #allow_origins="*",
+  allow_headers=["content-type",  "traceparent"],
   methods="OPTIONS,GET,HEAD,POST"
 )
 #-- Rollbar
