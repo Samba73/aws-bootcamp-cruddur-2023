@@ -4,8 +4,8 @@ receivers:
       http:
         cors:
           allowed_origins:
-            - FRONTEND_URL_HTTPS
-            - FRONTEND_URL_HTTP
+            - "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+            - "http://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
 #          allowed_headers:
 #            - "*"
 #        include_metadata: true      
