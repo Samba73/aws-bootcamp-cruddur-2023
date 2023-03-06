@@ -65,7 +65,9 @@ cors = CORS(
     app,
     resources={r"/api/*": {"origins": origins}},
     expose_headers="location,link",
+    allow_origins=['https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}', 'http://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}'],
     allow_headers=["content-type", "if-modified-since", "traceparent"],
+    credentials=False,
     methods="OPTIONS,GET,HEAD,POST"
 )
 #-- Rollbar

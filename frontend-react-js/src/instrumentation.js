@@ -9,6 +9,7 @@ import {ZoneContextManager} from "@opentelemetry/context-zone";
 import {FetchInstrumentation} from "@opentelemetry/instrumentation-fetch";
 import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
 import {OTLPTraceExporter} from "@opentelemetry/exporter-trace-otlp-http";
+import { DocumentLoadInstrumentation } from '@opentelemetry/instrumentation-document-load';
 
 export const initInstrumentation = () => {
     const exporter = new OTLPTraceExporter({
@@ -30,12 +31,18 @@ export const initInstrumentation = () => {
 
     // Registering instrumentations / plugins
     registerInstrumentations({
-        instrumentations: [
-          new FetchInstrumentation({
-            propagateTraceHeaderCorsUrls: [
-                new RegExp(`${process.env.REACT_APP_BACKEND_URL}`, 'g')
-            ]
-          }),
-        ],
-      });
+      instrumentations: [
+        new XMLHttpRequestInstrumentation({
+          propagateTraceHeaderCorsUrls: [
+            new RegExp(`${process.env.REACT_APP_BACKEND_URL}`, 'g')
+          ]
+        }),
+        new FetchInstrumentation({
+          propagateTraceHeaderCorsUrls: [
+            new RegExp(`${process.env.REACT_APP_BACKEND_URL}`, 'g')
+          ]
+        }),
+        new DocumentLoadInstrumentation(),
+      ],
+    });
 };
