@@ -19,12 +19,18 @@ I was able to complete other topics like Rollbar, Cloudwatch
   ### Due to the CORS issue couldnt try this as much in interested
   
   | My Journey to Cloud
-    --------------------
-  | I'm going to become a |             |
+  -----------------------
+  | I'm going to become a |
+  -----------------------          
   | I'm good fit because |              |
-  
+  ------------------------
   | I will know: | I will not get distracted by |
+  -----------------------------------------------
   |1.            |1. 
+  -----------------------------------------------
   |2.            |2.
+  -----------------------------------------------
   |3.            |3.
+  -----------------------------------------------
   |4.            |4.
+  -----------------------------------------------
