@@ -23,6 +23,7 @@ I was able to complete other topics like Rollbar, Cloudwatch
 | I'm going to become a | Program / Project Manager / Solutions Architect   |
 | I'm good fit because  | Currently as Program / Project Manager with experience  |  
 | I will Know:          | I will not get distracted by |
+| --------------------  | ---------------------------- |
 | 1. AWS                | 1. Challenges that I cannot complete on time|
 | 2. DevOps             | 2.Difficult topics that are new |
 | 3. Architecture approach | 3. Me being slow and take time to understand |
