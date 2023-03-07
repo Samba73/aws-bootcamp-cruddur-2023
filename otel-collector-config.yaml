@@ -9,7 +9,6 @@ receivers:
             - ${FRONTEND_URL_HTTP}
           allowed_headers:
             - "X-Requested-With" 
-          endpoint: ${process.env.REACT_APP_OTEL_COLLECTOR_URL}/v1/traces
 
 processors:
   batch:

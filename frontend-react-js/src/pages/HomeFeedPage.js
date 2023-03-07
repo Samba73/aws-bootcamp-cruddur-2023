@@ -12,7 +12,7 @@ import ReplyForm from '../components/ReplyForm';
 import Cookies from 'js-cookie'
 import { initInstrumentation } from '../instrumentation';
 
-initInstrumentation();
+//initInstrumentation();
 export default function HomeFeedPage() {
   const [activities, setActivities] = React.useState([]);
   const [popped, setPopped] = React.useState(false);
@@ -25,7 +25,7 @@ export default function HomeFeedPage() {
     try {
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/home`
       const res = await fetch(backend_url, {
-        method: "GET"
+        method: "GET",
       });
       let resJson = await res.json();
       if (res.status === 200) {
