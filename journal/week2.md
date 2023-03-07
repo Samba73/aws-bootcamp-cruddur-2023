@@ -19,7 +19,7 @@ I was able to complete other topics like Rollbar, Cloudwatch
   ### Due to the CORS issue couldnt try this as much in interested
   
   | My Journey to Cloud.                                                    |
-  |-------------------------------------------------------------------------|
+  |:----:                                                                   |
   | I'm going to become a | Program / Project Manager / Solutions Architect |
   |-----------------------|-------------------------------------------------|          
   | I'm good fit because  |   Currently as Program / Project Manager with experience |       
