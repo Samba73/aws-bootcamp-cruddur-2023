@@ -18,17 +18,13 @@ I was able to complete other topics like Rollbar, Cloudwatch
 ## Run custom queries in Honeycomb and save them later eg. Latency by UserID, Recent Traces.
   ### Due to the CORS issue couldnt try this as much in interested
   
-  | My Journey to Cloud.  |                                                  |
-  |:----:                                                                   |
-  | I'm going to become a | Program / Project Manager / Solutions Architect |          
-  | I'm good fit because  |   Currently as Program / Project Manager with experience |       
-  | I will know: | I will not get distracted by |
-  |-----------------------------------------------
-  |1.AWS                     1. Challenges unable to complete on time |
-  |--------------------------------------------------------------------
-  |2.DevOps                  2. Difficult topics that are new |
-  |------------------------------------------------------------
-  |3.Architecture approach   3.Me being slow and take time to understand. |
-  |------------------------------------------------------------------------
-  |4. Cost & Security        4.Other complex topics |
-  |--------------------------------------------------
+| My Journey to Cloud.  | Second Header |
+| -------------------   | ------------- |
+| I'm going to become a | Program / Project Manager / Solutions Architect   |
+| I'm good fit because  | Currently as Program / Project Manager with experience  |  
+| I will Know:          | I will not get distracted by |
+| 1. AWS                | 1. Challenges that I cannot complete on time|
+| 2. DevOps             | 2.Difficult topics that are new |
+| 3. Architecture approach | 3. Me being slow and take time to understand |
+| 4. Cost & Security | 4. Other complex topics |
+
