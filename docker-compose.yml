@@ -22,6 +22,10 @@ services:
     environment:
       REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
       REACT_APP_OTEL_COLLECTOR_URL: "https://4318-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      REACT_APP_AWS_PROJECT_REGION: "${AWS_DEFAULT_REGION}"
+      REACT_APP_AWS_COGNITO_REGION: "${AWS_DEFAULT_REGION}"
+      REACT_APP_AWS_USER_POOLS_ID: "ap-southeast-1_rsTKKVPCA"
+      REACT_APP_CLIENT_ID: "10dbnricheb791kcfnfr7ghqtk"
     build: 
       context: ./frontend-react-js
       dockerfile: Dockerfile
@@ -63,10 +67,6 @@ services:
     environment:
       FRONTEND_URL_HTTPS: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
       FRONTEND_URL_HTTP: "http://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
-      REACT_APP_AWS_PROJECT_REGION: "${AWS_DEFAULT-REGION}"
-      REACT_APP_AWS_COGNITO_REGION: "${AWS_DEFAULT-REGION}"
-      REACT_APP_AWS_USER_POOLS_ID: "ap-southeast-1_rsTKKVPCA"
-      REACT_APP_CLIENT_ID: "10dbnricheb791kcfnfr7ghqtk"
     image: otel/opentelemetry-collector
     command: [--config=/conf/otel-collector-config.yaml]
     volumes:
