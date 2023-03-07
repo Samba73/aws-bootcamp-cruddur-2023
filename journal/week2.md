@@ -20,10 +20,8 @@ I was able to complete other topics like Rollbar, Cloudwatch
   
   | My Journey to Cloud.                                                    |
   |:----:                                                                   |
-  | I'm going to become a | Program / Project Manager / Solutions Architect |
-  |-----------------------|-------------------------------------------------|          
+  | I'm going to become a | Program / Project Manager / Solutions Architect |          
   | I'm good fit because  |   Currently as Program / Project Manager with experience |       
-  |-----------------------|----------------------------------------------------------|
   | I will know: | I will not get distracted by |
   |-----------------------------------------------
   |1.AWS                     1. Challenges unable to complete on time |
