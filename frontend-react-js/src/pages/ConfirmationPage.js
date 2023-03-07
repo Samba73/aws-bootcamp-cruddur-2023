@@ -2,9 +2,8 @@ import './ConfirmationPage.css';
 import React from "react";
 import { useParams } from 'react-router-dom';
 import {ReactComponent as Logo} from '../components/svg/logo.svg';
+import { Auth } from 'aws-amplify';
 
-// [TODO] Authenication
-import Cookies from 'js-cookie'
 
 export default function ConfirmationPage() {
   const [email, setEmail] = React.useState('');
@@ -55,7 +54,7 @@ export default function ConfirmationPage() {
 
   let el_errors;
   if (cognitoErrors){
-    el_errors = <div className='errors'>{errors}</div>;
+    el_errors = <div className='errors'>{cognitoErrors}</div>;
   }
 
 

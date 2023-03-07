@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { initInstrumentation } from './instrumentation';
 
-initInstrumentation();
+//initInstrumentation();
 
 const el_main = document.getElementsByTagName('main')[0];
 const root = ReactDOM.createRoot(el_main);
