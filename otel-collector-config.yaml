@@ -2,13 +2,14 @@ receivers:
   otlp:
     protocols:
       http:
+        include_metadata: true
         cors:
           allowed_origins:
             - ${FRONTEND_URL_HTTPS}
             - ${FRONTEND_URL_HTTP}
-#          allowed_he aders:
-#            - "*"
-#        include_metadata: true      
+          allowed_headers:
+            - "X-Requested-With" 
+          endpoint: ${process.env.REACT_APP_OTEL_COLLECTOR_URL}/v1/traces
 
 processors:
   batch:
