@@ -22,33 +22,33 @@ from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExport
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
-#-- Rollbar
+# -- Rollbar
 
 import rollbar
 import rollbar.contrib.flask
 from flask import got_request_exception
 
 from decode_verify_jwt.decode_verify_jwt import extract_access_token, DecodeVerifyJWT
-#cloudwatch log
-#import watchtower
-#import logging
-#from time import strftime
+# cloudwatch log
+# import watchtower
+# import logging
+# from time import strftime
 
-#LOGGER = logging.getLogger(__name__)
-#LOGGER.setLevel(logging.DEBUG)
-#console_handler = logging.StreamHandler()
-#cw_handler = watchtower.CloudWatchLogHandler(log_group='cruddur')
-#LOGGER.addHandler(console_handler)
-#LOGGER.addHandler(cw_handler)
-#LOGGER.info('Watchtower:CW Log')
+# LOGGER = logging.getLogger(__name__)
+# LOGGER.setLevel(logging.DEBUG)
+# console_handler = logging.StreamHandler()
+# cw_handler = watchtower.CloudWatchLogHandler(log_group='cruddur')
+# LOGGER.addHandler(console_handler)
+# LOGGER.addHandler(cw_handler)
+# LOGGER.info('Watchtower:CW Log')
 
 # Initialize tracing and an exporter that can send data to Honeycomb
 provider = TracerProvider()
 processor = BatchSpanProcessor(OTLPSpanExporter())
 provider.add_span_processor(processor)
 
-#simple_processor = SimpleSpanProcessor(ConsoleSpanExporter())
-#provider.add_span_processor(simple_processor)
+# simple_processor = SimpleSpanProcessor(ConsoleSpanExporter())
+# provider.add_span_processor(simple_processor)
 
 trace.set_tracer_provider(provider)
 tracer = trace.get_tracer(__name__)
@@ -59,27 +59,27 @@ app = Flask(__name__)
 FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
 
-# Get the Cognito env vars 
+# Get the Cognito env vars
 cognito_jwt_token = DecodeVerifyJWT(
-  user_pool_id=os.getenv("AWS_COGNITO_USER_POOL_ID"), 
-  user_pool_client_id=os.getenv("AWS_COGNITO_USER_POOL_CLIENT_ID"),
-  region=os.getenv("AWS_DEFAULT_REGION")
+    user_pool_id=os.getenv("AWS_COGNITO_USER_POOL_ID"),
+    user_pool_client_id=os.getenv("AWS_COGNITO_USER_POOL_CLIENT_ID"),
+    region=os.getenv("AWS_DEFAULT_REGION")
 )
 
 frontend = os.getenv('FRONTEND_URL')
 backend = os.getenv('BACKEND_URL')
 origins = [frontend, backend]
 cors = CORS(
-    app,
-    resources={r"/api/*": {"origins": origins}},
-    expose_headers="location,link",
-    allow_origins=['https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}', 'http://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}'],
-    allow_headers=["content-type", "if-modified-since", "traceparent"],
-    credentials=False,
-    methods="OPTIONS,GET,HEAD,POST"
+  app, 
+  resources={r"/api/*": {"origins": origins}},
+  headers=['Content-Type', 'Authorization'], 
+  expose_headers='Authorization',
+  methods="OPTIONS,GET,HEAD,POST"
 )
-#-- Rollbar
+# -- Rollbar
 rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
+
+
 @app.before_first_request
 def init_rollbar():
     """init rollbar module"""
@@ -97,9 +97,8 @@ def init_rollbar():
     got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
 
 
-
-#@app.after_request
-#def after_request(response):
+# @app.after_request
+# def after_request(response):
 #    timestamp = strftime('[%Y-%b-%d %H:%M]')
 #    LOGGER.error('%s %s %s %s %s %s', timestamp, request.remote_addr, request.method, request.scheme, request.full_path, response.status)
 #    return response
@@ -109,111 +108,124 @@ def rollbar_test():
     rollbar.report_message('Hello World!', 'warning')
     return "Hello World!"
 
+
 @app.route("/api/message_groups", methods=['GET'])
 def data_message_groups():
-  user_handle  = 'Samba'
-  model = MessageGroups.run(user_handle=user_handle)
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
+    user_handle = 'Samba'
+    model = MessageGroups.run(user_handle=user_handle)
+    if model['errors'] is not None:
+        return model['errors'], 422
+    else:
+        return model['data'], 200
+
 
 @app.route("/api/messages/@<string:handle>", methods=['GET'])
 def data_messages(handle):
-  user_sender_handle = 'Samba'
-  user_receiver_handle = request.args.get('user_reciever_handle')
+    user_sender_handle = 'Samba'
+    user_receiver_handle = request.args.get('user_reciever_handle')
 
-  model = Messages.run(user_sender_handle=user_sender_handle, user_receiver_handle=user_receiver_handle)
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
-  return
+    model = Messages.run(user_sender_handle=user_sender_handle,
+                         user_receiver_handle=user_receiver_handle)
+    if model['errors'] is not None:
+        return model['errors'], 422
+    else:
+        return model['data'], 200
+    return
 
-@app.route("/api/messages", methods=['POST','OPTIONS'])
+
+@app.route("/api/messages", methods=['POST', 'OPTIONS'])
 @cross_origin()
 def data_create_message():
-  user_sender_handle = 'Samba'
-  user_receiver_handle = request.json['user_receiver_handle']
-  message = request.json['message']
+    user_sender_handle = 'Samba'
+    user_receiver_handle = request.json['user_receiver_handle']
+    message = request.json['message']
 
-  model = CreateMessage.run(message=message,user_sender_handle=user_sender_handle,user_receiver_handle=user_receiver_handle)
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
-  return
+    model = CreateMessage.run(
+        message=message, user_sender_handle=user_sender_handle, user_receiver_handle=user_receiver_handle)
+    if model['errors'] is not None:
+        return model['errors'], 422
+    else:
+        return model['data'], 200
+    return
+
 
 @app.route("/api/activities/home", methods=['GET'])
 def data_home():
-#  data = HomeActivities.run(LOGGER)
-  access_token = extract_access_token(request.headers)
-  try:
-    claims = cognito_jwt_token.verify(access_token)
-    # authenicatied request
-    app.logger.debug("authenicated")
-    app.logger.debug(claims)
-    app.logger.debug(claims['username'])
-    data = HomeActivities.run(cognito_user_id=claims['username'])
-  except TokenVerifyError as e:
-    # unauthenicatied request
-    app.logger.debug(e)
-    app.logger.debug("unauthenicated")
-    data = HomeActivities.run()
-    return data, 200
- 
+    #  data = HomeActivities.run(LOGGER)
+    access_token = extract_access_token(request.headers)
+    try:
+        claims = cognito_jwt_token.verify(access_token)
+        # authenicatied request
+        app.logger.debug("authenicated")
+        app.logger.debug(claims)
+        app.logger.debug(claims['username'])
+        data = HomeActivities.run(cognito_user_id=claims['username'])
+    except TokenVerifyError as e:
+        # unauthenicatied request
+        app.logger.debug(e)
+        app.logger.debug("unauthenicated")
+        data = HomeActivities.run()
+        return data, 200
+
+
 @app.route("/api/activities/notifications", methods=['GET'])
 def data_notifications():
-  data = NotificationsActivities.run()
-  return data, 200 
+    data = NotificationsActivities.run()
+    return data, 200
+
 
 @app.route("/api/activities/@<string:handle>", methods=['GET'])
 def data_handle(handle):
-  model = UserActivities.run(handle)
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
+    model = UserActivities.run(handle)
+    if model['errors'] is not None:
+        return model['errors'], 422
+    else:
+        return model['data'], 200
+
 
 @app.route("/api/activities/search", methods=['GET'])
 def data_search():
-  term = request.args.get('term')
-  model = SearchActivities.run(term)
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
-  return
+    term = request.args.get('term')
+    model = SearchActivities.run(term)
+    if model['errors'] is not None:
+        return model['errors'], 422
+    else:
+        return model['data'], 200
+    return
 
-@app.route("/api/activities", methods=['POST','OPTIONS'])
+
+@app.route("/api/activities", methods=['POST', 'OPTIONS'])
 @cross_origin()
 def data_activities():
-  user_handle  = 'Samba'
-  message = request.json['message']
-  ttl = request.json['ttl']
-  model = CreateActivity.run(message, user_handle, ttl)
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
-  return
+    user_handle = 'Samba'
+    message = request.json['message']
+    ttl = request.json['ttl']
+    model = CreateActivity.run(message, user_handle, ttl)
+    if model['errors'] is not None:
+        return model['errors'], 422
+    else:
+        return model['data'], 200
+    return
+
 
 @app.route("/api/activities/<string:activity_uuid>", methods=['GET'])
 def data_show_activity(activity_uuid):
-  data = ShowActivity.run(activity_uuid=activity_uuid)
-  return data, 200
+    data = ShowActivity.run(activity_uuid=activity_uuid)
+    return data, 200
 
-@app.route("/api/activities/<string:activity_uuid>/reply", methods=['POST','OPTIONS'])
+
+@app.route("/api/activities/<string:activity_uuid>/reply", methods=['POST', 'OPTIONS'])
 @cross_origin()
 def data_activities_reply(activity_uuid):
-  user_handle  = 'Samba'
-  message = request.json['message']
-  model = CreateReply.run(message, user_handle, activity_uuid)
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
-  return
+    user_handle = 'Samba'
+    message = request.json['message']
+    model = CreateReply.run(message, user_handle, activity_uuid)
+    if model['errors'] is not None:
+        return model['errors'], 422
+    else:
+        return model['data'], 200
+    return
+
 
 if __name__ == "__main__":
-  app.run(debug=True)
+    app.run(debug=True)
