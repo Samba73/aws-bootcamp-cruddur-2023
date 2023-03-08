@@ -28,6 +28,7 @@ import rollbar
 import rollbar.contrib.flask
 from flask import got_request_exception
 
+from decode_verify_jwt.decode_verify_jwt import extract_access_token, DecodeVerifyJWT
 #cloudwatch log
 #import watchtower
 #import logging
@@ -57,6 +58,13 @@ app = Flask(__name__)
 
 FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
+
+# Get the Cognito env vars 
+cognito_jwt_token = DecodeVerifyJWT(
+  user_pool_id=os.getenv("AWS_COGNITO_USER_POOL_ID"), 
+  user_pool_client_id=os.getenv("AWS_COGNITO_USER_POOL_CLIENT_ID"),
+  region=os.getenv("AWS_DEFAULT_REGION")
+)
 
 frontend = os.getenv('FRONTEND_URL')
 backend = os.getenv('BACKEND_URL')
@@ -139,8 +147,20 @@ def data_create_message():
 @app.route("/api/activities/home", methods=['GET'])
 def data_home():
 #  data = HomeActivities.run(LOGGER)
-  data = HomeActivities.run()
-  return data, 200
+  access_token = extract_access_token(request.headers)
+  try:
+    claims = cognito_jwt_token.verify(access_token)
+    # authenicatied request
+    app.logger.debug("authenicated")
+    app.logger.debug(claims)
+    app.logger.debug(claims['username'])
+    data = HomeActivities.run(cognito_user_id=claims['username'])
+  except TokenVerifyError as e:
+    # unauthenicatied request
+    app.logger.debug(e)
+    app.logger.debug("unauthenicated")
+    data = HomeActivities.run()
+    return data, 200
  
 @app.route("/api/activities/notifications", methods=['GET'])
 def data_notifications():
