@@ -2,7 +2,7 @@ from flask import Flask
 from flask import request
 from flask_cors import CORS, cross_origin
 import os
-
+import logging
 from services.home_activities import *
 from services.notifications_activities import *
 from services.user_activities import *
@@ -28,7 +28,7 @@ import rollbar
 import rollbar.contrib.flask
 from flask import got_request_exception
 
-from decode_verify_jwt.decode_verify_jwt import extract_access_token, DecodeVerifyJWT
+from decode_verify_jwt.decode_verify_jwt import extract_access_token, DecodeVerifyJWT, TokenVerifyError
 # cloudwatch log
 # import watchtower
 # import logging
@@ -158,7 +158,7 @@ def data_home():
         # authenicatied request
         app.logger.debug("authenicated")
         app.logger.debug(claims)
-        app.logger.debug(claims['username'])
+#        app.logger.debug(claims['username'])
         data = HomeActivities.run(cognito_user_id=claims['username'])
     except TokenVerifyError as e:
         # unauthenicatied request

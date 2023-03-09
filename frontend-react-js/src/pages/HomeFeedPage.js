@@ -1,18 +1,17 @@
 import './HomeFeedPage.css';
 import React from "react";
 
+import { Auth } from 'aws-amplify';
+
 import DesktopNavigation  from '../components/DesktopNavigation';
 import DesktopSidebar     from '../components/DesktopSidebar';
 import ActivityFeed from '../components/ActivityFeed';
 import ActivityForm from '../components/ActivityForm';
 import ReplyForm from '../components/ReplyForm';
-import { Auth } from 'aws-amplify';
 
 // [TODO] Authenication
 import Cookies from 'js-cookie'
 
-
-//initInstrumentation();
 export default function HomeFeedPage() {
   const [activities, setActivities] = React.useState([]);
   const [popped, setPopped] = React.useState(false);
@@ -20,7 +19,7 @@ export default function HomeFeedPage() {
   const [replyActivity, setReplyActivity] = React.useState({});
   const [user, setUser] = React.useState(null);
   const dataFetchedRef = React.useRef(false);
-  
+
   const loadData = async () => {
     try {
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/home`
@@ -59,7 +58,7 @@ export default function HomeFeedPage() {
     })
     .catch((err) => console.log(err));
   };
-
+  
   React.useEffect(()=>{
     //prevents double call
     if (dataFetchedRef.current) return;

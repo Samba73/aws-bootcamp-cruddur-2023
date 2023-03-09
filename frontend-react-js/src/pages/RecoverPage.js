@@ -26,7 +26,7 @@ const onsubmit_send_code = async (event) => {
 const onsubmit_confirm_code = async (event) => {
   event.preventDefault();
   setCognitoErrors('')
-  if (password == passwordAgain){
+  if (password === passwordAgain){
     Auth.forgotPasswordSubmit(username, code, password)
     .then((data) => setFormState('success'))
     .catch((err) => setCognitoErrors(err.message) );
