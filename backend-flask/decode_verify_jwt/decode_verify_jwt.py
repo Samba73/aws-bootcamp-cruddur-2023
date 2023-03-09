@@ -108,3 +108,4 @@ class DecodeVerifyJWT:
         self._check_audience(claims)
 
         self.claims = claims
+        return claims
