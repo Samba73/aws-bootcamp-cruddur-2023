@@ -1,0 +1,13 @@
+#! /usr/bin/bash
+
+SCHEMA_PATH="$(realpath .)/db/seed.sql"
+#psql $NO_DB_CONNECTION_URL cruddur < db/schema.sql
+
+if [ "$1" == "prod" ]
+then
+NO_DB_CONN=$PROD_CONNECTION_URL
+else
+NO_DB_CONN=$CONNECTION_URL
+fi
+
+psql $NO_DB_CONN cruddur < $SCHEMA_PATH
