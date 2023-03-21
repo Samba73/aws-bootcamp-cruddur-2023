@@ -1,0 +1,40 @@
+\l
+create database cruddur
+\l
+\l
+clear
+CREATE database cruddur
+\l
+create database cruddur;
+\l
+create database cruddur;
+\l
+\q
+\t
+\q
+\q
+\l
+\q
+\q
+\l
+\q
+\q
+\q
+\dt
+\dt
+\dt+
+\q
+GRANT ALL ON SCHEMA public TO public;
+\dt
+\dn+
+\q
+\dt
+\c
+\du
+\dn
+\dt
+\dn
+\q
+\dt
+\q
+\s cruddur

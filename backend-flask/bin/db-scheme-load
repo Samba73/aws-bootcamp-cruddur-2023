@@ -5,9 +5,9 @@ SCHEMA_PATH="$(realpath .)/db/schema.sql"
 
 if [ "$1" == "prod" ]
 then
-NO_DB_CONN=$PROD_NO_DB_CONNECTION_URL
+NO_DB_CONN=$PROD_CONNECTION_URL
 else
-NO_DB_CONN=$NO_DB_CONNECTION_URL
+NO_DB_CONN=$CONNECTION_URL
 fi
 
 psql $NO_DB_CONN cruddur < $SCHEMA_PATH
