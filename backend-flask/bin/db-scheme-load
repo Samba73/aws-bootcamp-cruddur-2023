@@ -1,0 +1,13 @@
+#! /usr/bin/bash
+#alias db="cd ./backend-flask/db"
+SCHEMA_PATH="$(realpath .)/db/schema.sql"
+#psql $NO_DB_CONNECTION_URL cruddur < db/schema.sql
+
+if [ "$1" == "prod" ]
+then
+NO_DB_CONN=$PROD_NO_DB_CONNECTION_URL
+else
+NO_DB_CONN=$NO_DB_CONNECTION_URL
+fi
+
+psql $NO_DB_CONN cruddur < $SCHEMA_PATH

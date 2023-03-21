@@ -1,0 +1,4 @@
+#! /usr/bin/bash
+
+psql $NO_DB_CONNECTION_URL -c "DROP database cruddur;"
+
