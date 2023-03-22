@@ -4,5 +4,12 @@ NO_COLOR='\033[0m'
 LABEL="db-drop"
 printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
 
-psql $NO_DB_CONNECTION_URL -c "DROP database cruddur;"
+if [ "$1" == "prod" ]
+then
+NO_DB_CONN=$PROD_NO_DB_CONNECTION_URL 
+else
+NO_DB_CONN=$NO_DB_CONNECTION_URL
+fi
+
+psql $NO_DB_CONN -c "DROP database cruddur;"
 
