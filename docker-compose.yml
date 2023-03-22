@@ -45,6 +45,13 @@ services:
       - "5432:5432"
     volumes:
       - db:/var/lib/postgresql/data
+volumes:
+  db:
+    driver: local
+networks:
+  internal-network:
+    driver: bridge
+    name: cruddur    
   # dynamodb-local:
   #   user: root
   #   command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
@@ -74,19 +81,8 @@ services:
 #    volumes:
 #      - ./otel-collector-config.yaml:/conf/otel-collector-config.yaml
 #    ports:
-#      - 1888:1888 # pprof extension
-#      - 8888:8888 # Prometheus metrics exposed by the collector
-#      - 8889:8889 # Prometheus exporter metrics
-#      - 13133:13133 # health_check extension
 #      - 4317:4317 # OTLP gRPC receiver
-#      - 4318:4318 # OTLP http receiver
-#      - 55679:55679 # zpages extension    
-volumes:
-  db:
-    driver: local
-networks:
-  internal-network:
-    driver: bridge
-    name: cruddur
+#      - 4318:4318 # OTLP http receiver  
+
 
 
