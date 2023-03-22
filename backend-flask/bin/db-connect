@@ -12,4 +12,4 @@ else
 DB_CONN=$CONNECTION_URL
 fi
 
-psql $CONNECTION_URL
+psql $DB_CONN
