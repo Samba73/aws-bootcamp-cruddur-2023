@@ -4,11 +4,11 @@ import os
 
 
 def lambda_handler(event, context):
-    user = event['request']['userAttributes']
+    user    = event['request']['userAttributes']
 
     user_displayname    =   user['name']
     user_email          =   user['email']
-    user_handle         =   user['preferred_name']
+    user_handle         =   user['preferred_username']
     user_sub            =   user['sub']
 
     try:

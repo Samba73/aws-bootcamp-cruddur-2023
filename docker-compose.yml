@@ -17,8 +17,8 @@ services:
       ROLLBAR_ACCESS_TOKEN: "${ROLLBAR_ACCESS_TOKEN}"
       AWS_XRAY_URL: "*4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}*"
       AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"
-      AWS_COGNITO_USER_POOL_ID: "ap-southeast-1_rsTKKVPCA"
-      AWS_COGNITO_USER_POOL_CLIENT_ID: "10dbnricheb791kcfnfr7ghqtk"
+      AWS_COGNITO_USER_POOL_ID: "ap-southeast-1_LEzF4MzHC"
+      AWS_COGNITO_USER_POOL_CLIENT_ID: "1tbutcrvcrn4a8udfavr81trj9"
       PYTHONUNBUFFERED: 1
     build: ./backend-flask
     ports:
@@ -31,8 +31,8 @@ services:
       REACT_APP_OTEL_COLLECTOR_URL: "https://4318-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
       REACT_APP_AWS_PROJECT_REGION: "${AWS_DEFAULT_REGION}"
       REACT_APP_AWS_COGNITO_REGION: "${AWS_DEFAULT_REGION}"
-      REACT_APP_AWS_USER_POOLS_ID: "ap-southeast-1_rsTKKVPCA"
-      REACT_APP_CLIENT_ID: "10dbnricheb791kcfnfr7ghqtk"
+      REACT_APP_AWS_USER_POOLS_ID: "ap-southeast-1_LEzF4MzHC"
+      REACT_APP_CLIENT_ID: "1tbutcrvcrn4a8udfavr81trj9"
     build: 
       context: ./frontend-react-js
       dockerfile: Dockerfile
