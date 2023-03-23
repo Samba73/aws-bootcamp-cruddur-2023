@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from opentelemetry import trace
-from lib.db import pool, query_wrap_array, query_execution, extract_query
+from lib.db import query_execution_array, query_execution_select, query_insert, extract_query
 
 tracer = trace.get_tracer("home.activities")
 
@@ -14,5 +14,5 @@ class HomeActivities:
       span.set_attribute("app.now", now.isoformat())
 
       query = extract_query('activities', 'home')
-      results = query_execution(query)
+      results = query_execution_array(query)
       return results

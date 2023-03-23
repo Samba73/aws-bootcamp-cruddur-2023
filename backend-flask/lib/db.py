@@ -23,13 +23,11 @@ def query_wrap_array(template):
 
 
 def query_execution_array(sql, params={}):
-  print(folder)
-  print(file)
-  sql = extract_query(folder, file)
-  print(sql)
   wrapped_sql = query_wrap_array(sql)
   print(wrapped_sql)
   try:
+    connection_url = os.getenv("PROD_CONNECTION_URL")
+    pool = ConnectionPool(connection_url)
     with pool.connection() as conn:
       with conn.cursor() as cur:
         cur.execute(wrapped_sql, params)
@@ -44,13 +42,11 @@ def query_execution_array(sql, params={}):
       conn.close()            
 
 def query_execution_select(sql, params={}):
-  print(folder)
-  print(file)
-  sql = extract_query(folder, file)
-  print(sql)
   wrapped_sql = query_wrap_select(sql)
   print(wrapped_sql)
   try:
+    connection_url = os.getenv("PROD_CONNECTION_URL")
+    pool = ConnectionPool(connection_url)
     with pool.connection() as conn:
       with conn.cursor() as cur:
         cur.execute(wrapped_sql, params)
@@ -76,12 +72,14 @@ def extract_query(folder, file):
   print(sql)    
   return sql    
 
-def query_insert(sql, param={}):
+def query_insert(sql, params={}):
   pattern = r"\bRETURNING\b"
 
   is_returning_id = re.search(pattern, sql)
 
   try:
+    connection_url = os.getenv("PROD_CONNECTION_URL")
+    pool = ConnectionPool(connection_url)
     with pool.connection() as conn:
       with conn.cursor() as cur:
         cur.execute(sql, params)

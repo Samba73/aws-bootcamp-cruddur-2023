@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime, timedelta, timezone
+from lib.db import query_execution_array, query_execution_select, query_insert, extract_query
 class CreateActivity:
   def run(message, user_handle, ttl):
     model = {
@@ -40,6 +41,7 @@ class CreateActivity:
         'message': message
       }   
     else:
+      print(user_handle)
       query = extract_query('activities', 'create')
       result = query_insert(query, {
         'handle': user_handle,
