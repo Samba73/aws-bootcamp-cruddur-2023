@@ -2,5 +2,5 @@
 
 aws ec2 modify-security-group-rules \
     --group-id $RDS_SG_GRP_ID \
-    --security-group-rules "SecurityGroupRuleId=$RDS_SG_RULE_ID,SecurityGroupRule={Description=GITPODIP `date +%d` +%d,IpProtocol=tcp,FromPort=5432,ToPort=5432,CidrIpv4=$GITPOD_IP/32}"
+    --security-group-rules "SecurityGroupRuleId=$RDS_SG_RULE_ID,SecurityGroupRule={Description=GITPODIP `date +%d`,IpProtocol=tcp,FromPort=5432,ToPort=5432,CidrIpv4=$GITPOD_IP/32}"
    
