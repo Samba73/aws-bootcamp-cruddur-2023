@@ -17,5 +17,12 @@ def query_wrap_array(template):
   """
   return sql
 
-connection_url = os.getenv("CONNECTION_URL")
+connection_url = os.getenv("PROD_CONNECTION_URL")
 pool = ConnectionPool(connection_url)
+
+def query_execution(sql):
+  with pool.connection() as conn:
+    with conn.cursor() as cur:
+      cur.execute(sql)
+      json = cur.fetchone()
+return json      
