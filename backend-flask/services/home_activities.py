@@ -8,9 +8,9 @@ class HomeActivities:
   def run(cognito_user_id=None):
     print("HOME ACTIVITY")
     #logger.info("HomeActivities")
-    with tracer.start_as_current_span("home-activites-mock-data"):
+    with tracer.start_as_current_span("home-activites-startSpan"):
       span = trace.get_current_span()
       now = datetime.now(timezone.utc).astimezone()
       span.set_attribute("app.now", now.isoformat())
 
-      result = query_execution(sql)
+      result = query_execution('activities', 'home')
