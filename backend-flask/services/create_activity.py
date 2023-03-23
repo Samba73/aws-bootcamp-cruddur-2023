@@ -40,12 +40,13 @@ class CreateActivity:
         'message': message
       }   
     else:
-      model['data'] = {
-        'uuid': uuid.uuid4(),
-        'display_name': 'Samba Krishnamurthy',
-        'handle':  user_handle,
+      query = extract_query('activities', 'create')
+      result = query_insert(query, {
+        'handle': user_handle,
         'message': message,
         'created_at': now.isoformat(),
         'expires_at': (now + ttl_offset).isoformat()
-      }
+      })
+      activity = query_execution_select(result)
+      model["data"] = activity
     return model
