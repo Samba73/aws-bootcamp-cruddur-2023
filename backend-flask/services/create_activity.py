@@ -49,6 +49,7 @@ class CreateActivity:
         'created_at': now.isoformat(),
         'expires_at': (now + ttl_offset).isoformat()
       })
+      print(result)
       activity = query_execution_select(result)
       model["data"] = activity
     return model
