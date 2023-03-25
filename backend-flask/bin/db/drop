@@ -1,8 +1,7 @@
 #! /usr/bin/bash
-
 CYAN='\033[1;36m'
 NO_COLOR='\033[0m'
-LABEL="db-create"
+LABEL="Drop DB in RDS"
 printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
 
 if [ "$1" == "prod" ]
@@ -12,4 +11,5 @@ else
 NO_DB_CONN=$NO_DB_CONNECTION_URL
 fi
 
-psql $NO_DB_CONN -c "CREATE database cruddur;"
+psql $NO_DB_CONN -c "DROP database cruddur;"
+
