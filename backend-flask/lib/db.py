@@ -1,8 +1,9 @@
 from psycopg_pool import ConnectionPool
-import os
+import os, sys
 import re
 
-connection_url = os.getenv("PROD_CONNECTION_URL")
+#connection_url = os.getenv("PROD_CONNECTION_URL")
+connection_url = os.getenv("CONNECTION_URL")
 pool = ConnectionPool(connection_url)
 
 def query_wrap_select(template):
@@ -26,7 +27,8 @@ def query_execution_array(sql, params={}):
   wrapped_sql = query_wrap_array(sql)
   print(wrapped_sql)
   try:
-    connection_url = os.getenv("PROD_CONNECTION_URL")
+    #connection_url = os.getenv("PROD_CONNECTION_URL")
+    connection_url = os.getenv("CONNECTION_URL")
     pool = ConnectionPool(connection_url)
     with pool.connection() as conn:
       with conn.cursor() as cur:
@@ -45,7 +47,8 @@ def query_execution_select(sql, params={}):
   wrapped_sql = query_wrap_select(sql)
   print(wrapped_sql)
   try:
-    connection_url = os.getenv("PROD_CONNECTION_URL")
+    #connection_url = os.getenv("PROD_CONNECTION_URL")
+    connection_url = os.getenv("CONNECTION_URL")
     pool = ConnectionPool(connection_url)
     with pool.connection() as conn:
       with conn.cursor() as cur:
@@ -78,7 +81,8 @@ def query_insert(sql, params={}):
   is_returning_id = re.search(pattern, sql)
 
   try:
-    connection_url = os.getenv("PROD_CONNECTION_URL")
+    #connection_url = os.getenv("PROD_CONNECTION_URL")
+    connection_url = os.getenv("CONNECTION_URL")
     pool = ConnectionPool(connection_url)
     with pool.connection() as conn:
       with conn.cursor() as cur:

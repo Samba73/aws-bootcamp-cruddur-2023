@@ -1,5 +1,4 @@
-  sql = """
-    SELECT 
+SELECT 
       users.uuid,
       users.display_name,
       users.handle
@@ -9,4 +8,3 @@
         %(my_handle)s,
         %(other_handle)s
         )
-  """

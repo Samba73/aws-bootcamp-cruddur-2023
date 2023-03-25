@@ -10,6 +10,6 @@ bin_path="$(realpath .)/bin/db"
 
 source "$bin_path/drop" $1
 source "$bin_path/create" $1
-source "$bin_path/dcheme-load" $1
+source "$bin_path/scheme-load" $1
 source "$bin_path/seed" $1
 
