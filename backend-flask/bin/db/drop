@@ -11,5 +11,5 @@ else
 NO_DB_CONN=$NO_DB_CONNECTION_URL
 fi
 
-psql $NO_DB_CONN -c "DROP database cruddur;"
+psql $NO_DB_CONN -c "DROP database IF EXISTS cruddur;"
 
