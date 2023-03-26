@@ -1,0 +1,83 @@
+#! /usr/bin/env python3
+import boto3
+import sys, json, os
+import datetime
+
+message_user = ''
+attr = {
+    'endpoint_url': 'http://localhost:8000'
+}
+if len(sys.argv) < 2:
+    print('Handle is required')
+    sys.exit(1)
+elif len(sys.argv) == 2:
+    if "prod" not in sys.argv[1]:
+        message_user = sys.argv[1]    
+elif len(sys.argv) == 3:
+    user_handle = sys.argv[2]
+    if "prod" in sys.argv[1]:
+        attr = {}
+
+
+print('user_handle is', message_user)
+current_path = os.path.dirname(os.path.abspath(__file__))
+parent_path = os.path.abspath(os.path.join(current_path, '..', '..', '..'))
+sys.path.append(parent_path)
+from lib.db import query_execution_array, query_execution_select, query_insert, extract_query
+
+
+
+def get_users():
+    print(sys.argv[1])
+    message_user = sys.argv[1]
+    query = extract_query('messages', 'user')
+    users_int = query_execution_array(query, {
+        "my_handle": message_user
+    })
+    message_user  = next((item for item in users_int if item['handle'] == message_user), None)
+    print(message_user)
+    results = {
+        "my_handle": message_user
+    }
+    print('Results', results)
+    return results
+users = get_users()
+#print('users', users)
+ddb = boto3.client('dynamodb', **attr)
+
+tableName = "cruddur-message"
+message_group_id = "5ae290ed-55d1-47a0-bc6d-fe2bc2700399" 
+uuid = users['my_handle']['uuid']
+#date_str = '2023-03-25T11:34:26.233405+00:00'
+partition_key_value = {'S': f"GRP#{uuid}"}
+sort_key_prefix = {'S': str(datetime.datetime.now().year)}
+print('parition key value', partition_key_value)
+query_string = {
+    'TableName': tableName,
+    'ScanIndexForward': False,
+    'ReturnConsumedCapacity': 'TOTAL',
+    'Limit': 20,
+    'KeyConditionExpression': 'pk = :pkval AND begins_with(sk, :skval)',
+#    'KeyConditionExpression': 'pk = :pkval AND sk BETWEEN :sk1 AND :sk2 ',
+    'ExpressionAttributeValues':{
+        ':pkval': partition_key_value,
+        ':skval': sort_key_prefix
+#        ':sk1': {'S': '2023-03-01T08:59:04.737763+00:00'},
+#        ':sk2': {'S': '2023-03-26T08:59:04.737763+00:00'},
+    }
+}
+response = ddb.query(**query_string)
+
+#print(json.dumps(response, sort_keys=True, indent=2))
+print(json.dumps(response['ConsumedCapacity'], sort_keys=True, indent=2))
+
+items = response['Items']
+datetime_format = '%Y-%m-%dT%H:%M:%S.%f%z'
+for item in items:
+    user_handle         = item['user_handle']['S']
+    message             = item['message']['S']
+    timestamp           = item['sk']['S']
+    strippedtime        = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%f%z")
+    formatted_datetime  = strippedtime.strftime('%d-%m-%Y %I:%M %p')
+    print(f"Handle             Message                    Timestamp              ")
+    print(f"{user_handle: <12} {message[:30]} {formatted_datetime: >20}")
