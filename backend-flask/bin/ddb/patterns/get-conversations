@@ -1,0 +1,42 @@
+#! /usr/bin/env python3
+import boto3
+import sys
+import datetime
+
+attr = {
+    'endpoint_url': 'http://localhost:8000'
+}
+if len(sys.argv) == 2:
+    if "prod" in sys.argv[1]:
+        attr = {}
+
+import boto3
+
+ddb = boto3.client('dynamodb', **attr)
+
+tableName = "cruddur-message"
+message_group_id = "5ae290ed-55d1-47a0-bc6d-fe2bc2700399" 
+#date_str = '2023-03-25T11:34:26.233405+00:00'
+partition_key_value = {'S': f"MSG#{message_group_id}"}
+sort_key_prefix = {'S': str(datetime.datetime.now().year)}
+
+query_string = {
+    'TableName': tableName,
+    'ScanIndexForward': False,
+    'Limit': 20,
+    'KeyConditionExpression': 'pk = :pkval AND begins_with(sk, :skval)',
+    'ExpressionAttributeValues':{
+        ':pkval': partition_key_value,
+        ':skval': sort_key_prefix
+    }
+}
+response = ddb.query(**query_string)
+items = response['Items']
+datetime_format = '%Y-%m-%dT%H:%M:%S.%f%z'
+for item in items:
+    user_handle         = item['user_handle']['S']
+    message             = item['message']['S']
+    timestamp           = item['sk']['S']
+    strippedtime        = datetime.datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%f%z")
+    formatted_datetime  = strippedtime.strftime('%d-%m-%Y %I:%M %p')
+    print(f"{user_handle: <12} {message[:25]} {formatted_datetime: >20}")

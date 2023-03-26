@@ -1,20 +1,23 @@
-#!/usr/bin/bash
-set -e
-if [ "$#" = 0 ]
-then
-    echo "No arguments provided, Table name is required"
-    exit 1
-fi
-if [ "$1" = "prod" ]
-then
-    echo "Table should be provided as first argument"
-    exit 1
-fi    
-if [ "$2" = "prod" ]
-then
-    ENDPOINT_URL=""
-else
-    ENDPOINT_URL="--endpoint-url=http://localhost:8000"
-fi
+#! /usr/bin/env python3
+import boto3
+import sys
 
-aws dynamodb scan  --table-name $1 $ENDPOINT_URL 
+attr = {
+    'endpoint_url': 'http://localhost:8000'
+}
+if len(sys.argv) == 2:
+    if "prod" in sys.argv[1]:
+        attr = {}
+
+import boto3
+
+ddb = boto3.resource('dynamodb', **attr)
+
+tableName = "cruddur-message"
+
+table = ddb.Table(tableName)
+
+response = table.scan()
+items = response['Items']
+for item in items:
+    print(item)
