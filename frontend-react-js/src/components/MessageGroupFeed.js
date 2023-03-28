@@ -1,7 +1,6 @@
 import './MessageGroupFeed.css';
 import MessageGroupItem from './MessageGroupItem';
 import MessageGroupNewItem from './MessageGroupNewItem';
-
 export default function MessageGroupFeed(props) {
   let message_group_new_item;
   if (props.otherUser) {
@@ -16,8 +15,8 @@ export default function MessageGroupFeed(props) {
       <div className='message_group_feed_collection'>
         {message_group_new_item}
         {props.message_groups.map(message_group => {
-        return  <MessageGroupItem key={message_group.uuid} message_group={message_group} />
-        })}
+          return  <MessageGroupItem key={message_group.uuid} message_group={message_group} />
+      })}
       </div>
     </div>
   );

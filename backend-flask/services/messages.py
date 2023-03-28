@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 class Messages:
-  def run(user_sender_handle, user_receiver_handle):
+  def run(cognito_user_id, message_group_uuid):
     model = {
       'errors': None,
       'data': None
@@ -8,20 +8,13 @@ class Messages:
 
     now = datetime.now(timezone.utc).astimezone()
 
-    results = [
-      {
-        'uuid': '4e81c06a-db0f-4281-b4cc-98208537772a' ,
-        'display_name': 'Samba Krishnamurthy',
-        'handle':  'Samba',
-        'message': 'Cloud is fun!',
-        'created_at': now.isoformat()
-      },
-      {
-        'uuid': '66e12864-8c26-4c3a-9658-95a10f8fea67',
-        'display_name': 'Samba Krishnamurthy',
-        'handle':  'Samba',
-        'message': 'This platform is great!',
-        'created_at': now.isoformat()
-    }]
-    model['data'] = results
+    sql = extract_query('messages', 'cognito_user_id')
+    user_id = query_execution_select(sql, {
+      'cognito_user_id': cognito_user_id
+    })
+    
+    ddb = DDB.client()
+    message_groups = DDB.display_message(ddb, message_group_uuid)
+    model['data'] = message_groups
+    print('model', model)
     return model

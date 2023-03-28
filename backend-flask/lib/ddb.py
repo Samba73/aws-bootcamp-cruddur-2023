@@ -51,3 +51,32 @@ class DDB():
             })
         print(results)    
         return results    
+
+    def display_messages(client,message_group_uuid):
+        year = str(datetime.now().year)
+        table_name = 'cruddur-messages'
+        query_string = {
+        'TableName': table_name,
+        'KeyConditionExpression': 'pk = :pkval AND begins_with(sk,:skval)',
+        'ScanIndexForward': False,
+        'Limit': 20,
+        'ExpressionAttributeValues': {
+            ':skval': {'S': year },
+            ':pkval': {'S': f"MSG#{message_group_uuid}"}
+        }
+        }
+
+        response = client.query(**query_string)
+        items = response['Items']
+        items.reverse()
+        results = []
+        for item in items:
+            created_at = item['sk']['S']
+            results.append({
+                'uuid': item['message_uuid']['S'],
+                'display_name': item['user_display_name']['S'],
+                'handle': item['user_handle']['S'],
+                'message': item['message']['S'],
+                'created_at': created_at
+            })
+        return results
