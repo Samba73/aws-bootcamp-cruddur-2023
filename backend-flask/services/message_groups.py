@@ -1,24 +1,19 @@
 from datetime import datetime, timedelta, timezone
+from lib.db import extract_query, query_execution_select
+from lib.ddb import DDB
 class MessageGroups:
-  def run(user_handle):
+  def run(cognito_user_id):
     model = {
       'errors': None,
       'data': None
     }
 
-    now = datetime.now(timezone.utc).astimezone()
-    results = [
-      {
-        'uuid': '24b95582-9e7b-4e0a-9ad1-639773ab7552',
-        'display_name': 'Samba Krishnamurthy',
-        'handle':  'Samba',
-        'created_at': now.isoformat()
-      },
-      {
-        'uuid': '417c360e-c4e6-4fce-873b-d2d71469b4ac',
-        'display_name': 'Wakanda Exists',
-        'handle':  'Wakanda',
-        'created_at': now.isoformat()
-    }]
-    model['data'] = results
+    sql = extract_query('messages', 'cognito_user-id')
+    user_id = query_execution_select(sql, {
+      'cognito_user_id': cognito_user_id
+    })
+    
+    ddb = DDB.client()
+    message_groups = DDB.display_message_groups(ddb, user_id)
+    model['data'] = message_groups
     return model
