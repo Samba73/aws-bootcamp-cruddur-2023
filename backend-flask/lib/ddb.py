@@ -54,7 +54,7 @@ class DDB():
 
     def display_messages(client,message_group_uuid):
         year = str(datetime.now().year)
-        table_name = 'cruddur-messages'
+        table_name = 'cruddur-message'
         query_string = {
         'TableName': table_name,
         'KeyConditionExpression': 'pk = :pkval AND begins_with(sk,:skval)',

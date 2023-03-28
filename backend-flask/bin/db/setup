@@ -12,4 +12,4 @@ source "$bin_path/db/drop" $1
 source "$bin_path/db/create" $1
 source "$bin_path/db/scheme-load" $1
 source "$bin_path/db/seed" $1
-#source "$bin_path/db/update_cognito_id_db"
+"$bin_path/db/update_cognito_id_db"
