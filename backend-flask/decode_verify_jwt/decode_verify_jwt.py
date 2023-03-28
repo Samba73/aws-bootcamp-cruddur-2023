@@ -13,6 +13,7 @@ def extract_access_token(request_headers):
     auth_header = request_headers.get("Authorization")
     if auth_header and " " in auth_header:
         _, access_token = auth_header.split()
+    print(access_token)
     return access_token
     
 class DecodeVerifyJWT:
@@ -108,4 +109,5 @@ class DecodeVerifyJWT:
         self._check_audience(claims)
 
         self.claims = claims
+        print(claims)
         return claims

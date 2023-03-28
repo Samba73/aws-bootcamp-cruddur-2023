@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+
+import boto3
+import os
+import sys
+
+current_path = os.path.dirname(os.path.abspath(__file__))
+parent_path = os.path.abspath(os.path.join(current_path, '..', '..'))
+sys.path.append(parent_path)
+from lib.db import extract_query, query_insert
+
+
+user_pool_id = os.getenv("AWS_COGNITO_USER_POOL_ID")
+client = boto3.client('cognito-idp')
+
+
+def update_user_cognito_id(cognito_id, handle):
+    sql = extract_query('cognito', 'update_user_id')
+    response = query_insert(sql, {
+        'cognito_user_id': cognito_id,
+        'handle': handle
+    })
+
+def get_all_user_ids(user_pool_id):
+    response = client.list_users(
+        UserPoolId=user_pool_id
+    )
+    #print(response)
+    user_ids = []
+    for user in response['Users']:
+        for attribute in user['Attributes']:
+            if attribute['Name'] == 'sub':
+                cognito_id = attribute['Value']
+            if attribute['Name'] == 'preferred_username':
+                handle = attribute['Value']    
+        if cognito_id and handle:
+            user_ids.append({'cognito_id': cognito_id, 'handle': handle})
+
+    return user_ids
+users = get_all_user_ids(user_pool_id)
+for user in users:
+    update_user_cognito_id(user['cognito_id'], user['handle'])
+

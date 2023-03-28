@@ -2,23 +2,27 @@ import boto3
 import os, sys
 from datetime import datetime, timedelta, timezone
 import uuid
+import botocore.exceptions
 
 class DDB():
     def client():
         attr = {
-            'endpoint_url': 'http://localhost:8000'
+            'endpoint_url': 'http://dynamodb-local:8000'
         }
-        if len(sys.argv) == 2:
-            if "prod" in sys.argv[1]:
-                attr = {}
 
         ddb = boto3.client('dynamodb', **attr)
         return ddb
 
     def display_message_groups(client, user_uuid):
         tableName = "cruddur-message"
-
-
+        #print(client)
+        #print(user_uuid)
+        user_id = user_uuid['uuid']
+        #print(user_id)
+        partition_key_value = {'S': f"GRP#{user_id}"}
+        sort_key_prefix = {'S': str(datetime.now().year)}
+        #print(partition_key_value)
+        #print('s', sort_key_prefix)
         query_string = {
             'TableName': tableName,
             'ScanIndexForward': False,
@@ -34,4 +38,16 @@ class DDB():
             }
         }
         response = client.query(**query_string)
-        return response
+        items = response['Items']
+        results = []
+        datetime_format = '%Y-%m-%dT%H:%M:%S.%f%z'
+        for item in items:
+            results.append({
+                'uuid': item['message_group_uuid']['S'],
+                'display_name': item['user_display_name']['S'],
+                'handle': item['user_handle']['S'],
+                'message': item['message']['S'],
+                'created_at': item['sk']['S']
+            })
+        print(results)    
+        return results    

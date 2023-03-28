@@ -118,8 +118,8 @@ def data_message_groups():
         app.logger.debug("authenicated")
         app.logger.debug(claims)
         cognito_user_id = claims['sub']
-#        app.logger.debug(claims['username'])
-        data = MessageGroups().run(cognito_user_id=cognito_user_id)
+        app.logger.debug(cognito_user_id)
+        data = MessageGroups.run(cognito_user_id=cognito_user_id)
     except TokenVerifyError as e:
         # unauthenicatied request
         app.logger.debug(e)

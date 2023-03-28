@@ -45,7 +45,8 @@ def query_execution_array(sql, params={}):
 
 def query_execution_select(sql, params={}):
   wrapped_sql = query_wrap_select(sql)
-  print(wrapped_sql)
+  #print(wrapped_sql)
+  #print(params)
   try:
     #connection_url = os.getenv("PROD_CONNECTION_URL")
     connection_url = os.getenv("CONNECTION_URL")
@@ -64,6 +65,7 @@ def query_execution_select(sql, params={}):
     if conn is not None:
       cur.close()
       conn.close()  
+
 def extract_query(folder, file):
   file = file + ".sql"
   path = os.getcwd()

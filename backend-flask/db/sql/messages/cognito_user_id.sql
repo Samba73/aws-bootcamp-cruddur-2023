@@ -1,7 +1,5 @@
 SELECT 
-      users.uuid,
-      users.display_name,
-      users.handle
+      users.uuid
     FROM users
     WHERE
-      users.uuid = %(cognito_user_id)s
+      users.cognito_user_id = %(cognito_user_id)s

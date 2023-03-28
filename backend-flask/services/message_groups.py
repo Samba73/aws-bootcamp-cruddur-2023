@@ -1,14 +1,14 @@
 from datetime import datetime, timedelta, timezone
-from lib.db import extract_query, query_execution_select
+from lib.db import extract_query, query_execution_select, query_insert
 from lib.ddb import DDB
+import logging
 class MessageGroups:
   def run(cognito_user_id):
     model = {
       'errors': None,
       'data': None
     }
-
-    sql = extract_query('messages', 'cognito_user-id')
+    sql = extract_query('messages', 'cognito_user_id')
     user_id = query_execution_select(sql, {
       'cognito_user_id': cognito_user_id
     })
