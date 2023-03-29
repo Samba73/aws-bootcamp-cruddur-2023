@@ -6,7 +6,7 @@ LABEL="RDS setup"
 printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
 
 
-bin_path="$(realpath .)/bin"
+bin_path="$(realpath .)/backend-flask/bin"
 
 source "$bin_path/ddb/drop" cruddur-message 
 "$bin_path/ddb/schema-load" $1

@@ -28,17 +28,17 @@ tasks:
   - name: initiate
     command: |
       source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/cleanup"    
-  - name: postgres-db
+  - name: ptgres-db
     command: |         
       source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/db/setup"
   - name: ddb    
     command: |
       source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/ddb/setup"  
-      dependsOn: flask
+      dependsOn: flask, ptgres-db
   - name: docker
     command: |
       source "./docker-start"    
-      dependsOn: flask, postgres-db, ddb
+      dependsOn: flask, ptgres-db, ddb
 vscode:
   extensions:
     - 42Crunch.vscode-openapi
