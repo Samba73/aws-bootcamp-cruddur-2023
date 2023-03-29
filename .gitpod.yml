@@ -25,13 +25,10 @@ tasks:
     command: |
       cd backend-flask
       pip install -r requirements.txt 
-  - name: docker
-    command: |
-      source "./docker-start"
   - name: initiate
     command: |
       cd backend-flask
-      source "/bin/cleanup"    
+      source "bin/cleanup"    
   - name: postgres-db
     command: |        
       cd backend-flask   
@@ -40,8 +37,11 @@ tasks:
   - name: ddb    
     command: |
       cd backend-flask
-      source "/bin/ddb/setup"  
+      source "bin/ddb/setup"  
       dependsOn: flask
+  - name: docker
+    command: |
+      source "./docker-start"    
 vscode:
   extensions:
     - 42Crunch.vscode-openapi
