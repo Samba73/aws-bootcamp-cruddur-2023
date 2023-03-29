@@ -80,3 +80,25 @@ class DDB():
                 'created_at': created_at
             })
         return results
+
+    def create_message(client, message_group_uuid, message, user_uuid, user_display_name, user_handle):
+        table_name = 'cruddur-message'
+        pkval = f"MSG#{message_group_uuid}"
+        now = datetime.now().astimezone().isoformat()
+        skval = now()
+        item = {
+            'pk': pkval,
+            'sk': skval,
+            'message': message,
+            'user_uuid': user_uuid,
+            'user_display_name': user_display_name,
+            'user_handle': user_handle
+        }
+
+        response = client.put_item(
+            TableName=table_name,
+            Item=item
+        )
+
+# Print the response from DynamoDB
+    print(response)
