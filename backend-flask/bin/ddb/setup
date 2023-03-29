@@ -6,8 +6,8 @@ LABEL="RDS setup"
 printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
 
 
-bin_path="$(realpath .)/bin/ddb"
+bin_path="$(realpath .)/bin"
 
-source "$bin_path/drop cruddur-message" 
-"$bin_path/schema-load" $1
-"$bin_path/seed" $1
+source "$bin_path/ddb/drop" cruddur-message 
+"$bin_path/ddb/schema-load" $1
+"$bin_path/ddb/seed" $1
