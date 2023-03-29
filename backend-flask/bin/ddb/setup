@@ -9,5 +9,5 @@ printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
 bin_path="$(realpath .)/bin/ddb"
 
 source "$bin_path/drop cruddur-message" 
-source "$bin_path/schema-load" $1
-source "$bin_path/seed" $1
+"$bin_path/schema-load" $1
+"$bin_path/seed" $1
