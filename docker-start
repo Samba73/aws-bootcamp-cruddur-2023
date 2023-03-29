@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Start the Docker Compose application
+docker-compose up

@@ -21,12 +21,14 @@ tasks:
     command: |
       cd frontend-react-js
       npm i
+  - name: docker
+    command: |
+      ./docker-start   
   - name: flask
     command: |
       cd backend-flask
       pip install -r requirements.txt    
       source "bin/db/setup"
-      source "bin/db/update_cognito_id_db"
       source "bin/ddb/schema-load"
       source "/bin/ddb/seed"
 vscode:
