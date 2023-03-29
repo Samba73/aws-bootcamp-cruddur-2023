@@ -27,10 +27,7 @@ tasks:
       pip install -r requirements.txt    
       source "bin/db/setup"
       source "bin/ddb/schema-load"
-      source "/bin/ddb/seed"
-  - name: docker
-    command: |
-      ./docker-start    
+      source "/bin/ddb/seed"  
 vscode:
   extensions:
     - 42Crunch.vscode-openapi
