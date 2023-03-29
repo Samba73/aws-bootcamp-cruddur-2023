@@ -27,17 +27,13 @@ tasks:
       pip install -r requirements.txt 
   - name: initiate
     command: |
-      cd backend-flask
-      source "bin/cleanup"    
+      source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/cleanup"    
   - name: postgres-db
-    command: |        
-      cd backend-flask   
-      source "bin/db/setup"
-      dependsOn: flask
+    command: |         
+      source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/db/setup"
   - name: ddb    
     command: |
-      cd backend-flask
-      source "bin/ddb/setup"  
+      source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/ddb/setup"  
       dependsOn: flask
   - name: docker
     command: |
