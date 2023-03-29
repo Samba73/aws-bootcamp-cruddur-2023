@@ -20,10 +20,7 @@ tasks:
   - name: react
     command: |
       cd frontend-react-js
-      npm i
-  - name: docker
-    command: |
-      ./docker-start   
+      npm i   
   - name: flask
     command: |
       cd backend-flask
@@ -31,6 +28,9 @@ tasks:
       source "bin/db/setup"
       source "bin/ddb/schema-load"
       source "/bin/ddb/seed"
+  - name: docker
+    command: |
+      ./docker-start    
 vscode:
   extensions:
     - 42Crunch.vscode-openapi
