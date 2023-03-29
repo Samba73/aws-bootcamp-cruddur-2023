@@ -24,8 +24,21 @@ tasks:
   - name: flask
     command: |
       cd backend-flask
-      pip install -r requirements.txt    
+      pip install -r requirements.txt 
+  - name: docker
+    command: |
+      source "./docker-start"
+  - name: initiate
+    command: |
+      cd backend-flask
+      source "/bin/cleanup"    
+  - name: postgres-db
+    command: |        
+      cd backend-flask   
       source "bin/db/setup"
+  - name: ddb    
+    command: |
+      cd backend-flask
       source "bin/ddb/schema-load"
       source "/bin/ddb/seed"  
 vscode:

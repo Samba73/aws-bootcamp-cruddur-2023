@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+set -e
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="Cleanup"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+bin_path="$(realpath .)/bin"
+
+source "$bin_path/db/drop" $1
+source "$bin_path/ddb/drop cruddur-message"
