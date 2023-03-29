@@ -39,8 +39,8 @@ tasks:
   - name: ddb    
     command: |
       cd backend-flask
-      source "bin/ddb/schema-load"
-      source "/bin/ddb/seed"  
+      "./bin/ddb/schema-load"
+      "./bin/ddb/seed"  
 vscode:
   extensions:
     - 42Crunch.vscode-openapi
