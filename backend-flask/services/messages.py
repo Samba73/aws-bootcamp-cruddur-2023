@@ -10,7 +10,7 @@ class Messages:
     }
 
     now = datetime.now(timezone.utc).astimezone()
-
+    print('message_group_uuid',message_group_uuid)
     sql = extract_query('messages', 'cognito_user_id')
     user_id = query_execution_select(sql, {
       'cognito_user_id': cognito_user_id
@@ -19,5 +19,5 @@ class Messages:
     ddb = DDB.client()
     message_groups = DDB.display_messages(ddb, message_group_uuid)
     model['data'] = message_groups
-    print('model', model)
+    print('messages model', model)
     return model

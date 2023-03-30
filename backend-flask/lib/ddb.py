@@ -43,9 +43,9 @@ class DDB():
         datetime_format = '%Y-%m-%dT%H:%M:%S.%f%z'
         for item in items:
             results.append({
-                'uuid': item['message_group_uuid']['S'],
-                'display_name': item['user_display_name']['S'],
-                'handle': item['user_handle']['S'],
+                'message_group_uuid': item['message_group_uuid']['S'],
+                'user_display_name': item['user_display_name']['S'],
+                'user_handle': item['user_handle']['S'],
                 'message': item['message']['S'],
                 'created_at': item['sk']['S']
             })
@@ -68,31 +68,35 @@ class DDB():
 
         response = client.query(**query_string)
         items = response['Items']
-        items.reverse()
+        #items.reverse()
         results = []
+        print('items', items)
         for item in items:
+            print('debug item',item)
             created_at = item['sk']['S']
             results.append({
-                'uuid': item['message_uuid']['S'],
-                'display_name': item['user_display_name']['S'],
-                'handle': item['user_handle']['S'],
+                'message_group_uuid': item['message_uuid']['S'],
+                'user_display_name': item['user_display_name']['S'],
+                'user_handle': item['user_handle']['S'],
                 'message': item['message']['S'],
                 'created_at': created_at
             })
         return results
 
-    def create_message(client, message_group_uuid, message, user_uuid, user_display_name, user_handle):
+    def create_message(client, message_group_uuid, message, user_uuid, user_display_name=None, user_handle=None):
         table_name = 'cruddur-message'
         pkval = f"MSG#{message_group_uuid}"
-        now = datetime.now().astimezone().isoformat()
-        skval = now()
+        now = str(datetime.now().astimezone().isoformat())
+        message_uuid = str(uuid.uuid4())
+        skval = now
         item = {
-            'pk': pkval,
-            'sk': skval,
-            'message': message,
-            'user_uuid': user_uuid,
-            'user_display_name': user_display_name,
-            'user_handle': user_handle
+            'pk': {'S': pkval},
+            'sk': {'S': skval},
+            'message': {'S': message},
+            'user_uuid': {'S': user_uuid},
+            'message_uuid': {'S': message_uuid},
+            'user_display_name': {'S': user_display_name},
+            'user_handle': {'S': user_handle}
         }
 
         response = client.put_item(
@@ -101,4 +105,14 @@ class DDB():
         )
 
 # Print the response from DynamoDB
-    print(response)
+        print(response)
+        return {
+            'message_group_uuid': message_group_uuid,
+            'message': message,
+            'user_uuid': user_uuid,
+            'pk': pkval,
+            'sk': skval,
+            'user_handle': user_handle,
+            'user_display_name': user_display_name
+
+        }

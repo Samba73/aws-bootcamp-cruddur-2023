@@ -1,36 +1,32 @@
 import uuid
 from datetime import datetime, timedelta, timezone
+from lib.db import extract_query, query_execution_select, query_insert
+from lib.ddb import DDB
+import logging
+
 class CreateMessage:
-  def run(message, user_sender_handle, user_receiver_handle):
+  def run(cognito_user_id, message, message_group_uuid):
     model = {
       'errors': None,
       'data': None
     }
-    if user_sender_handle == None or len(user_sender_handle) < 1:
-      model['errors'] = ['user_sender_handle_blank']
-
-    if user_receiver_handle == None or len(user_receiver_handle) < 1:
-      model['errors'] = ['user_reciever_handle_blank']
 
     if message == None or len(message) < 1:
       model['errors'] = ['message_blank'] 
     elif len(message) > 1024:
       model['errors'] = ['message_exceed_max_chars'] 
 
-    if model['errors']:
-      # return what we provided
-      model['data'] = {
-        'display_name': 'Andrew Brown',
-        'handle':  user_sender_handle,
-        'message': message
-      }
-    else:
-      now = datetime.now(timezone.utc).astimezone()
-      model['data'] = {
-        'uuid': uuid.uuid4(),
-        'display_name': 'Samba Krishnamurthy',
-        'handle':  user_sender_handle,
-        'message': message,
-        'created_at': now.isoformat()
-      }
+    sql = extract_query('messages', 'create_message_user')
+    user = query_execution_select(sql, {
+      'cognito_user_id': cognito_user_id
+    })
+    #print('user data create message', user)
+    ddb = DDB.client()
+    message = DDB.create_message(
+      client=ddb, message_group_uuid=message_group_uuid,
+      message=message, user_uuid=user['uuid'],
+      user_handle=user['handle'], user_display_name=user['display_name'] )
+    model['data'] = message
+    print('create_message model', model)
     return model
+    

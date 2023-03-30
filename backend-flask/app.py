@@ -155,7 +155,10 @@ def data_messages(message_group_uuid):
 @app.route("/api/messages", methods=['POST', 'OPTIONS'])
 @cross_origin()
 def data_create_message():
-    access_token = extract_access_token(request.headers)
+    message            = request.json['message']
+    handle             =  request.json.get('handle', None)
+    message_group_uuid = request.json.get('message_group_uuid', None)
+    access_token       = extract_access_token(request.headers)
     try:
         claims = cognito_jwt_token.verify(access_token)
         # authenicatied request
@@ -163,7 +166,9 @@ def data_create_message():
         app.logger.debug(claims)
         cognito_user_id = claims['sub']
         app.logger.debug(cognito_user_id)
-        model = CreateMessage.run(message, user_sender_handle, user_receiver_handle)
+        model = CreateMessage.run(
+            cognito_user_id=cognito_user_id,
+            message=message, message_group_uuid=message_group_uuid)
         if model['errors'] is not None:
             return model['errors'], 422
         else:
