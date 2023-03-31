@@ -25,20 +25,22 @@ tasks:
     command: |
       cd backend-flask
       pip install -r requirements.txt 
-  # - name: initiate
-  #   command: |
-  #     source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/cleanup"    
-  # - name: ptgres-db
-  #   command: |         
-  #     source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/db/setup"
-  # - name: ddb    
-  #   command: |
-  #     source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/ddb/setup"  
-  #     dependsOn: flask, ptgres-db
-  # - name: docker
-  #   command: |
-  #     source "./docker-start"    
-  #     dependsOn: flask, ptgres-db, ddb
+  - name: docker
+    command: |
+      source "./docker-start"    
+  - name: initiate
+    command: |
+      source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/cleanup"   
+      dependsOn: docker 
+  - name: ptgres-db
+    command: |         
+      source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/db/setup"
+      dependsOn: initiate
+  - name: ddb    
+    command: |
+      source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/ddb/setup"  
+      dependsOn: ptgres-db
+
 vscode:
   extensions:
     - 42Crunch.vscode-openapi
