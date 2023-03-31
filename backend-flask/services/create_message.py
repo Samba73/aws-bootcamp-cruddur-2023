@@ -28,17 +28,15 @@ class CreateMessage:
         'cognito_user_id': cognito_user_id,
         'user_receiver_handle': ''  
       })  
-    print('user data create message', user)
+      for item in user:
+        if item['kind'] == 'sender':
+          my_user = item
+        elif item['kind'] == 'recv':
+          other_user = item  
 
     #my_user = next((item for item in user if item["kind"] == 'sender'),None)
     #other_user = next((item for item in user if item["kind"] == 'recv'),None)
-    for item in user:
-      if item['kind'] == 'sender':
-        my_user = item
-      elif item['kind'] == 'recv':
-        other_user = item  
-    print('my_user', my_user)
-    print('other_user', other_user)
+    
     ddb = DDB.client()
     if trans == 'update':
       message = DDB.create_message(
@@ -54,7 +52,7 @@ class CreateMessage:
         other_user_uuid=other_user['uuid'], 
         other_user_display_name=other_user['display_name'], 
         other_user_handle=other_user['handle'])    
-        
+
     model['data'] = message
     print('create_message model', model)
     return model
