@@ -5,7 +5,7 @@ from lib.ddb import DDB
 import logging
 
 class CreateMessage:
-  def run(cognito_user_id, message, message_group_uuid):
+  def run(trans,cognito_user_id, message, handle=None, message_group_uuid=None):
     model = {
       'errors': None,
       'data': None
@@ -17,15 +17,44 @@ class CreateMessage:
       model['errors'] = ['message_exceed_max_chars'] 
 
     sql = extract_query('messages', 'create_message_user')
-    user = query_execution_select(sql, {
-      'cognito_user_id': cognito_user_id
-    })
-    #print('user data create message', user)
+    print('the sql is', sql)
+    if handle:
+      user = query_execution_select(sql, {
+        'cognito_user_id': cognito_user_id,
+        'user_receiver_handle': handle
+      })    
+    else:
+      user = query_execution_select(sql, {
+        'cognito_user_id': cognito_user_id,
+        'user_receiver_handle': ''  
+      })  
+    print('user data create message', user)
+
+    #my_user = next((item for item in user if item["kind"] == 'sender'),None)
+    #other_user = next((item for item in user if item["kind"] == 'recv'),None)
+    for item in user:
+      if item['kind'] == 'sender':
+        my_user = item
+      elif item['kind'] == 'recv':
+        other_user = item  
+    print('my_user', my_user)
+    print('other_user', other_user)
     ddb = DDB.client()
-    message = DDB.create_message(
-      client=ddb, message_group_uuid=message_group_uuid,
-      message=message, user_uuid=user['uuid'],
-      user_handle=user['handle'], user_display_name=user['display_name'] )
+    if trans == 'update':
+      message = DDB.create_message(
+        client=ddb, message_group_uuid=message_group_uuid,
+        message=message, user_uuid=my_user['uuid'],
+        user_handle=my_user['handle'], user_display_name=my_user['display_name'] )
+
+    if trans == 'new':
+      message = DDB.create_message_group(
+        client=ddb, message=message, my_user_uuid=my_user['uuid'],
+        my_user_display_name=my_user['display_name'], 
+        my_user_handle=my_user['handle'], 
+        other_user_uuid=other_user['uuid'], 
+        other_user_display_name=other_user['display_name'], 
+        other_user_handle=other_user['handle'])    
+        
     model['data'] = message
     print('create_message model', model)
     return model

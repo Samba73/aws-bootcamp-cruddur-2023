@@ -16,8 +16,8 @@ class DDB():
     def display_message_groups(client, user_uuid):
         tableName = "cruddur-message"
         #print(client)
-        #print(user_uuid)
-        user_id = user_uuid['uuid']
+        print(user_uuid)
+        user_id = user_uuid[0]['uuid']
         #print(user_id)
         partition_key_value = {'S': f"GRP#{user_id}"}
         sort_key_prefix = {'S': str(datetime.now().year)}
@@ -116,3 +116,58 @@ class DDB():
             'user_display_name': user_display_name
 
         }
+
+    def create_message_group(client, message, my_user_uuid, my_user_display_name, my_user_handle, other_user_uuid, other_user_display_name, other_user_handle):
+        table_name          = "cruddur-message"
+        message_group_uuid  = str(uuid.uuid4())
+        message_uuid        = str(uuid.uuid4())
+        now                 = str(datetime.now().astimezone().isoformat())
+        created_at          = now
+        
+        my_message_group = {
+            'pk': {'S': f'GRP#{my_user_uuid}'},
+            'sk': {'S': f'{created_at}'},
+            'user_display_name': {'S': other_user_display_name},
+            'user_uuid': {'S': other_user_uuid},
+            'message_group_uuid': {'S': message_group_uuid},
+            'message': {'S': message},
+            'user_handle': {'S': other_user_handle}
+        }
+
+        other_message_group = {
+            'pk': {'S': f'GRP#{other_user_uuid}'},
+            'sk': {'S': f'{created_at}'},
+            'user_display_name': {'S': my_user_display_name},
+            'user_uuid': {'S': my_user_uuid},
+            'message_group_uuid': {'S': message_group_uuid},
+            'message': {'S': message},
+            'user_handle': {'S': my_user_handle}
+        }
+
+        message_group = {
+            'pk': {'S': f'MSG#{message_group_uuid}'},
+            'sk': {'S': f'{created_at}'},
+            'message_uuid': {'S': message_uuid},
+            'user_handle': {'S': my_user_handle},
+            'user_display_name': {'S': my_user_display_name},
+            'message': {'S': message},
+            'user_uuid': {'S': my_user_uuid}
+        }
+
+        put_requests = {
+            table_name: [
+            {'PutRequest': {'Item': my_message_group}},
+            {'PutRequest': {'Item': other_message_group}},
+            {'PutRequest': {'Item': message_group}}
+            ]
+        }
+        # Batch write the items
+        try:
+            response = client.batch_write_item(RequestItems=put_requests)
+            print('batch response', response)
+            return {
+            'message_group_uuid': message_group_uuid
+            }
+        except botocore.exceptions.ClientError as e:
+            print('== create_message_group.error')
+            print(e)

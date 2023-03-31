@@ -166,9 +166,14 @@ def data_create_message():
         app.logger.debug(claims)
         cognito_user_id = claims['sub']
         app.logger.debug(cognito_user_id)
-        model = CreateMessage.run(
-            cognito_user_id=cognito_user_id,
-            message=message, message_group_uuid=message_group_uuid)
+        if handle:
+            model = CreateMessage.run(trans='new',
+                                    cognito_user_id=cognito_user_id,
+                                    message=message, handle=handle)
+        else:
+            model = CreateMessage.run(trans='update',
+                                    cognito_user_id=cognito_user_id,
+                                    message=message, message_group_uuid=message_group_uuid)                            
         if model['errors'] is not None:
             return model['errors'], 422
         else:
