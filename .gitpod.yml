@@ -38,7 +38,9 @@ tasks:
       dependsOn: initiate
   - name: ddb    
     command: |
-      source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/ddb/setup"  
+      source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/ddb/drop" cruddur-message
+      source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/ddb/schema-load"  
+      source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/ddb/seed"
       dependsOn: ptgres-db
 
 vscode:
