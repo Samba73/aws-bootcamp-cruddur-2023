@@ -59,7 +59,6 @@ class DDB():
         'TableName': table_name,
         'KeyConditionExpression': 'pk = :pkval AND begins_with(sk,:skval)',
         'ScanIndexForward': False,
-        'Limit': 20,
         'ExpressionAttributeValues': {
             ':skval': {'S': year },
             ':pkval': {'S': f"MSG#{message_group_uuid}"}
