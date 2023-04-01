@@ -7,7 +7,7 @@ import botocore.exceptions
 class DDB():
     def client():
         attr = {
-            'endpoint_url': 'http://dynamodb-local:8000'
+            'endpoint_url': os.getenv("AWS_ENDPOINT_URL")
         }
 
         ddb = boto3.client('dynamodb', **attr)
