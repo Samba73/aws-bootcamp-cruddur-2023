@@ -23,17 +23,23 @@ class CreateMessage:
         'cognito_user_id': cognito_user_id,
         'user_receiver_handle': handle
       })    
-    else:
-      user = query_execution_select(sql, {
-        'cognito_user_id': cognito_user_id,
-        'user_receiver_handle': ''  
-      })  
       for item in user:
         if item['kind'] == 'sender':
           my_user = item
         elif item['kind'] == 'recv':
           other_user = item  
 
+    else:
+      user = query_execution_select(sql, {
+        'cognito_user_id': cognito_user_id,
+        'user_receiver_handle': ''  
+      })  
+      # for item in user:
+      #   if item['kind'] == 'sender':
+      #     my_user = item
+      #   elif item['kind'] == 'recv':
+      #     other_user = item  
+    print('user', user)
     #my_user = next((item for item in user if item["kind"] == 'sender'),None)
     #other_user = next((item for item in user if item["kind"] == 'recv'),None)
     
@@ -41,8 +47,8 @@ class CreateMessage:
     if trans == 'update':
       message = DDB.create_message(
         client=ddb, message_group_uuid=message_group_uuid,
-        message=message, user_uuid=my_user['uuid'],
-        user_handle=my_user['handle'], user_display_name=my_user['display_name'] )
+        message=message, user_uuid=user[0]['uuid'],
+        user_handle=user[0]['handle'], user_display_name=user[0]['display_name'] )
 
     if trans == 'new':
       message = DDB.create_message_group(
