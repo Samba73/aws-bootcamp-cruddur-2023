@@ -108,6 +108,9 @@ def rollbar_test():
     rollbar.report_message('Hello World!', 'warning')
     return "Hello World!"
 
+@app.route('/api/health_check')
+def health_check():
+    return {'Success': True}, 200
 
 @app.route("/api/message_groups", methods=['GET'])
 def data_message_groups():
