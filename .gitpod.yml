@@ -25,24 +25,7 @@ tasks:
     command: |
       cd backend-flask
       pip install -r requirements.txt 
-  - name: docker
-    command: |
-      source "./docker-start"    
-  - name: initiate
-    command: |
-      source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/cleanup"   
-      dependsOn: docker 
-  - name: ptgres-db
-    command: |         
-      source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/db/setup"
-      dependsOn: initiate
-  - name: ddb    
-    command: |
-      source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/ddb/drop" cruddur-message
-      source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/ddb/schema-load"  
-      source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/ddb/seed"
-      dependsOn: ptgres-db
-
+  
 vscode:
   extensions:
     - 42Crunch.vscode-openapi
