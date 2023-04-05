@@ -1,15 +1,29 @@
 {
     "family": "frontend-react-js",
-    "executionRoleArn": "arn:aws:iam::AWS_ACCOUNT_ID:role/CruddurServiceExecutionRole",
-    "taskRoleArn": "arn:aws:iam::AWS_ACCOUNT_ID:role/CruddurTaskRole",
+    "executionRoleArn": "arn:aws:iam::623053391718:role/CruddurServiceExecutionRole",
+    "taskRoleArn": "arn:aws:iam::623053391718:role/CruddurTaskRole",
     "networkMode": "awsvpc",
+    "cpu": "256",
+    "memory": "512",
+    "requiresCompatibilities": [ 
+      "FARGATE" 
+    ],
     "containerDefinitions": [
       {
         "name": "frontend-react-js",
-        "image": "AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/frontend-react:latest",
+        "image": "623053391718.dkr.ecr.ap-southeast-1.amazonaws.com/frontend-react:latest",
         "cpu": 256,
         "memory": 256,
         "essential": true,
+        "healthCheck": {
+          "command": [
+            "CMD-SHELL",
+            "curl -f http://localhost:3000 || exit 1"
+          ],
+          "interval": 30,
+          "timeout": 5,
+          "retries": 3
+        }, 
         "portMappings": [
           {
             "name": "frontend-react-js",
@@ -24,7 +38,7 @@
           "options": {
               "awslogs-group": "cruddur",
               "awslogs-region": "ap-southeast-1",
-              "awslogs-stream-prefix": "frontend-react"
+              "awslogs-stream-prefix": "frontend-react-js"
           }
         }
       }
