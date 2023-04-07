@@ -1,0 +1,21 @@
+#!/usr/bin/bash
+set -e
+if [ "$#" = 0 ]
+then
+    echo "No arguments provided, Task ID, Run the script as connect-to-backend <taskid>"
+    exit 1
+fi
+if [ -z "$1" ]
+then
+    echo "TASK ID should be provided as first argument"
+    exit 1
+else
+    TASK_ID=$1   
+fi    
+CONTAINER_NAME=backend-flask
+aws ecs execute-command  \
+    --cluster cruddur \
+    --task $TASK_ID \
+    --container $CONTAINER_NAME \
+    --command "/bin/bash" \
+    --interactive
