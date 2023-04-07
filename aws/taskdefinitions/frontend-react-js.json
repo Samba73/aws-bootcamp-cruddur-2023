@@ -11,7 +11,7 @@
     "containerDefinitions": [
       {
         "name": "frontend-react-js",
-        "image": "623053391718.dkr.ecr.ap-southeast-1.amazonaws.com/frontend-react:latest",
+        "image": "623053391718.dkr.ecr.ap-southeast-1.amazonaws.com/frontend-react-js:latest",
         "cpu": 256,
         "memory": 256,
         "essential": true,
