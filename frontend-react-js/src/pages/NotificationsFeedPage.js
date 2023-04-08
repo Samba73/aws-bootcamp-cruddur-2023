@@ -18,7 +18,7 @@ export default function NotificationsFeedPage() {
 
   const loadData = async () => {
     try {
-      await getAuth
+      await getAuth()
       access_token = localStorage.getItem("access_token")
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/notifications`
       const res = await fetch(backend_url, {
@@ -38,16 +38,6 @@ export default function NotificationsFeedPage() {
     }
   };
 
-  const checkAuth = async () => {
-    console.log('checkAuth')
-    // [TODO] Authenication
-    if (Cookies.get('user.logged_in')) {
-      setUser({
-        display_name: Cookies.get('user.name'),
-        handle: Cookies.get('user.username')
-      })
-    }
-  };
 
   React.useEffect(()=>{
     //prevents double call
