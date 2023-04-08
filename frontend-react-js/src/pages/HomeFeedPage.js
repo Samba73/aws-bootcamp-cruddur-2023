@@ -19,7 +19,7 @@ export default function HomeFeedPage() {
 
   const loadData = async () => {
     try {
-      await getAuth
+      await getAuth()
       const access_token = localStorage.getItem("access_token")
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/home`
       const res = await fetch(backend_url, {
