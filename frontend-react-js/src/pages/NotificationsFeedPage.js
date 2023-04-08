@@ -19,7 +19,7 @@ export default function NotificationsFeedPage() {
   const loadData = async () => {
     try {
       await getAuth()
-      access_token = localStorage.getItem("access_token")
+      const access_token = localStorage.getItem("access_token")
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/notifications`
       const res = await fetch(backend_url, {
         headers: {

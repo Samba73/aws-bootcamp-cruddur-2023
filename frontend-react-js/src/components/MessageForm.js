@@ -19,7 +19,7 @@ export default function ActivityForm(props) {
     event.preventDefault();
     try {
       await getAuth()
-      access_token = localStorage.getItem("access_token")
+      const access_token = localStorage.getItem("access_token")
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/messages`
       console.log('onsubmit payload', message)
       let json = {'message': message}

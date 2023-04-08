@@ -1,13 +1,14 @@
 import './HomeFeedPage.css';
 import React from "react";
 
-import { Auth, getAuth } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 
 import DesktopNavigation  from '../components/DesktopNavigation';
 import DesktopSidebar     from '../components/DesktopSidebar';
 import ActivityFeed from '../components/ActivityFeed';
 import ActivityForm from '../components/ActivityForm';
 import ReplyForm from '../components/ReplyForm';
+import { checkAuth, getAuth } from '../lib/CheckAuth';
 
 export default function HomeFeedPage() {
   const [activities, setActivities] = React.useState([]);
@@ -21,6 +22,7 @@ export default function HomeFeedPage() {
     try {
       await getAuth()
       const access_token = localStorage.getItem("access_token")
+      console.log(access_token)
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/home`
       const res = await fetch(backend_url, {
         headers: {
@@ -29,6 +31,7 @@ export default function HomeFeedPage() {
         method: "GET"
       });
       let resJson = await res.json();
+      console.log(resJson)
       if (res.status === 200) {
         setActivities(resJson)
       } else {

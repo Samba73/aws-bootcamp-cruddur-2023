@@ -12,7 +12,7 @@ class MessageGroups:
     user_id = query_execution_select(sql, {
       'cognito_user_id': cognito_user_id
     })
-    
+    print(user_id)
     ddb = DDB.client()
     message_groups = DDB.display_message_groups(ddb, user_id)
     model['data'] = message_groups
