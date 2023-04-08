@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+set -e
+
+
+docker build -t frontend-react-js:latest -f .
+sleep 30 &
+echo $!
+docker tag backend-flask:latest 623053391718.dkr.ecr.ap-southeast-1.amazonaws.com/frontend-react-js:latest
+sleep 10 &
+echo $!
+docker push 623053391718.dkr.ecr.ap-southeast-1.amazonaws.com/frontend-react-js:latest
+sleep 10 &
+echo $?

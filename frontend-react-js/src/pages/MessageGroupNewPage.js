@@ -20,7 +20,7 @@ export default function MessageGroupPage() {
   const loadUserShortData = async () => {
     try {
       await getAuth()
-      access_token = localStorage.getItem("access_token")
+      const access_token = localStorage.getItem("access_token")
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/users/@${params.handle}/short`
       const res = await fetch(backend_url, {
         headers: {
@@ -43,7 +43,7 @@ export default function MessageGroupPage() {
   const loadMessageGroupsData = async () => {
     try {
       await getAuth()
-      access_token = localStorage.getItem("access_token")
+      const access_token = localStorage.getItem("access_token")
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/message_groups`
       const res = await fetch(backend_url, {
         headers: {
