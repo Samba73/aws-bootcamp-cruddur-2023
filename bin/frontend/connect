@@ -2,7 +2,7 @@
 set -e
 if [ "$#" = 0 ]
 then
-    echo "No arguments provided, Task ID, Run the script as connect-to-frontend <taskid>"
+    echo "No arguments provided, Task ID, Run the script as connect-to-backend <taskid>"
     exit 1
 fi
 if [ -z "$1" ]
@@ -17,6 +17,5 @@ aws ecs execute-command  \
     --cluster cruddur \
     --task $TASK_ID \
     --container $CONTAINER_NAME \
-    --command "/bin/sh" \
+    --command "/bin/bash" \
     --interactive
-Footer

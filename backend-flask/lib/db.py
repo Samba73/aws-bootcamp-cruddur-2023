@@ -70,7 +70,7 @@ def extract_query(folder, file):
   file = file + ".sql"
   path = os.getcwd()
   print(path)
-  filepath = os.path.join(path, 'db','sql', folder, file)
+  filepath = os.path.join(path, 'queries', folder, file)
   print(filepath)
   with open(filepath, "r") as file:
     sql = file.read()

@@ -28,7 +28,7 @@ import rollbar
 import rollbar.contrib.flask
 from flask import got_request_exception
 
-from decode_verify_jwt.decode_verify_jwt import extract_access_token, DecodeVerifyJWT, TokenVerifyError
+from lib.decode_verify_jwt import extract_access_token, DecodeVerifyJWT, TokenVerifyError
 # cloudwatch log
 # import watchtower
 # import logging
