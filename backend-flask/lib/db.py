@@ -68,9 +68,13 @@ def query_execution_select(sql, params={}):
 
 def extract_query(folder, file):
   file = file + ".sql"
-  path = os.getcwd()
-  print(path)
-  filepath = os.path.join(path, 'queries', folder, file)
+  current_path = os.path.dirname(os.path.abspath(__file__))
+  parent_path = os.path.abspath(os.path.join(current_path, '..'))
+  print(parent_path)
+  sys.path.append(parent_path)
+  #path = os.getcwd()
+  #print(path)
+  filepath = os.path.join(parent_path, 'queries', folder, file)
   print(filepath)
   with open(filepath, "r") as file:
     sql = file.read()
