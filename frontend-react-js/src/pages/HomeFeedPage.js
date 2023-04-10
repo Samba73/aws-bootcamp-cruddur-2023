@@ -9,6 +9,7 @@ import ActivityFeed from '../components/ActivityFeed';
 import ActivityForm from '../components/ActivityForm';
 import ReplyForm from '../components/ReplyForm';
 import { checkAuth, getAuth } from '../lib/CheckAuth';
+import AWSXRay from 'aws-xray-sdk-core'
 
 export default function HomeFeedPage() {
   const [activities, setActivities] = React.useState([]);
@@ -18,6 +19,9 @@ export default function HomeFeedPage() {
   const [user, setUser] = React.useState(null);
   const dataFetchedRef = React.useRef(false);
 
+  const apiRequest = async () => {
+    const segment = AWSXRay.getSegment()
+    const subsegment = segment.addNewSubsegment('api-request')
   const loadData = async () => {
     try {
       await getAuth()
@@ -39,8 +43,9 @@ export default function HomeFeedPage() {
       }
     } catch (err) {
       console.log(err);
-    }
-  };
+    } finally {
+      subsegment.close()
+    };
 
   React.useEffect(()=>{
     //prevents double call
