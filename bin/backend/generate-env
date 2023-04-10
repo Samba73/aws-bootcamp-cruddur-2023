@@ -1,6 +1,10 @@
 #!/usr/bin/env ruby
 
+
+
 require 'erb'
+
+#filename="$GITPOD_REPO_ROOTS/bin/erb/backend-flask.env"
 
 template = File.read 'erb/backend-flask.env.erb'
 content = ERB.new(template).result(binding)
