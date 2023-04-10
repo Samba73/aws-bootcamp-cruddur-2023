@@ -45,7 +45,7 @@ export default function HomeFeedPage() {
       console.log(err);
     } finally {
       subsegment.close()
-    };
+    }};
 
   React.useEffect(()=>{
     //prevents double call
