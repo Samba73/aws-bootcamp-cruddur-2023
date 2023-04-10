@@ -9,6 +9,24 @@
       "FARGATE" 
     ],
     "containerDefinitions": [
+        
+      {
+        "name": "x-ray",
+        "image": "public.ecr.aws/xray/aws-xray-daemon:3.2.0",
+        "user": "1337",  
+        "essential": false,
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 60,
+        "portMappings": [
+          {
+            "name": "x-ray",
+            "containerPort": 2000,
+            "protocol": "udp"
+          }
+         ] 
+        }, 
       {
         "name": "backend-flask",
         "image": "623053391718.dkr.ecr.ap-southeast-1.amazonaws.com/backend-flask:latest",
