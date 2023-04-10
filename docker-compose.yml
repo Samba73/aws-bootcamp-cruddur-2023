@@ -2,7 +2,7 @@ version: "3.8"
 services:
   backend-flask:
     environment:
-      #AWS_ENDPOINT_URL: "http://dynamodb-local:8000"
+      AWS_ENDPOINT_URL: "http://dynamodb-local:8000"
       PROD_CONNECTION_URL: 'postgresql://cruddurroot:Password999!@cruddur-db-instance.cyzqxlnlmrnn.ap-southeast-1.rds.amazonaws.com:5432/cruddur'
       CONNECTION_URL: "postgresql://postgres:password@db:5432/cruddur"
       NO_DB_CONNECTION_URL: "postgresql://postgres:password@db:5432"
@@ -65,9 +65,9 @@ volumes:
   db:
     driver: local
 networks:
-  internal-network:
+  cruddur-net:
     driver: bridge
-    name: cruddur    
+    name: cruddur-net    
   # dynamodb-local:
   #   user: root
   #   command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
