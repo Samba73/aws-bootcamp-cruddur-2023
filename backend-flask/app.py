@@ -14,6 +14,10 @@ from services.messages import *
 from services.create_message import *
 from services.show_activity import *
 
+# x-ray
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+
 # Honeycomb
 from opentelemetry import trace
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
@@ -54,8 +58,13 @@ trace.set_tracer_provider(provider)
 tracer = trace.get_tracer(__name__)
 
 app = Flask(__name__)
-# Honeycomb: Initialize automatic instrumentation with Flask
 
+#x-ray initialize
+xray_recorder.configure(service='backend-flask')
+
+XRayMiddleware(app, xray_recorder)
+
+# Honeycomb: Initialize automatic instrumentation with Flask
 FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
 
@@ -190,21 +199,22 @@ def data_create_message():
 @app.route("/api/activities/home", methods=['GET'])
 def data_home():
     #  data = HomeActivities.run(LOGGER)
-    access_token = extract_access_token(request.headers)
-    try:
-        claims = cognito_jwt_token.verify(access_token)
-        # authenicatied request
-        app.logger.debug("authenicated")
-        app.logger.debug(claims)
-        username = claims['username']
-#        app.logger.debug(claims['username'])
-        data = HomeActivities.run(cognito_user_id=username)
-    except TokenVerifyError as e:
-        # unauthenicatied request
-        app.logger.debug(e)
-        app.logger.debug("unauthenicated")
-        data = HomeActivities.run()
-    return data, 200
+    with xray_recorder.in_subsegment('api-route'):
+        access_token = extract_access_token(request.headers)
+        try:
+            claims = cognito_jwt_token.verify(access_token)
+            # authenicatied request
+            app.logger.debug("authenicated")
+            app.logger.debug(claims)
+            username = claims['username']
+    #        app.logger.debug(claims['username'])
+            data = HomeActivities.run(cognito_user_id=username)
+        except TokenVerifyError as e:
+            # unauthenicatied request
+            app.logger.debug(e)
+            app.logger.debug("unauthenicated")
+            data = HomeActivities.run()
+        return data, 200
 
 
 @app.route("/api/activities/notifications", methods=['GET'])
