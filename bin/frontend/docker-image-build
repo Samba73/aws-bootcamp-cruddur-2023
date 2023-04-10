@@ -4,9 +4,14 @@ ABS_PATH=$(readlink -f "$0")
 BACKEND_PATH=$(dirname $ABS_PATH)
 BIN_PATH=$(dirname $BACKEND_PATH)
 PROJECT_PATH=$(dirname $BIN_PATH)
-FRONTEND_FLASK_PATH="$PROJECT_PATH/frontend-react-js"
+FRONTEND_REACT_PATH="$PROJECT_PATH/frontend-react-js"
 
 docker build \
--f "$BACKEND_FLASK_PATH/Dockerfile.prod" \
+--build-arg REACT_APP_BACKEND_URL="https://api.cruddur.in" \
+--build-arg REACT_APP_AWS_PROJECT_REGION="$AWS_DEFAULT_REGION" \
+--build-arg REACT_APP_AWS_COGNITO_REGION="$AWS_DEFAULT_REGION" \
+--build-arg REACT_APP_AWS_USER_POOLS_ID="ap-southeast-1_nioDMKtYf" \
+--build-arg REACT_APP_CLIENT_ID="4gl2o58o33odv56d0rsmneqeo9" \
 -t frontend-react-js \
-"$FRONTEND_FLASK_PATH/."
+-f "$FRONTEND_REACT_PATH/Dockerfile.prod" \
+"$FRONTEND_REACT_PATH/."
