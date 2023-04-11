@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 export function format_datetime(value) {
   const datetime = DateTime.fromISO(value, { zone: 'utc' })
   const local_datetime = datetime.setZone(Intl.DateTimeFormat().resolvedOptions().timeZone);
+  console.log('activity content', local_datetime.toLocaleString(DateTime.DATETIME_FULL))
   return local_datetime.toLocaleString(DateTime.DATETIME_FULL)
 }
 
