@@ -4,7 +4,8 @@ import { format_datetime, message_time_ago, time_ago } from '../lib/DateTimeForm
 
 
   return (
-    <Link className='message_item' to={`/messages/@`+props.message.user_handle}>
+    <div className='message_item'> 
+      <Link className='message_avatar' to={`/messages/@`+props.message.user_handle}></Link>
       <div className='message_avatar'></div>
       <div className='message_content'>
         <div className='message_meta'>
@@ -18,6 +19,6 @@ import { format_datetime, message_time_ago, time_ago } from '../lib/DateTimeForm
           <span className='ago'>{message_time_go(props.message.created_at)}</span> 
         </div>{/* created_at */}
       </div>{/* message_content */}
-    </Link>
+    </div>
   );
 }
