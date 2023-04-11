@@ -59,10 +59,10 @@ tracer = trace.get_tracer(__name__)
 
 app = Flask(__name__)
 
-#x-ray initialize
-xray_recorder.configure(service='backend-flask')
+##x-ray initialize
+#xray_recorder.configure(service='backend-flask')
 
-XRayMiddleware(app, xray_recorder)
+#XRayMiddleware(app, xray_recorder)
 
 # Honeycomb: Initialize automatic instrumentation with Flask
 FlaskInstrumentor().instrument_app(app)

@@ -19,10 +19,10 @@ export default function HomeFeedPage() {
   const [user, setUser] = React.useState(null);
   const dataFetchedRef = React.useRef(false);
 
-  const apiRequest = async () => {
-    const segment = AWSXRay.getSegment()
-    const subsegment = segment.addNewSubsegment('api-request')
+
   const loadData = async () => {
+//    const segment = AWSXRay.getSegment()
+//    const subsegment = segment.addNewSubsegment('api-request')
     try {
       await getAuth()
       const access_token = localStorage.getItem("access_token")
@@ -43,9 +43,8 @@ export default function HomeFeedPage() {
       }
     } catch (err) {
       console.log(err);
-    } finally {
-      subsegment.close()
-    }};
+    } 
+  };
 
   React.useEffect(()=>{
     //prevents double call
