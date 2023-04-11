@@ -6,7 +6,6 @@ import { format_datetime, message_time_ago, time_ago } from '../lib/DateTimeForm
   return (
     <div className='message_item'> 
       <Link className='message_avatar' to={`/messages/@`+props.message.user_handle}></Link>
-      <div className='message_avatar'></div>
       <div className='message_content'>
         <div className='message_meta'>
           <div className='message_identity'>
