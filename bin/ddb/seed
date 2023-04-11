@@ -9,7 +9,8 @@ parent_path = os.path.abspath(os.path.join(current_path, '..', '..',"backend-fla
 sys.path.append(parent_path)
 from lib.db import query_execution_array, query_execution_select, query_insert, extract_query
 
-now = datetime.now(timezone.utc).astimezone()
+#now = datetime.now(timezone.utc).astimezone()
+now = datetime.now()
 message_group_id = "5ae290ed-55d1-47a0-bc6d-fe2bc2700399" 
 
 attr = {
@@ -220,7 +221,8 @@ for i in range(len(lines)):
         print(lines[i])
         print('Invalid line')    
 
-    created_at = (now + timedelta(minutes=i)).isoformat()       
+    #created_at = (now + timedelta(minutes=i)).isoformat()       
+    created_at = (now - timedelta(days=1)+timedelta(minutes=i)).isoformat()
 
     create_message(
         client                      = ddb,
