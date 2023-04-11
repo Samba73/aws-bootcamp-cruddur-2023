@@ -9,7 +9,7 @@ import ActivityFeed from '../components/ActivityFeed';
 import ActivityForm from '../components/ActivityForm';
 import ReplyForm from '../components/ReplyForm';
 import { checkAuth, getAuth } from '../lib/CheckAuth';
-import AWSXRay from 'aws-xray-sdk-core'
+
 
 export default function HomeFeedPage() {
   const [activities, setActivities] = React.useState([]);
@@ -21,8 +21,7 @@ export default function HomeFeedPage() {
 
 
   const loadData = async () => {
-//    const segment = AWSXRay.getSegment()
-//    const subsegment = segment.addNewSubsegment('api-request')
+
     try {
       await getAuth()
       const access_token = localStorage.getItem("access_token")
