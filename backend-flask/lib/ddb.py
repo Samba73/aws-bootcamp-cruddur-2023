@@ -85,9 +85,9 @@ class DDB():
     def create_message(client, message_group_uuid, message, user_uuid, user_display_name=None, user_handle=None):
         table_name = 'cruddur-message'
         pkval = f"MSG#{message_group_uuid}"
-        now = str(datetime.now().astimezone().isoformat())
+        skval = datetime.now().isoformat()
         message_uuid = str(uuid.uuid4())
-        skval = now
+        #skval = now
         item = {
             'pk': {'S': pkval},
             'sk': {'S': skval},
