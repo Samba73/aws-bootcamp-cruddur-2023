@@ -6,6 +6,7 @@ printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
 
 ABS_PATH=$(readlink -f "$0")
 SERVERLESS_PATH=$(dirname $ABS_PATH)
+FILES_PATH="$SERVERLESS_PATH/files"
 
 
-aws s3 cp $SERVERLESS_PATH/data.jpg s3://assets.cruddur.in/original/data.jpg
+aws s3 cp $FILES_PATH/data.jpg s3://assets.cruddur.in/avatars/original/data.jpg
