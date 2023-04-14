@@ -1,0 +1,3 @@
+#! /usr/bin/bash
+
+aws s3 rm s3://assets.cruddur.in/original/data.jpg 

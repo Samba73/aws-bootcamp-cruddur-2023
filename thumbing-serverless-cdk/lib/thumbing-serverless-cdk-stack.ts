@@ -1,5 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import * as s3 from 'aws-cdk-lib/aws-s3'
+import * as s3n from 'aws-cdk-lib/aws-s3-notifications'
 import * as lambda from 'aws-cdk-lib/aws-lambda'
 import { Construct } from 'constructs';
 import * as dotenv from 'dotenv';
@@ -11,26 +12,47 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
     super(scope, id, props);
 
     // The code that defines your stack goes here
-    const bucketName: string = process.env.THUMBING_BUCKET_NAME as string;
-    const functionPath: string = process.env.THUMBING_FUNCTION_PATH as string;
-    const folderInput: string = process.env.FOLDER_INPUT as string;
-    const folderOutput: string = process.env.FOLDER_OUTPUT as string;
 
-    const bucket = this.createBucket(bucketName);
+    const bucketName: string = process.env.THUMBING_BUCKET_NAME as string;
+    const folderInput: string = process.env.THUMBING_S3_FOLDER_INPUT as string;
+    const folderOutput: string = process.env.THUMBING_S3_FOLDER_OUTPUT as string;
+    const webhookUrl: string = process.env.THUMBING_WEBHOOK_URL as string;
+    const topicName: string = process.env.THUMBING_TOPIC_NAME as string;
+    const functionPath: string = process.env.THUMBING_FUNCTION_PATH as string;
+    console.log('bucketName',bucketName)
+    console.log('folderInput',folderInput)
+    console.log('folderOutput',folderOutput)
+    console.log('webhookUrl',webhookUrl)
+    console.log('topicName',topicName)
+    console.log('functionPath',functionPath)
+
+    //const bucket = this.createBucket(bucketName);
+    const bucket = this.importBucket(bucketName);
     const lambda = this.createLambda(functionPath, bucketName, folderInput, folderOutput);
+    console.log('lambda', lambda)
+    this.createS3NotifyToLambda(folderInput,lambda,bucket)
+
+
+    //const s3ReadWritePolicy = this.createPolicyBucketAccess(bucket.bucketArn)
     
   }
 
   createBucket(bucketName: string): s3.IBucket {
-    const bucket = new s3.Bucket(this, 'ThumbingBucket', {
+    const bucket = new s3.Bucket(this, 'ThumbingBucket',{
       bucketName: bucketName,
       removalPolicy: cdk.RemovalPolicy.DESTROY
     });
     return bucket;
   }
 
+  importBucket(bucketName: string): s3.IBucket {
+    const bucket = s3.Bucket.fromBucketName(this, 'AssetsBucket', bucketName);
+    console.log('imported bucket is', bucket)
+    return bucket;
+  } 
+
   createLambda(functionPath: string, bucketName: string, folderInput: string, folderOutput: string): lambda.IFunction {
-    const lambdaFunction = new lambda.Function(this, 'ThumbLambda', {
+    const lambdaFunction = new lambda.Function(this, 'ThumbingLambda', {
       runtime: lambda.Runtime.NODEJS_18_X,
       handler: 'index.handler',
       code: lambda.Code.fromAsset(functionPath),
@@ -44,4 +66,14 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
     })
     return lambdaFunction;
   }
+
+  createS3NotifyToLambda(prefix: string, lambda: lambda.IFunction, bucket: s3.IBucket): void {
+    const destination = new s3n.LambdaDestination(lambda);
+    console.log('destination', destination)
+    bucket.addEventNotification
+      (s3.EventType.OBJECT_CREATED_PUT,destination,
+      {prefix: prefix}
+    )
+  }
+
 }
