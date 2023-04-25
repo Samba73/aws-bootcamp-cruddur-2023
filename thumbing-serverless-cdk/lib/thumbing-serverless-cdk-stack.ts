@@ -43,12 +43,12 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
     this.createS3NotifyToSns(folderOutput,snsTopic,bucket)
 
     const s3ReadWritePolicy = this.createPolicyBucketAccess(bucket.bucketArn)
-    const snsPublishPolicy = this.createPolicySnSPublish(snsTopic.topicArn)
+    //const snsPublishPolicy = this.createPolicySnSPublish(snsTopic.topicArn)
     
     lambda.addToRolePolicy(s3ReadWritePolicy);
-    lambda.addToRolePolicy(snsPublishPolicy);
+    //lambda.addToRolePolicy(snsPublishPolicy);
   }
-
+/*
   createPolicySnSPublish(topicArn: string){
     const snsPublishPolicy = new iam.PolicyStatement({
       actions: [
@@ -60,6 +60,7 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
     });
     return snsPublishPolicy;
   }
+  */
   createSnsTopic(topicName: string): sns.ITopic{
     const snsTopic = new sns.Topic(this, 'ThumbingTopic', {
       topicName: topicName
