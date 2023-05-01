@@ -8,7 +8,7 @@
       {
           "targetGroupArn": "arn:aws:elasticloadbalancing:ap-southeast-1:623053391718:targetgroup/backend-flask-TG/68dbd585f81c0bc9",
           "containerName": "backend-flask",
-          "containerPort": 4567
+          "containerPort": 4568
       }
   ],
     "networkConfiguration": {
@@ -31,7 +31,7 @@
         {
           "portName": "backend-flask",
           "discoveryName": "backend-flask",
-          "clientAliases": [{"port": 4567}]
+          "clientAliases": [{"port": 4568}]
         }
       ]
     },

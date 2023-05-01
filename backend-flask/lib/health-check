@@ -3,7 +3,7 @@
 import urllib.request
 
 try:
-    response = urllib.request.urlopen('http://localhost:4567/api/health_check')
+    response = urllib.request.urlopen('http://localhost:4568/api/health_check')
     print(response.getcode())
     if response.getcode() == 200:
         print('Flask server is running')
