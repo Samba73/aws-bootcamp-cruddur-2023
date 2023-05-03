@@ -19,13 +19,13 @@ export default function UserFeedPage() {
   const dataFetchedRef = React.useRef(false);
 
   const params = useParams();
-  const title = `@${params.handle}`;
+ 
 
   const loadData = async () => {
     try {
       await getAuth()
       const access_token = localStorage.getItem("access_token")
-      const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/${title}`
+      const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/@${params.handle}`
       const res = await fetch(backend_url, {
         headers: {
           Authorization: `Bearer ${access_token}`
