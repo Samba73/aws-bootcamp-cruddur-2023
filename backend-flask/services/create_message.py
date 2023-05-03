@@ -19,7 +19,7 @@ class CreateMessage:
     sql = extract_query('messages', 'create_message_user')
     print('the sql is', sql)
     if handle:
-      user = query_execution_select(sql, {
+      user = query_execution_array(sql, {
         'cognito_user_id': cognito_user_id,
         'user_receiver_handle': handle
       })    
@@ -30,7 +30,7 @@ class CreateMessage:
           other_user = item  
 
     else:
-      user = query_execution_select(sql, {
+      user = query_execution_array(sql, {
         'cognito_user_id': cognito_user_id,
         'user_receiver_handle': ''  
       })  

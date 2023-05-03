@@ -44,7 +44,7 @@ def query_execution_array(sql, params={}):
       conn.close()            
 
 def query_execution_select(sql, params={}):
-  wrapped_sql = query_wrap_array(sql)
+  wrapped_sql = query_wrap_select(sql)
   print(wrapped_sql)
   print(params)
   try:
