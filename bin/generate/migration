@@ -27,10 +27,10 @@ class {klass}Migration:
     \"\"\"
     return data
   def migrate():
-    this.query_insert({klass}Migration.migrate_sql(),{{
+    query_insert({klass}Migration.migrate_sql(),{{
     }})
   def rollback():
-    this.query_insert({klass}Migration.rollback_sql(),{{
+    query_insert({klass}Migration.rollback_sql(),{{
     }})
     
 migration = AddBioColumnMigration    
