@@ -32,6 +32,8 @@ class {klass}Migration:
   def rollback():
     this.query_insert({klass}Migration.rollback_sql(),{{
     }})
+    
+migration = AddBioColumnMigration    
 """
 file_content = file_content.lstrip('\n').rstrip('\n')
 
