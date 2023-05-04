@@ -104,6 +104,25 @@ def query_insert(sql, params={}):
       cur.close()
       conn.close()
 
+def query_value(sql,params={}):
+ try:
+    #connection_url = os.getenv("PROD_CONNECTION_URL")
+    connection_url = os.getenv("CONNECTION_URL")
+    pool = ConnectionPool(connection_url)
+    with self.pool.connection() as conn:
+      with conn.cursor() as cur:
+        cur.execute(sql,params)
+        json = cur.fetchone()
+        if json == None:
+          return None
+        else:
+          return json[0]
+  except Exception as err:
+    print_sql_err(err)
+  finally:    
+    if conn is not None:
+      cur.close()
+      conn.close()      
 
 def print_sql_err(err):
     # get details about the exception
