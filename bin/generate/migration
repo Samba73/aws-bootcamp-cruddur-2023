@@ -2,6 +2,10 @@
 import time
 import os
 import sys
+abspath         = os.path.abspath(__file__)
+current_path    = os.path.dirname(abspath)
+parent_path     = os.path.abspath(os.path.join(current_path, '..', '..','backend-flask'))
+sys.path.append(parent_path)
 from lib.db import query_insert
 
 if len(sys.argv) == 2:

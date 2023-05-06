@@ -14,7 +14,6 @@ from lib.db import query_insert, query_value
 
 def get_last_successful_run():
   sql = """
-  SELECT
       SELECT last_successful_run
       FROM public.schema_information
       LIMIT 1

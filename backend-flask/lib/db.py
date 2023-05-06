@@ -105,11 +105,11 @@ def query_insert(sql, params={}):
       conn.close()
 
 def query_value(sql,params={}):
- try:
+  try:
     #connection_url = os.getenv("PROD_CONNECTION_URL")
     connection_url = os.getenv("CONNECTION_URL")
     pool = ConnectionPool(connection_url)
-    with self.pool.connection() as conn:
+    with pool.connection() as conn:
       with conn.cursor() as cur:
         cur.execute(sql,params)
         json = cur.fetchone()

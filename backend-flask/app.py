@@ -13,7 +13,7 @@ from services.message_groups import *
 from services.messages import *
 from services.create_message import *
 from services.show_activity import *
-from service.update_profile import *
+from services.update_profile import *
 
 ## x-ray
 #from aws_xray_sdk.core import xray_recorder
