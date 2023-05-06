@@ -18,7 +18,7 @@ const main = async () => {
 
   // Get signed URL from S3
   const s3Params = {
-    Bucket: 'uploaded-avatars',
+    Bucket: process.env.UPLOADS_BUCKET_NAME,
     Key,
     Expires: URL_EXPIRATION_SECONDS,
     ContentType: 'image/jpeg'
