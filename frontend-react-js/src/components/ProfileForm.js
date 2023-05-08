@@ -36,7 +36,7 @@ export default function ProfileForm(props) {
       let data = await res.json();
       console.log('data', data)
       if (res.status === 200) {
-        return data.url
+        return data.uploadURL
       } else {
         console.log(res)
       }
