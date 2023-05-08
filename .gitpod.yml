@@ -24,10 +24,25 @@ tasks:
       export GITPOD_IP=$(curl ifconfig.me)
       source "$THEIA_WORKSPACE_ROOT/backend-flask/bin/rds/update-sg-rule" 
   - name: react
-    command: |
-      source  "$THEIA_WORKSPACE_ROOT/bin/frontend/generate-env"
+    before: |
+      ruby  "$THEIA_WORKSPACE_ROOT/bin/frontend/generate-env"
       cd frontend-react-js
       npm i   
+      go sync-done "react"
+  - name: docker
+    before: |
+      gp sync-await "react"
+      docker compose -f "./docker-compose.yml" up -d --build
+      gp sync-done "docker"
+  - name: postgres & ddb 
+    init: |
+      go sync-await "docker"
+      echo "Waiting"
+      sleep 10
+      echo "proceed"
+      ./bin/postgres/setup
+      ./bin/ddb/schema-load
+      ./bin/ddb/seed
   - name: flask
     command: |
       source  "$THEIA_WORKSPACE_ROOT/bin/backend/generate-env"
