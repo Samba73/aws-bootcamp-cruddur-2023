@@ -27,7 +27,7 @@ export default function ProfileForm(props) {
         method: "POST",
         body: JSON.stringify(json),
         headers: {
-          'Origin': "https://samba73-awsbootcampcrud-31h7bdk3zsq.ws-us96b.gitpod.io/",
+          'Origin': "https://samba73-awsbootcampcrud-mx3o0jvvj17.ws-us97.gitpod.io/",
           'Authorization': `Bearer ${access_token}`,
           'Accept': 'application/json',
           'Content-Type': 'application/json'
@@ -81,6 +81,7 @@ export default function ProfileForm(props) {
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/profile/update`
       await getAuth()
       const access_token = localStorage.getItem("access_token")
+      console.log('backendurl', backend_url)
       const res = await fetch(backend_url, {
         method: "POST",
         headers: {
