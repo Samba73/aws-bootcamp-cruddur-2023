@@ -1,32 +1,47 @@
-'use strict';
-const AWS = require('aws-sdk');
-const fs = require('fs');
+'use strict'
 
+const AWS = require('aws-sdk')
+AWS.config.update({ region: process.env.REGION })
 const s3 = new AWS.S3({
-  region: process.env.AWS_DEFAULT_REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.ACCESS_KEY_ID,
+  secretAccessKey: process.env.SECRET_ACCESS_KEY,
   signatureVersion: 'v4'
-});
+  })
 
 // Change this value to adjust the signed URL's expiration
-const URL_EXPIRATION_SECONDS = 300;
+const URL_EXPIRATION_SECONDS = 300
+
+// Main Lambda entry point
 
 const main = async () => {
-  const randomID = parseInt(Math.random() * 10000000);
-  const Key = `${randomID}.jpg`;
+
+  const randomID = parseInt(Math.random() * 10000000)
+  const Key = `${randomID}.jpg`
 
   // Get signed URL from S3
   const s3Params = {
-    Bucket: process.env.UPLOADS_BUCKET_NAME,
+    Bucket: 'uploaded-avatars',
     Key,
     Expires: URL_EXPIRATION_SECONDS,
-    ContentType: 'image/jpeg'
-  };
+    ContentType: 'image/jpeg',
+  }
 
-  console.log('Params: ', s3Params);
-  const uploadURL = await s3.getSignedUrlPromise('putObject', s3Params);
-  console.log(uploadURL);
+  console.log('Params: ', s3Params)
+  const uploadURL = await s3.getSignedUrlPromise('putObject', s3Params)
+  const body = {uploadURL: uploadURL}
+  const headers = {
+    "Access-Control-AllowHeaders": "*, Authorization",
+    "Access-Control-Allow-Origin": "https://samba73-awsbootcampcrud-31h7bdk3zsq.ws-us96b.gitpod.io",
+    "Access-Control-Allow-Methods": "OPTIONS,GET,POST"
+  }
+  const statusCode = 200
+  
+  return ({
+    body: JSON.stringify(body),
+    headers,
+    statusCode
+  })
+
 
   // Write the presigned URL to a file
   fs.writeFileSync('presignedurl.txt', uploadURL);

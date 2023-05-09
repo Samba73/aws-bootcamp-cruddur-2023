@@ -1,1 +1,0 @@
-https://uploaded-avatars.s3.ap-southeast-1.amazonaws.com/5289087.jpg?Content-Type=image%2Fjpeg&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAZCEHAI5TMODNXRXA%2F20230506%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20230506T135838Z&X-Amz-Expires=300&X-Amz-Signature=4dc88274782687d63270d346e71ee525707e25143754e2816c2923e421328db5&X-Amz-SignedHeaders=host
