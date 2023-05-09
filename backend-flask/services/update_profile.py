@@ -36,4 +36,4 @@ class UpdateProfile:
     data = query_execution_select(sql,{
       'handle': handle
     })
-    return 
+    return data
