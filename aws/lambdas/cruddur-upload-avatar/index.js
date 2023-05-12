@@ -15,6 +15,8 @@ const getUploadURL = async function(event) {
   const token = JSON.stringify(event.headers["authorization"]).split(" ")[1].replace(/['"]+/g, '')
   const decodedToken = jwtDecode(token)
   console.log('decodeToken', decodedToken)
+  const cognito_user_id = decodedToken[0]['sub']
+  console.log('cognito', cognito_user_id)
   const randomID = parseInt(Math.random() * 10000000)
   const Key = `${randomID}.jpg`
 
