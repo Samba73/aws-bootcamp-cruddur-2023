@@ -12,7 +12,7 @@ exports.handler = async (event) => {
 const getUploadURL = async function(event) {
   console.log('event', event)
   //const token = JSON.stringify(event.headers["authorization"]).split(" ")[1].replace(/['"]+/g, '')
-  const decoded = JSON.parse(
+  const decodedToken = JSON.parse(
     Buffer.from(token.split(".")[1], "base64").toString()
   )  
   //const decodedToken = jwtDecode(token)
