@@ -1,22 +1,24 @@
 "use strict"
-const jwtDecode = require('jwt-decode')
 const AWS = require('aws-sdk')
 AWS.config.update({ region: process.env.AWS_REGION })
 const s3 = new AWS.S3()
 const URL_EXPIRATION_SECONDS = 300
-
-// Main Lambda entry point
+const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"// Main Lambda entry point
 exports.handler = async (event) => {
   return await getUploadURL(event)
 }
 
 const getUploadURL = async function(event) {
   console.log('event', event)
-  const token = JSON.stringify(event.headers["authorization"]).split(" ")[1].replace(/['"]+/g, '')
-  const decodedToken = jwtDecode(token)
+  //const token = JSON.stringify(event.headers["authorization"]).split(" ")[1].replace(/['"]+/g, '')
+  const decoded = JSON.parse(
+    Buffer.from(token.split(".")[1], "base64").toString()
+  )  
+  //const decodedToken = jwtDecode(token)
   console.log('decodeToken', decodedToken)
-  const cognito_user_id = decodedToken[0]['sub']
-  console.log('cognito', cognito_user_id)
+  //const cognito_user_id = decodedToken[0]['sub']
+  //console.log('cognito', cognito_user_id)
   const randomID = parseInt(Math.random() * 10000000)
   const Key = `${randomID}.jpg`
 
