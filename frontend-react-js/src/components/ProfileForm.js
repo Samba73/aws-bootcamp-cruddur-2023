@@ -18,7 +18,6 @@ export default function ProfileForm(props) {
     try {
       const gateway_url = `${process.env.REACT_APP_API_GATEWAY_URL}/avatars/key_upload`
       console.log(gateway_url)
-      //const gateway_url = "https://uoie75qrb7.execute-api.ap-southeast-1.amazonaws.com/avatars/key_upload"
       await getAuth()
       const access_token = localStorage.getItem("access_token")
       const json = {
@@ -28,7 +27,6 @@ export default function ProfileForm(props) {
         method: "POST",
         body: JSON.stringify(json),
         headers: {
-          //'Origin': "https://3000-samba73-awsbootcampcrud-pivgy36rs8c.ws-us97.gitpod.io/",
           'Origin': process.env.REACT_APP_FRONTEND_URL,
           'Authorization': `Bearer ${access_token}`,
           'Accept': 'application/json',
