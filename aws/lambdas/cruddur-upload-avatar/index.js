@@ -34,7 +34,7 @@ const getUploadURL = async function(event) {
   const body = {uploadURL: uploadURL}
   const headers = {
     "Access-Control-AllowHeaders": "*, Authorization",
-    "Access-Control-Allow-Origin": "https://samba73-awsbootcampcrud-pmsk2pldufg.ws-us97.gitpod.io",
+    "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "OPTIONS,GET,POST"
   }
   const statusCode = 200
