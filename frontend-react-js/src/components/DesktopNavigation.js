@@ -25,7 +25,7 @@ export default function DesktopNavigation(props) {
       handle="messages" 
       active={props.active} />
     profileLink = <DesktopNavigationLink 
-      url="/@Samba" 
+      url="/@samba" 
       name="Profile"
       handle="profile"
       active={props.active} />

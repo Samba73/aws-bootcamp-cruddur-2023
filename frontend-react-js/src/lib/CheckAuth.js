@@ -16,11 +16,12 @@ export async function checkAuth(setUser) {
     // request to Cognito to get the latest user data
     bypassCache: false 
   })
-  .then((user) => {
-    console.log('user',user);
+  .then((cognito_user) => {
+    console.log('cognito',cognito_user);
     setUser({
-        display_name: user.attributes.name,
-        handle: user.attributes.preferred_username
+        cognito_user_uuid: cognito_user.attributes.sub,
+        display_name: cognito_user.attributes.name,
+        handle: cognito_user.attributes.preferred_username
       })
     return Auth.currentSession()
   }).then((cognito_user_session) => {
