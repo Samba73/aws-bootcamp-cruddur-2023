@@ -3,6 +3,9 @@
 - Application: Cruddur
 - Cohort: 2023-A1
 
+![AWS CodeBuild](https://codebuild.ap-southeast-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiSWxHa2s4b1NSUVd6ekZZdWtVVzZRaTZkZmZGRjV6SU1ERnFIblJRTUhES3FFM3VvaEx6UUU3dXREQnMwNURjSHBrVXJaU0dYTHJsQlIyOE52cVVZR2VRPSIsIml2UGFyYW1ldGVyU3BlYyI6IkR5YmtBTStUQ1ppSmxXaHoiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=main)
+
+
 This is the starting codebase that will be used in the FREE AWS Cloud Project Bootcamp 2023
 
 ![Cruddur Graphic](_docs/assets/cruddur-banner.jpg)
