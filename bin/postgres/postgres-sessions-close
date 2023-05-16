@@ -13,4 +13,11 @@ BACKEND_FLASK_PATH="$PROJECT_PATH/backend-flask"
 kill_path="$BACKEND_FLASK_PATH/queries/postgres-sessions-close.sql"
 echo $kill_path
 
-psql $CONNECTION_URL cruddur < $kill_path
+if [ "$1" == "prod" ]
+then
+NO_DB_CONN=$PROD_NO_DB_CONNECTION_URL 
+else
+NO_DB_CONN=$NO_DB_CONNECTION_URL
+fi
+
+psql $NO_DB_CONN cruddur < $kill_path
