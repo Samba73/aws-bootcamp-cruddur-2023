@@ -1,0 +1,19 @@
+#! /usr/bin/env bash
+set -e
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="Create VPC for Cruddur using CFN"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+ABS_PATH=$(readlink -f "$0")
+CFN_PATH=$(dirname $ABS_PATH)
+BIN_PATH=$(dirname $CFN_PATH)
+PROJ_PATH=$(dirname $BIN_PATH)
+TEMPL_PATH="$PROJ_PATH/aws/cfn/networking/template.yaml"
+
+aws cloudformation deploy \
+  --stack-name "cruddur" \
+  --s3-bucket $CFN_BUCKET \
+  --template-file $TEMPL_PATH \
+  --no-execute-changeset \
+  --capabilities CAPABILITY_NAMED_IAM
