@@ -1,5 +1,6 @@
-AWSTemplateFormatVersion: 2010-09-09
-Decription: Create networking services like VPC, Route Table, Subnets
+AWSTemplateFormatVersion:  2010-09-09
+Description: |
+  Create networking services like VPC, Route Table, Subnets
 
 Parameters:
   Az:
@@ -28,15 +29,15 @@ Resources:
       EnableDnsHostnames: true
       EnableDnsSupport: true
       InstanceTenancy: default
-    Tags:
-      - Key: name
-        Value: !Sub ${AWS::StackName}VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}VPC"
   IGW:    
     Type: AWS::EC2::InternetGateway
     Properties:
       Tags:
-        - Key: name
-          Value: !Sub ${AWS::StackName}IGW
+        - Key: Name
+          Value: !Sub '${AWS::StackName}IGW'
   AttachIGW:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties:
@@ -47,8 +48,8 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       Tags:
-      - Key: name
-        Value: !Sub ${AWS::StackName}PubRT
+      - Key: Name
+        Value: !Sub '${AWS::StackName}PubRT'
   PubRTRoute:
     Type: AWS::EC2::Route
     DependsOn: AttachIGW
@@ -61,8 +62,8 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       Tags:
-      - Key: name
-        Value: !Sub ${AWS::StackName}PrivRT        
+      - Key: Name
+        Value: !Sub '${AWS::StackName}PrivRT'      
   PubSN1:
     Type: AWS::EC2::Subnet
     Properties:
@@ -71,8 +72,8 @@ Resources:
       AvailabilityZone: !Select [0, !Ref Az]
       MapPublicIpOnLaunch: true
       Tags:
-      - Key: name
-        Value: !Sub ${AWS::StackName}PubSN1
+      - Key: Name
+        Value: !Sub '${AWS::StackName}PubSN1'
   PubSN2:        
     Type: AWS::EC2::Subnet
     Properties:
@@ -81,8 +82,8 @@ Resources:
       AvailabilityZone: !Select [1, !Ref Az]
       MapPublicIpOnLaunch: true
       Tags:
-      - Key: name
-        Value: !Sub ${AWS::StackName}PubSN2
+      - Key: Name
+        Value: !Sub '${AWS::StackName}PubSN2'
   PubSN3:        
     Type: AWS::EC2::Subnet
     Properties:
@@ -91,90 +92,90 @@ Resources:
       AvailabilityZone: !Select [2, !Ref Az]
       MapPublicIpOnLaunch: true
       Tags:
-      - Key: name
-        Value: !Sub ${AWS::StackName}PubSN3
+      - Key: Name
+        Value: !Sub '${AWS::StackName}PubSN3'
   PrivSN1:        
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref VPC
       CidrBlock: !Select [3, !Ref SNCidrBlock]
-      AvailabilityZone: !Ref Az1
+      AvailabilityZone: !Select [0, !Ref Az]
       MapPublicIpOnLaunch: false
       Tags:
-      - Key: name
-        Value: !Sub ${AWS::StackName}PrivSN1 
+      - Key: Name
+        Value: !Sub '${AWS::StackName}PrivSN1' 
   PrivSN2:        
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref VPC
       CidrBlock: !Select [4, !Ref SNCidrBlock]
-      AvailabilityZone: !Ref Az2
+      AvailabilityZone: !Select [1, !Ref Az]
       MapPublicIpOnLaunch: false
       Tags:
-      - Key: name
-        Value: !Sub ${AWS::StackName}PrivSN2   
+      - Key: Name
+        Value: !Sub '${AWS::StackName}PrivSN2'   
   PrivSN3:        
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref VPC
       CidrBlock: !Select [5, !Ref SNCidrBlock]
-      AvailabilityZone: !Ref Az3
+      AvailabilityZone: !Select [2, !Ref Az]
       MapPublicIpOnLaunch: false
       Tags:
-      - Key: name
-        Value: !Sub ${AWS::StackName}PrivSN3     
+      - Key: Name
+        Value: !Sub '${AWS::StackName}PrivSN3'     
   PubSN1RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: !Ref: PubSN1
+      SubnetId: !Ref PubSN1
       RouteTableId: !Ref PubRT
   PubSN2RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: !Ref: PubSN2
+      SubnetId: !Ref PubSN2
       RouteTableId: !Ref PubRT     
   PubSN3RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: !Ref: PubSN3
+      SubnetId: !Ref PubSN3
       RouteTableId: !Ref PubRT     
   PrivSN1RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: !Ref: PrivSN1
+      SubnetId: !Ref PrivSN1
       RouteTableId: !Ref PrivRT 
   PrivSN2RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: !Ref: PrivSN2
+      SubnetId: !Ref PrivSN2
       RouteTableId: !Ref PrivRT    
   PrivSN3RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: !Ref: PrivSN3
+      SubnetId: !Ref PrivSN3
       RouteTableId: !Ref PrivRT    
 Outputs:
   VpcId:
     Value: !GetAtt VPC.VpcId
     Export:
-      Name: !Sub ${AWS::StackName}VpcId
+      Name: !Sub '${AWS::StackName}VpcId'
   VpcCidrBlock:
     Value: !GetAtt VPC.CidrBlock
     Export:
-      Name: !Sub ${AWS::StackName}VpcCidr
+      Name: !Sub '${AWS::StackName}VpcCidr'
   SNCidrBlock:
-    Value: !Join [",", [!Ref SNCidrBlock]]
+    Value: !Join [",", !Ref SNCidrBlock]
     Export:
-      Name: !Sub ${AWS::StackName}SubnetCidr
+      Name: !Sub '${AWS::StackName}SubnetCidr'
   PublicSubnets:
-    Value: !Join [ ",", [ !Ref PubSN1 , !Ref PubSN2, !Ref PubSN3]]
+    Value: !Join [",", [!Ref PubSN1 , !Ref PubSN2, !Ref PubSN3]]
     Export:
-      Name: !Sub ${AWS::StackName}PubSubnets
+      Name: !Sub '${AWS::StackName}PubSubnets'
   PrivSubnets:
-    Value: !Join [ ",", [ !Ref PrivSN1, !Ref PrivSN2, !Ref PrivSN3] ]
+    Value: !Join [",", [!Ref PrivSN1, !Ref PrivSN2, !Ref PrivSN3]]
     Export:
-      Name: !Sub ${AWS::StackName}PrivSubnets   
+      Name: !Sub '${AWS::StackName}PrivSubnets'   
   Azs:
-    Value: !Join [",", [ !Ref Az]]
+    Value: !Join [",", !Ref Az]
     Export:
-      Name: !Sub ${AWS::StackName}Azs
+      Name: !Sub '${AWS::StackName}Azs'
