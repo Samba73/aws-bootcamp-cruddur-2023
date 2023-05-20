@@ -12,7 +12,7 @@ PROJ_PATH=$(dirname $BIN_PATH)
 TEMPL_PATH="$PROJ_PATH/aws/cfn/cluster/template.yaml"
 
 aws cloudformation deploy \
-  --stack-name "cruddur" \
+  --stack-name "CrdCluster" \
   --s3-bucket $CFN_BUCKET \
   --s3-prefix cluster \
   --template-file $TEMPL_PATH \
