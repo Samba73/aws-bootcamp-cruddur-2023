@@ -17,4 +17,8 @@ aws cloudformation deploy \
   --s3-prefix networking \
   --template-file $TEMPL_PATH \
   --no-execute-changeset \
-  --capabilities CAPABILITY_NAMED_IAM
+  --capabilities CAPABILITY_NAMED_IAM \
+  --tags Name group=cruddur-networking \
+  --output table \
+  --color on 
+  
