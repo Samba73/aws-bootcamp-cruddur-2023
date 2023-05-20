@@ -17,4 +17,5 @@ aws cloudformation deploy \
   --s3-prefix cluster \
   --template-file $TEMPL_PATH \
   --no-execute-changeset \
-  --capabilities CAPABILITY_NAMED_IAM
+  --capabilities CAPABILITY_NAMED_IAM \
+  --tags group=cruddur-cluster
