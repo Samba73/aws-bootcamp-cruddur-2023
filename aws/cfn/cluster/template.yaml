@@ -52,15 +52,15 @@ BEHealthyThresholdCount:
 BEPort: 
   Type: String
   Default: 4567  
-BEUnhealthyThresholdCount
+BEUnhealthyThresholdCount:
   Type: Number
   Default: 2
 Resources:
-  FGATECluster:
+  FargateCluster:
     Type: AWS::ECS::Cluster
     Properties:
       CapacityProviders: FARGATE
-      ClusterName: !Sub '{AWS::StackName}FGATECluster'
+      ClusterName: !Sub '{AWS::StackName}FargateCluster'
       ClusterSettings:
         - Name: containerInsights
           Value: enabled
@@ -69,7 +69,6 @@ Resources:
           Logging: DEFAULT
       ServiceConnectDefaults:
         Namespace: cruddur
-
   ALB:
     Type: AWS::ElasticLoadBalancingv2::LoadBalancer
     Properties:
@@ -214,4 +213,20 @@ Resources:
         Fn::ImportValue
           !Sub '${NetworkingStack}VpcId'
    Outputs:        
+    ClusterName:
+      Value: !Ref FargateCluster
+      Export:
+        Name: !Sub '{AWS::StackName}ClusterName'
+    ALBSecurityGrpId:
+      Value: !Ref ALBSG.GroupId
+      Export:
+        Name: !Sub '{AWS::StackName}ALBSecGrpId'
+    FrontendTGArn:
+      Value: !Ref Frontend-TG
+      Export:
+        Name: !Sub '{AWS::StackName}FrontEndTGArn'
+    BackendTGArn:
+      Value: !Ref Backend-TG
+      Export:
+        Name: !Sub '{AWS::StackName}BackendTGArn'   
     
