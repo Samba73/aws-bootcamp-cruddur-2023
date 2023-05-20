@@ -18,7 +18,7 @@ aws cloudformation deploy \
   --template-file $TEMPL_PATH \
   --no-execute-changeset \
   --capabilities CAPABILITY_NAMED_IAM \
-  --tags Name group=cruddur-networking \
+  --tags group=cruddur-networking \
   --output table \
   --color on 
   
