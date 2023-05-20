@@ -131,7 +131,9 @@ Resources:
     Properties:
       GroupDescription: Internet facinf SG for cruddur ALB
       GroupName: !Sub '{AWS::StackName}AlbSG'
-      VpcId: !ImportValue VpcId
+      VpcId: 
+        Fn::ImportValue:
+          !Sub '{NetworkingStack}VpcId
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
