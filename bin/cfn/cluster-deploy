@@ -11,11 +11,21 @@ BIN_PATH=$(dirname $CFN_PATH)
 PROJ_PATH=$(dirname $BIN_PATH)
 TEMPL_PATH="$PROJ_PATH/aws/cfn/cluster/template.yaml"
 
+cfn-lint $TEMPL_PATH
+
+CONFIG_PATH="$PROJ_PATH/aws/cfn"
+
+BUCKET=$(cfn-toml key deploy.bucket -t $CONFIG_PATH)
+REGION=$(cfn-toml key deploy.region -t $CONFIG_PATH)
+STACK_NAME=$(cfn-toml key deploy.cstack_name -t $CONFIG_PATH)
+PARAMETERS=$(cfn-toml params v2 -t $CONFIG_PATH)
+
 aws cloudformation deploy \
-  --stack-name "CrdCluster" \
-  --s3-bucket $CFN_BUCKET \
+  --stack-name $STACK_NAME \
+  --s3-bucket $BUCKET \
   --s3-prefix cluster \
   --template-file $TEMPL_PATH \
   --no-execute-changeset \
   --capabilities CAPABILITY_NAMED_IAM \
+  --parameter-overrides $PARAMETERS
   --tags group=cruddur-cluster
