@@ -2,9 +2,59 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: |
   setup ECS cluster
 Parameters:
+NetworkingStack:
+  Type: String
+  Description: This is base network stack like vpc, subnet
 CertificateARN:
   Type: String
-
+FEHealthCheckIntervalSeconds: 
+  Type: Number
+  Default: 15
+FEHealthCheckPath:
+  Type: String
+  Default: /
+FEHealthCheckPort: 
+  Type: String
+  Default: 80
+FEHealthCheckProtocol: 
+  Type: String
+  Default: HTTP
+FEHealthCheckTimeoutSeconds: 
+  Type: Number
+  Default: 5
+FEHealthyThresholdCount: 
+  Type: Number
+  Default: 5
+FEPort: 
+  Type: String
+  Default: 3000
+FEUnhealthyThresholdCount:
+  Type: Number
+  Default: 2  
+BEHealthCheckIntervalSeconds: 
+  Type: Number
+  Default: 15
+BEHealthCheckPath:
+  Type: String
+  Default: /api/health_check
+BEHealthCheckPort: 
+  Type: String
+  Default: 80
+BEHealthCheckProtocol: 
+  Type: String
+  Default: HTTP
+BEHealthCheckTimeoutSeconds: 
+  Type: Number
+  Default: 5
+BEHealthyThresholdCount: 
+  Type: Number
+  Default: 5
+BEPort: 
+  Type: String
+  Default: 4567  
+BEUnhealthyThresholdCount
+  Type: Number
+  Default: 2
 Resources:
   FGATECluster:
     Type: AWS::ECS::Cluster
@@ -45,7 +95,11 @@ Resources:
         # - Key: access_logs.s3.prefix
         #   Value: ""
       Scheme: internet-facing
-      Subnets: !Split [",", PublicSubnets]
+      Subnets: 
+        Fn::Split:
+          - ","
+          - Fn::ImportValue:
+              !Sub '${NetworkingStack}PubSubnets'
       SecurityGroups: !GetAtt ALBSG.GroupId
   HTTPListener:    
     Type: AWS::ElasticLoadBalancingV2::Listener
@@ -99,7 +153,7 @@ Resources:
           Values: 
             - api.cruddur.in
       Actions:
-        - Action: forward
+        - Type: forward
           ForwardConfig:
           TargetGroupArn: !Ref Backend-TG
       ListenerArn: !Ref HTTPSListener
@@ -109,16 +163,16 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties: 
       HealthCheckEnabled: true
-      HealthCheckIntervalSeconds: 15
-      HealthCheckPath: /
-      HealthCheckPort: 80
-      HealthCheckProtocol: HTTP
-      HealthCheckTimeoutSeconds: 5
-      HealthyThresholdCount: 5
+      HealthCheckIntervalSeconds: !Ref FEHealthCheckIntervalSeconds
+      HealthCheckPath: !Ref FEHealthCheckPath
+      HealthCheckPort: !Ref FEHealthCheckPort
+      HealthCheckProtocol: !Ref FEHealthCheckProtocol
+      HealthCheckTimeoutSeconds: !Ref FEHealthCheckTimeoutSeconds
+      HealthyThresholdCount: !Ref FEHealthyThresholdCount
       IpAddressType: ipv4
       Matcher: 
         HttpCode: 200
-      Port: 3000
+      Port: !Ref FEPort
       Protocol: HTTP
       ProtocolVersion: HTTP1
       Tags: 
@@ -128,22 +182,24 @@ Resources:
         - Key: deregistration_delay.timeout_seconds
           Value: 0
       TargetType: ip
-      UnhealthyThresholdCount: 2
-      VpcId: !ImportValue VpcId 
+      UnhealthyThresholdCount: !Ref FEUnhealthyThresholdCount
+      VpcId: 
+        Fn::ImportValue
+          !Sub '${NetworkingStack}VpcId'
    Backend-TG:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties: 
       HealthCheckEnabled: true
-      HealthCheckIntervalSeconds: 15
-      HealthCheckPath: /api/health_check
-      HealthCheckPort: 80
-      HealthCheckProtocol: HTTP
-      HealthCheckTimeoutSeconds: 5
-      HealthyThresholdCount: 5
+      HealthCheckIntervalSeconds: !Ref BEHealthCheckIntervalSeconds
+      HealthCheckPath: !Ref BEHealthCheckPath
+      HealthCheckPort: !Ref HealthCheckPort
+      HealthCheckProtocol: !Ref BEHealthCheckProtocol
+      HealthCheckTimeoutSeconds: !Ref BEHealthCheckTimeoutSeconds
+      HealthyThresholdCount: !Ref BEHealthyThresholdCount
       IpAddressType: ipv4
       Matcher: 
         HttpCode: 200
-      Port: 4567
+      Port: !Ref BEPort
       Protocol: HTTP
       ProtocolVersion: HTTP1
       Tags: 
@@ -153,6 +209,9 @@ Resources:
         - Key: deregistration_delay.timeout_seconds
           Value: 0
       TargetType: ip
-      UnhealthyThresholdCount: 2
-      VpcId: !ImportValue VpcId 
-   
+      UnhealthyThresholdCount: !Ref BEUnhealthyThresholdCount
+      VpcId: 
+        Fn::ImportValue
+          !Sub '${NetworkingStack}VpcId'
+   Outputs:        
+    
