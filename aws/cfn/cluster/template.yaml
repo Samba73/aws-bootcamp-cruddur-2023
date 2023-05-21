@@ -73,10 +73,10 @@ Resources:
       ServiceConnectDefaults:
         Namespace: cruddur
   ALB:
-    Type: AWS::ElasticLoadBalancing::LoadBalancer
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       Name: !Sub '${AWS::StackName}ALB'
-      Type: Application
+      Type: application
       IpAddressType: ipv4
       LoadBalancerAttributes:
         - Key: routing.http2.enabled
