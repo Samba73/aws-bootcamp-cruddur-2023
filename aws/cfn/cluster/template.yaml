@@ -1,66 +1,68 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
   setup ECS cluster
+
 Parameters:
-NetworkingStack:
-  Type: String
-  Description: This is base network stack like vpc, subnet
-ALBSslCertArn:
-  Type: String
-  Default: arn:aws:acm:<Region>:<AccountID>:certificate/<CertID>
-FEHealthCheckIntervalSeconds: 
-  Type: Number
-  Default: 15
-FEHealthCheckPath:
-  Type: String
-  Default: /
-FEHealthCheckPort: 
-  Type: String
-  Default: 80
-FEHealthCheckProtocol: 
-  Type: String
-  Default: HTTP
-FEHealthCheckTimeoutSeconds: 
-  Type: Number
-  Default: 5
-FEHealthyThresholdCount: 
-  Type: Number
-  Default: 5
-FEPort: 
-  Type: String
-  Default: 3000
-FEUnhealthyThresholdCount:
-  Type: Number
-  Default: 2  
-BEHealthCheckIntervalSeconds: 
-  Type: Number
-  Default: 15
-BEHealthCheckPath:
-  Type: String
-  Default: /api/health_check
-BEHealthCheckPort: 
-  Type: String
-  Default: 80
-BEHealthCheckProtocol: 
-  Type: String
-  Default: HTTP
-BEHealthCheckTimeoutSeconds: 
-  Type: Number
-  Default: 5
-BEHealthyThresholdCount: 
-  Type: Number
-  Default: 5
-BEPort: 
-  Type: String
-  Default: 4567  
-BEUnhealthyThresholdCount:
-  Type: Number
-  Default: 2
+  NetworkingStack:
+    Type: String
+    Description: This is base network stack like vpc, subnet
+  ALBSslCertArn:
+    Type: String
+    Default: arn:aws:acm:<Region>:<AccountID>:certificate/<CertID>
+  FEHealthCheckIntervalSeconds: 
+    Type: Number
+    Default: 15
+  FEHealthCheckPath:
+    Type: String
+    Default: /
+  FEHealthCheckPort: 
+    Type: String
+    Default: 80
+  FEHealthCheckProtocol: 
+    Type: String
+    Default: HTTP
+  FEHealthCheckTimeoutSeconds: 
+    Type: Number
+    Default: 5
+  FEHealthyThresholdCount: 
+    Type: Number
+    Default: 5
+  FEPort: 
+    Type: String
+    Default: 3000
+  FEUnhealthyThresholdCount:
+    Type: Number
+    Default: 2  
+  BEHealthCheckIntervalSeconds: 
+    Type: Number
+    Default: 15
+  BEHealthCheckPath:
+    Type: String
+    Default: /api/health_check
+  BEHealthCheckPort: 
+    Type: String
+    Default: 80
+  BEHealthCheckProtocol: 
+    Type: String
+    Default: HTTP
+  BEHealthCheckTimeoutSeconds: 
+    Type: Number
+    Default: 5
+  BEHealthyThresholdCount: 
+    Type: Number
+    Default: 5
+  BEPort: 
+    Type: String
+    Default: 4567  
+  BEUnhealthyThresholdCount:
+    Type: Number
+    Default: 2
 Resources:
   FargateCluster:
     Type: AWS::ECS::Cluster
     Properties:
-      CapacityProviders: FARGATE
+      CapacityProviders: 
+        - FARGATE
       ClusterName: !Sub '{AWS::StackName}FargateCluster'
       ClusterSettings:
         - Name: containerInsights
@@ -71,7 +73,7 @@ Resources:
       ServiceConnectDefaults:
         Namespace: cruddur
   ALB:
-    Type: AWS::ElasticLoadBalancingv2::LoadBalancer
+    Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:
       Name: !Sub '${AWS::StackName}ALB'
       Type: Application
@@ -103,7 +105,7 @@ Resources:
       SecurityGroups: !GetAtt ALBSG.GroupId
   HTTPListener:    
     Type: AWS::ElasticLoadBalancingV2::Listener
-    Properties
+    Properties:
       DefaultActions:
         - Type: redirect
           RedirectConfig:
@@ -116,7 +118,7 @@ Resources:
       LoadBalancerArn: !Ref ALB
       Port: 80
       Protocol: "HTTP"
-   HTTPSListener:
+  HTTPSListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
       DefaultActions:
@@ -124,17 +126,17 @@ Resources:
           TargetGrpArn: !Ref Frontend-TG
       Certificates:
         - CertificateArn: !Ref ALBSslCertArn
-     LoadBalancerArn: !Ref ALB
+      LoadBalancerArn: !Ref ALB
       Port: '443'
       Protocol: HTTPS
-   ALBSG:
+  ALBSG:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Internet facing SG for cruddur ALB
       GroupName: !Sub '{AWS::StackName}AlbSG'
       VpcId: 
         Fn::ImportValue:
-          !Sub '{NetworkingStack}VpcId
+          !Sub '{NetworkingStack}VpcId'
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
@@ -145,23 +147,23 @@ Resources:
           FromPort: 443
           ToPort: 443
           CidrIp: 0.0.0.0/0
-          Decription: Public HTTPS
-   ApiALBListenerRule:
+          Description: Public HTTPS
+  ApiALBListenerRule:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
     Properties:   
       Conditions:
         - Field: host-header
           HostHeaderConfig:
-          Values: 
-            - api.cruddur.in
+            Values: 
+              - api.cruddur.in
       Actions:
         - Type: forward
           ForwardConfig:
-          TargetGroupArn: !Ref Backend-TG
+            TargetGroupArn: !Ref Backend-TG
       ListenerArn: !Ref HTTPSListener
       Priority: 1
       
-   Frontend-TG:
+  FrontendTG:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties: 
       HealthCheckEnabled: true
@@ -180,7 +182,7 @@ Resources:
       Tags: 
         - Key: target-grp-name
           Value: frontend
-     TargetGroupAttributes: 
+      TargetGroupAttributes: 
         - Key: deregistration_delay.timeout_seconds
           Value: 0
       TargetType: ip
@@ -188,7 +190,7 @@ Resources:
       VpcId: 
         Fn::ImportValue
           !Sub '${NetworkingStack}VpcId'
-   Backend-TG:
+  BackendTG:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties: 
       HealthCheckEnabled: true
@@ -207,7 +209,7 @@ Resources:
       Tags: 
         - Key: target-grp-name
           Value: backend
-     TargetGroupAttributes: 
+      TargetGroupAttributes: 
         - Key: deregistration_delay.timeout_seconds
           Value: 0
       TargetType: ip
@@ -215,7 +217,7 @@ Resources:
       VpcId: 
         Fn::ImportValue
           !Sub '${NetworkingStack}VpcId'
-   Outputs:        
+  Outputs:        
     ClusterName:
       Value: !Ref FargateCluster
       Export:
@@ -225,11 +227,11 @@ Resources:
       Export:
         Name: !Sub '{AWS::StackName}ALBSecGrpId'
     FrontendTGArn:
-      Value: !Ref Frontend-TG
+      Value: !Ref FrontendTG
       Export:
         Name: !Sub '{AWS::StackName}FrontEndTGArn'
     BackendTGArn:
-      Value: !Ref Backend-TG
+      Value: !Ref BackendTG
       Export:
         Name: !Sub '{AWS::StackName}BackendTGArn'   
     
