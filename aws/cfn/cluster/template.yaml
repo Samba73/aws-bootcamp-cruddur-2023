@@ -5,8 +5,9 @@ Parameters:
 NetworkingStack:
   Type: String
   Description: This is base network stack like vpc, subnet
-CertificateARN:
+ALBSslCertArn:
   Type: String
+  Default: arn:aws:acm:<Region>:<AccountID>:certificate/<CertID>
 FEHealthCheckIntervalSeconds: 
   Type: Number
   Default: 15
@@ -122,14 +123,14 @@ Resources:
         - Type: forward
           TargetGrpArn: !Ref Frontend-TG
       Certificates:
-        - CertificateArn: !Ref CertificateARN
+        - CertificateArn: !Ref ALBSslCertArn
      LoadBalancerArn: !Ref ALB
       Port: '443'
       Protocol: HTTPS
    ALBSG:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Internet facinf SG for cruddur ALB
+      GroupDescription: Internet facing SG for cruddur ALB
       GroupName: !Sub '{AWS::StackName}AlbSG'
       VpcId: 
         Fn::ImportValue:
