@@ -6,9 +6,6 @@ Parameters:
   NetworkingStack:
     Type: String
     Description: This is base network stack like vpc, subnet
-  ALBSslCertArn:
-    Type: String
-    Default: arn:aws:acm:<Region>:<AccountID>:certificate/<CertID>
   FEHealthCheckIntervalSeconds: 
     Type: Number
     Default: 15
@@ -61,9 +58,9 @@ Resources:
   FargateCluster:
     Type: AWS::ECS::Cluster
     Properties:
+      ClusterName: !Sub "${AWS::StackName}FargateCluster"
       CapacityProviders: 
         - FARGATE
-      ClusterName: !Sub '{AWS::StackName}FargateCluster'
       ClusterSettings:
         - Name: containerInsights
           Value: enabled
@@ -72,6 +69,13 @@ Resources:
           Logging: DEFAULT
       ServiceConnectDefaults:
         Namespace: cruddur
+  ALBSslCert:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: cruddur.in
+      ValidationMethod: DNS
+      SubjectAlternativeNames:
+        - api.cruddur.in      
   ALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
@@ -102,7 +106,8 @@ Resources:
           - ","
           - Fn::ImportValue:
               !Sub '${NetworkingStack}PubSubnets'
-      SecurityGroups: !GetAtt ALBSG.GroupId
+      SecurityGroups: 
+        - !GetAtt ALBSG.GroupId
   HTTPListener:    
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
@@ -123,20 +128,20 @@ Resources:
     Properties:
       DefaultActions:
         - Type: forward
-          TargetGrpArn: !Ref Frontend-TG
+          TargetGroupArn: !Ref FrontendTG
       Certificates:
-        - CertificateArn: !Ref ALBSslCertArn
+        - CertificateArn: !Ref ALBSslCert
       LoadBalancerArn: !Ref ALB
       Port: '443'
       Protocol: HTTPS
   ALBSG:
     Type: AWS::EC2::SecurityGroup
     Properties:
+      GroupName: !Sub '${AWS::StackName}AlbSG'
       GroupDescription: Internet facing SG for cruddur ALB
-      GroupName: !Sub '{AWS::StackName}AlbSG'
       VpcId: 
         Fn::ImportValue:
-          !Sub '{NetworkingStack}VpcId'
+          !Sub '${NetworkingStack}VpcId'
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
@@ -158,8 +163,7 @@ Resources:
               - api.cruddur.in
       Actions:
         - Type: forward
-          ForwardConfig:
-            TargetGroupArn: !Ref Backend-TG
+          TargetGroupArn: !Ref BackendTG
       ListenerArn: !Ref HTTPSListener
       Priority: 1
       
@@ -188,7 +192,7 @@ Resources:
       TargetType: ip
       UnhealthyThresholdCount: !Ref FEUnhealthyThresholdCount
       VpcId: 
-        Fn::ImportValue
+        Fn::ImportValue:
           !Sub '${NetworkingStack}VpcId'
   BackendTG:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -196,7 +200,7 @@ Resources:
       HealthCheckEnabled: true
       HealthCheckIntervalSeconds: !Ref BEHealthCheckIntervalSeconds
       HealthCheckPath: !Ref BEHealthCheckPath
-      HealthCheckPort: !Ref HealthCheckPort
+      HealthCheckPort: !Ref BEHealthCheckPort
       HealthCheckProtocol: !Ref BEHealthCheckProtocol
       HealthCheckTimeoutSeconds: !Ref BEHealthCheckTimeoutSeconds
       HealthyThresholdCount: !Ref BEHealthyThresholdCount
@@ -215,23 +219,23 @@ Resources:
       TargetType: ip
       UnhealthyThresholdCount: !Ref BEUnhealthyThresholdCount
       VpcId: 
-        Fn::ImportValue
+        Fn::ImportValue:
           !Sub '${NetworkingStack}VpcId'
-  Outputs:        
-    ClusterName:
-      Value: !Ref FargateCluster
-      Export:
-        Name: !Sub '{AWS::StackName}ClusterName'
-    ALBSecurityGrpId:
-      Value: !Ref ALBSG.GroupId
-      Export:
-        Name: !Sub '{AWS::StackName}ALBSecGrpId'
-    FrontendTGArn:
-      Value: !Ref FrontendTG
-      Export:
-        Name: !Sub '{AWS::StackName}FrontEndTGArn'
-    BackendTGArn:
-      Value: !Ref BackendTG
-      Export:
-        Name: !Sub '{AWS::StackName}BackendTGArn'   
+Outputs:        
+  ClusterName:
+    Value: !Ref FargateCluster
+    Export:
+      Name: !Sub '${AWS::StackName}ClusterName'
+  ALBSecurityGrpId:
+    Value: !GetAtt  ALBSG.GroupId
+    Export:
+      Name: !Sub '${AWS::StackName}ALBSecGrpId'
+  FrontendTGArn:
+    Value: !Ref FrontendTG
+    Export:
+      Name: !Sub '${AWS::StackName}FrontEndTGArn'
+  BackendTGArn:
+    Value: !Ref BackendTG
+    Export:
+      Name: !Sub '${AWS::StackName}BackendTGArn'   
     

@@ -14,14 +14,14 @@ TEMPL_PATH="$PROJ_PATH/aws/cfn/cluster/template.yaml"
 CONFIG_PATH="$PROJ_PATH/aws/cfn/config.toml"
 printf $CONFIG_PATH
 
-cfn-lint $TEMPL_PATH
-
-
-
 BUCKET=$(cfn-toml key deploy.bucket -t $CONFIG_PATH)
 REGION=$(cfn-toml key deploy.region -t $CONFIG_PATH)
 STACK_NAME=$(cfn-toml key deploy.cstack_name -t $CONFIG_PATH)
 PARAMETERS=$(cfn-toml params v2 -t $CONFIG_PATH)
+
+printf $PARAMETERS
+
+cfn-lint $TEMPL_PATH
 
 printf $STACK_NAME
 
@@ -32,5 +32,5 @@ aws cloudformation deploy \
   --template-file $TEMPL_PATH \
   --no-execute-changeset \
   --capabilities CAPABILITY_NAMED_IAM \
-  --parameter-overrides $PARAMETERS
+  --parameter-overrides $PARAMETERS \
   --tags group=cruddur-cluster
