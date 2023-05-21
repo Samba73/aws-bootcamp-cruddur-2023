@@ -12,13 +12,7 @@ tasks:
       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       unzip awscliv2.zip
       sudo ./aws/install
-      cd $THEIA_WORKSPACE_ROOT
-  - name: cdk
-    before: |
-      npm install aws-cdk -g    
-      cd thumbing-serverless-cdk
-      cp .env.example .env
-      npm install 
+      cd $THEIA_WORKSPACE_ROOT 
   - name: postgres
     before: |
       curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg
@@ -63,7 +57,8 @@ tasks:
       npm install aws-cdk -g
       cd thumbing-serverless-cdk
       cp .env.example .env
-      npm ivscode:
+      npm i
+vscode:
   extensions:
     - 42Crunch.vscode-openapi
     - cweijan.vscode-postgresql-client2
