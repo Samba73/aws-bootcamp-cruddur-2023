@@ -9,11 +9,17 @@ ABS_PATH=$(readlink -f "$0")
 CFN_PATH=$(dirname $ABS_PATH)
 BIN_PATH=$(dirname $CFN_PATH)
 PROJ_PATH=$(dirname $BIN_PATH)
+printf "Proj Path"
+printf $PROJ_PATH
 TEMPL_PATH="$PROJ_PATH/aws/cfn/networking/template.yaml"
+printf "TEMPL PATH"
+printf $TEMPL_PATH
 
 cfn-lint $TEMPL_PATH
 
-CONFIG_PATH="$PROJ_PATH/aws/cfn"
+CONFIG_PATH="$PROJ_PATH/aws/cfn/config.toml"
+printf "Config Path"
+printf $CONFIG_PATH
 
 BUCKET=$(cfn-toml key deploy.bucket -t $CONFIG_PATH)
 REGION=$(cfn-toml key deploy.region -t $CONFIG_PATH)
@@ -28,7 +34,7 @@ aws cloudformation deploy \
   --no-execute-changeset \
   --capabilities CAPABILITY_NAMED_IAM \
   --tags group=cruddur-networking \
-  -parameter-overrides $PARAMETERS \
+  --parameter-overrides $PARAMETERS \
   --output table \
   --color on 
   
