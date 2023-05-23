@@ -25,7 +25,7 @@ Parameters:
     Type: Number
     Default: 5
   FEPort: 
-    Type: String
+    Type: Number
     Default: 3000
   FEUnhealthyThresholdCount:
     Type: Number
@@ -49,7 +49,7 @@ Parameters:
     Type: Number
     Default: 5
   BEPort: 
-    Type: String
+    Type: Number
     Default: 4567  
   BEUnhealthyThresholdCount:
     Type: Number
@@ -153,6 +153,16 @@ Resources:
           ToPort: 443
           CidrIp: 0.0.0.0/0
           Description: Public HTTPS
+        - IpProtocol: tcp
+          FromPort: !Ref FEPort
+          ToPort: !Ref FEPort
+          CidrIp: 0.0.0.0/0
+          Description: Public Frontend
+        - IpProtocol: tcp
+          FromPort: !Ref BEPort
+          ToPort: !Ref BEPort
+          CidrIp: 0.0.0.0/0
+          Description: Public Backend    
   ApiALBListenerRule:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
     Properties:   
@@ -166,7 +176,25 @@ Resources:
           TargetGroupArn: !Ref BackendTG
       ListenerArn: !Ref HTTPSListener
       Priority: 1
-      
+  ServiceSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub '${AWS::StackName}ServiceSG'
+      GroupDescription: Internet facing SG for ECS Service
+      VpcId: 
+        Fn::ImportValue:
+          !Sub '${NetworkingStack}VpcId'
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: !Ref FEPort
+          ToPort: !Ref FEPort
+          SourceSecurityGroupId: !GetAtt ALBSG.GroupId
+          Description: Service FE from ALB   
+        - IpProtocol: tcp
+          FromPort: !Ref BEPort
+          ToPort: !Ref BEPort
+          SourceSecurityGroupId: !GetAtt ALBSG.GroupId
+          Description: Service BE from ALB  
   FrontendTG:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties: 
@@ -230,6 +258,10 @@ Outputs:
     Value: !GetAtt  ALBSG.GroupId
     Export:
       Name: !Sub '${AWS::StackName}ALBSecGrpId'
+  ServiceSecurityGrpId:
+    Value: !GetAtt ServiceSG.GroupId
+    Export:
+      Name: !Sub '${AWS::StackName}ServiceSecurityGrpId'    
   FrontendTGArn:
     Value: !Ref FrontendTG
     Export:

@@ -27,6 +27,7 @@ STACK_NAME=$(cfn-toml key deploy.nstack_name -t $CONFIG_PATH)
 PARAMETERS=$(cfn-toml params v2 -t $CONFIG_PATH)
 
 aws cloudformation deploy \
+  --profile default \
   --stack-name $STACK_NAME \
   --s3-bucket $BUCKET\
   --s3-prefix networking \
