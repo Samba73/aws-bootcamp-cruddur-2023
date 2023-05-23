@@ -1,0 +1,104 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+   - Create service 
+   - Create Task Definition
+   - Create ExecutionRole with policy attached
+   - Create TaskRole with policy attached
+Parameters:
+  ClusterStack:
+    Type: String
+  NetworkingStack:
+    Type: String  
+
+Resources:
+  FargateService:
+    Type: AWS::ECS::Service
+    Properties: 
+      Cluster: 
+        Fn::ImportValue:
+          !Sub '${ClusterStack}ClusterName'
+      DeploymentController:
+           Type: ECS
+      DesiredCount: 1
+      EnableECSManagedTags: true
+      EnableExecuteCommand: true
+      HealthCheckGracePeriodSeconds: 0
+      LaunchType: FARGATE
+      LoadBalancers: 
+        - ContainerName: backend-flask
+          ContainerPort: 4567
+          TargetGroupArn:
+            Fn::ImportValue:
+              !Sub '${ClusterStack}BackendTGArn'
+      NetworkConfiguration: 
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          SecurityGroups: 
+            Fn::ImportValue:
+              !Sub '${ClusterStack}ALBSecurityGrpId'
+          Subnets:
+            Fn::Split:
+              - ","
+              - Fn::ImportValue:
+                  !Sub '${NetworkingStack}PublicSubnets'
+      PlatformVersion: LATEST
+      PropagateTags: SERVICE
+      Role: String
+      ServiceConnectConfiguration: 
+        Enabled: true
+        Namespace: cruddur
+        Services:
+          - DiscoveryName: backend-flask
+            ClientAliases: 
+              - Port: 4567
+            PortName: backend-flask
+      ServiceName: backend-flask
+      Tags: 
+        - Key: service
+          Value: backend-service
+      TaskDefinition: !Ref TaskDefinition
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties: 
+      ContainerDefinitions: 
+        - Name: backend-flask
+          Image: !Ref backend-image
+          Essential: true
+          HealthCheck:
+            Command: 
+              - 'CMD-SHELL'
+              - 'python /backend-flask/lib/health-check'
+            Interval: 30
+            Timeout: 5
+            Retries: 3
+            StartPeriod: 60  
+          PortMappings:
+            - Name: backend-flask
+              ContainerPort: 4567
+              Protocol: tcp
+              AppProtocol: http
+          LogConfiguration:
+            LogDriver: 'awslogs'
+            Options:
+              awslogs-group: crddur
+              awslogs-region: ${AWS::Region}
+              awslogs-stream-prefix: backend-flask
+      Cpu: 256
+      ExecutionRoleArn: String
+      Family: backend-flask
+      IpcMode: String
+      Memory: 512
+      NetworkMode: awsvpc
+      RequiresCompatibilities: 
+        - FARGATE
+      Tags: 
+        - Key: task
+          Value: backend-task
+      TaskRoleArn: String
+
+
+
+
+
+Outputs:
+
