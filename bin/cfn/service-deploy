@@ -26,12 +26,14 @@ cfn-lint $TEMPL_PATH
 printf $STACK_NAME
 
 aws cloudformation deploy \
-  --profile default \  
+  --profile default \
   --stack-name $STACK_NAME \
-  --s3-bucket $BUCKET \
+  --s3-bucket $BUCKET\
   --s3-prefix service \
   --template-file $TEMPL_PATH \
   --no-execute-changeset \
   --capabilities CAPABILITY_NAMED_IAM \
+  --tags group=cruddur-networking \
   --parameter-overrides $PARAMETERS \
-  --tags group=cruddur-cluster
+  --output table \
+  --color on 

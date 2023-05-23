@@ -11,6 +11,10 @@ Parameters:
     Type: String  
   ServiceName:
     Type: String 
+  #FEPort:
+  #  Type: Number
+  BEPort:
+    Type: Number    
   ServiceCpu:
     Type: String
     Default: '256'
@@ -55,7 +59,7 @@ Resources:
       LaunchType: FARGATE
       LoadBalancers: 
         - ContainerName: !Ref ContainerName
-          ContainerPort: 4567
+          ContainerPort: !Ref BEPort
           TargetGroupArn:
             Fn::ImportValue:
               !Sub '${ClusterStack}BackendTGArn'
@@ -64,22 +68,21 @@ Resources:
           AssignPublicIp: ENABLED
           SecurityGroups: 
             - Fn::ImportValue:
-                !Sub '${ClusterStack}ALBSecurityGrpId'
+                !Sub '${ClusterStack}ALBSecGrpId'
           Subnets:
             Fn::Split:
               - ","
               - Fn::ImportValue:
-                  !Sub '${NetworkingStack}PublicSubnets'
+                  !Sub '${NetworkingStack}PubSubnets'
       PlatformVersion: LATEST
       PropagateTags: SERVICE
-      Role: String
       ServiceConnectConfiguration: 
         Enabled: true
         Namespace: cruddur
         Services:
           - DiscoveryName: !Ref ServiceName
             ClientAliases: 
-              - Port: 4567
+              - Port: !Ref BEPort
             PortName: !Ref ServiceName
       ServiceName: !Ref ServiceName
       Tags: 
@@ -92,7 +95,6 @@ Resources:
       Cpu: !Ref ServiceCpu
       ExecutionRoleArn: !GetAtt ServiceExecutionRole.Arn
       Family: !Ref TaskFamily
-      IpcMode: String
       Memory: !Ref ServiceMemory
       NetworkMode: awsvpc
       TaskRoleArn: !GetAtt TaskRole.Arn
@@ -118,7 +120,7 @@ Resources:
           LogConfiguration:
             LogDriver: 'awslogs'
             Options:
-              awslogs-group: crddur
+              awslogs-group: cruddur
               awslogs-region: !Ref AWS::Region
               awslogs-stream-prefix: !Ref ServiceName
           Environment:
@@ -160,10 +162,8 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              Service:
-                - ec2.amazonaws.com
-            Action:
-              - 'sts:AssumeRole'
+              Service: ecs-tasks.amazonaws.com
+            Action: 'sts:AssumeRole'
       Policies:
         - PolicyName: serviceSSMAccess
           PolicyDocument:
@@ -171,11 +171,11 @@ Resources:
             Statement:
               - Effect: Allow
                 Action: 
-                  - ssm: GetParameters
-                  - ssm: GetParameter
-                  - ssm: ExecuteCommand
-                  - ssm: SendCommand
-                  - ssm: GetConnectionStatus
+                  - 'ssm:GetParameters'
+                  - 'ssm:GetParameter'
+                  - 'ssm:ExecuteCommand'
+                  - 'ssm:SendCommand'
+                  - 'ssm:GetConnectionStatus'
                 Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/*'
         - PolicyName: serviceECRAccess
           PolicyDocument:
@@ -183,20 +183,13 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
-                  - ecr: GetAuthorizationToken
-                  - ecr: BatchCheckLayerAvailability
-                  - ecr: GetDownloadUrlForLayer
-                  - ecr: BatchGetImage
+                  - 'ecr:GetAuthorizationToken'
+                  - 'ecr:BatchCheckLayerAvailability'
+                  - 'ecr:GetDownloadUrlForLayer'
+                  - 'ecr:BatchGetImage'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
                 Resource: '*'  
-        - PolicyName: serviceCWLOG
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Effect: Allow
-                Action: 
-                  - logs: CreateLogStream
-                  - logs: PutLogEvents          
-                Resource: '*'
       ManagedPolicyArns:
            - "arn:aws:iam::aws:policy/CloudWatchFullAccess"
   TaskRole:
@@ -208,10 +201,8 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              Service:
-                - ec2.amazonaws.com
-            Action:
-              - 'sts:AssumeRole'
+              Service: ecs-tasks.amazonaws.com
+            Action: 'sts:AssumeRole'
       Policies:
         - PolicyName: taskSSMpolicy
           PolicyDocument:
@@ -219,20 +210,11 @@ Resources:
             Statement:
               - Effect: Allow
                 Action: 
-                  - ssmmessages: CreateDataChannel
-                  - ssmmessages: OpenDataChennel
-                  - ssmmessages: OpenControlChannel
-                  - ssmmessages: CreateControlChannel
+                  - 'ssmmessages:CreateDataChannel'
+                  - 'ssmmessages:OpenDataChennel'
+                  - 'ssmmessages:OpenControlChannel'
+                  - 'ssmmessages:CreateControlChannel'
                 Resource: '*'  
-        - PolicyName: taskCWLOG
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Effect: Allow
-                Action: 
-                  - logs: CreateLogStream
-                  - logs: PutLogEvents          
-                Resource: '*'
       ManagedPolicyArns:
            - "arn:aws:iam::aws:policy/CloudWatchFullAccess"
 Outputs:
