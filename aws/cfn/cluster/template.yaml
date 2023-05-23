@@ -76,6 +76,15 @@ Resources:
       ValidationMethod: DNS
       SubjectAlternativeNames:
         - api.cruddur.in      
+  Route53Recordset:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: Z0887069LX6AP47F67RT
+      Name: !Ref ALBSslCert.DomainValidationOptions.0.DomainName
+      Type: CNAME
+      TTL: "300"
+      ResourceRecords:
+        - !GetAtt ALBSslCert.DomainValidationOptions.0.ResourceRecordName
   ALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
