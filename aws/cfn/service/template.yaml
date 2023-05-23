@@ -63,8 +63,8 @@ Resources:
         AwsvpcConfiguration:
           AssignPublicIp: ENABLED
           SecurityGroups: 
-            Fn::ImportValue:
-              !Sub '${ClusterStack}ALBSecurityGrpId'
+            - Fn::ImportValue:
+                !Sub '${ClusterStack}ALBSecurityGrpId'
           Subnets:
             Fn::Split:
               - ","
@@ -90,12 +90,12 @@ Resources:
     Type: AWS::ECS::TaskDefinition
     Properties: 
       Cpu: !Ref ServiceCpu
-      ExecutionRoleArn: !Ref ServiceExecutionRole
+      ExecutionRoleArn: !GetAtt ServiceExecutionRole.Arn
       Family: !Ref TaskFamily
       IpcMode: String
       Memory: !Ref ServiceMemory
       NetworkMode: awsvpc
-      TaskRoleArn: !Ref TaskRole 
+      TaskRoleArn: !GetAtt TaskRole.Arn
       RequiresCompatibilities: 
         - FARGATE
       ContainerDefinitions: 
@@ -138,15 +138,15 @@ Resources:
               Value: !Ref AWS::Region      
           Secrets:
             - Name: 'AWSAccessKeyId'
-              ValueFrom: 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/AWS_ACCESS_KEY_ID'
+              ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/AWS_ACCESS_KEY_ID'
             - Name: 'AWSSecretAccessKey'
-              ValueFrom: 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/AWS_SECRET_ACCESS_KEY'
+              ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/AWS_SECRET_ACCESS_KEY'
             - Name: 'ConnectionUrl' 
-              ValueFrom: 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/CONNECTION_URL'
+              ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/CONNECTION_URL'
             - Name: 'RollbarAccessToken'
-              ValueFrom: 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/ROLLBAR_ACCESS_TOKEN'
+              ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/ROLLBAR_ACCESS_TOKEN'
             - Name: 'OtelExporterOtlpHeaders'
-              ValueFrom: 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/OTEL_EXPORTER_OTLP_HEADERS'         
+              ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/OTEL_EXPORTER_OTLP_HEADERS'         
       Tags: 
         - Key: task
           Value: !Ref ServiceName
