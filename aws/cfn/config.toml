@@ -3,11 +3,13 @@ bucket = 'cfn-artifacts-cruddur.in'
 region = 'ap-southeast-1'
 nstack_name = 'CrdNet'
 cstack_name = 'CrdCluster'
+sstack_name = 'CrdService'
 
 [parameters]
 CertificateArn = 'arn:aws:acm:ap-southeast-1:623053391718:certificate/327f532d-3fb0-4461-9fa5-4f5a866016a2'
 NetworkingStack = 'CrdNet'
 ClusterStack = 'CrdCluster'
+ServiceStack = 'CrdService'
 Region = 'ap-southeast-1'
 AccountID = '623053391718'
 CertID = '327f532d-3fb0-4461-9fa5-4f5a866016a2'
