@@ -9,14 +9,14 @@ ABS_PATH=$(readlink -f "$0")
 CFN_PATH=$(dirname $ABS_PATH)
 BIN_PATH=$(dirname $CFN_PATH)
 PROJ_PATH=$(dirname $BIN_PATH)
-TEMPL_PATH="$PROJ_PATH/aws/cfn/service/template.yaml"
+TEMPL_PATH="$PROJ_PATH/aws/cfn/postgres/template.yaml"
 
 CONFIG_PATH="$PROJ_PATH/aws/cfn/config.toml"
 printf $CONFIG_PATH
 
 BUCKET=$(cfn-toml key deploy.bucket -t $CONFIG_PATH)
 REGION=$(cfn-toml key deploy.region -t $CONFIG_PATH)
-STACK_NAME=$(cfn-toml key deploy.sstack_name -t $CONFIG_PATH)
+STACK_NAME=$(cfn-toml key deploy.rdsstack_name -t $CONFIG_PATH)
 PARAMETERS=$(cfn-toml params v2 -t $CONFIG_PATH)
 
 printf $PARAMETERS
@@ -29,11 +29,11 @@ aws cloudformation deploy \
   --profile default \
   --stack-name $STACK_NAME \
   --s3-bucket $BUCKET\
-  --s3-prefix service \
+  --s3-prefix rds \
   --template-file $TEMPL_PATH \
   --no-execute-changeset \
   --capabilities CAPABILITY_NAMED_IAM \
-  --tags group=cruddur-service \
+  --tags group=cruddur-rds \
   --parameter-overrides $PARAMETERS \
   --output table \
   --color on 

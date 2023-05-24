@@ -68,7 +68,7 @@ Resources:
           AssignPublicIp: ENABLED
           SecurityGroups: 
             - Fn::ImportValue:
-                !Sub '${ClusterStack}ALBSecGrpId'
+                !Sub '${ClusterStack}ServiceSecurityGrpId'
           Subnets:
             Fn::Split:
               - ","
@@ -113,8 +113,8 @@ Resources:
             Retries: 3
             StartPeriod: 60  
           PortMappings:
-            - Name: !Ref ServiceName
-              ContainerPort: 4567
+            - Name: !Ref ContainerName
+              ContainerPort: !Ref BEPort
               Protocol: tcp
               AppProtocol: http
           LogConfiguration:
