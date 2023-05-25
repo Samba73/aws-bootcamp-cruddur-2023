@@ -34,13 +34,13 @@ Parameters:
 Resources:
   RDSPostgres:
     Type: AWS::RDS::DBInstance
+    DeletionPolicy: 'Snapshot'
+    UpdateReplacePolicy: 'Snapshot'
     Properties:
-
       AllocatedStorage: 20
       DBInstanceClass: !Ref DBInstanceClass
       AllowMajorVersionUpgrade: true
       AutoMinorVersionUpgrade: true
-      AvailabilityZone: !Ref AWS::Region
       BackupRetentionPeriod: !Ref DBBackupRetention
       DBInstanceIdentifier: !Ref DBInstanceIdentifier
       DBName: !Ref DBName
@@ -54,11 +54,11 @@ Resources:
       PubliclyAccessible: true
       StorageType: !Ref DBStorageType
       VPCSecurityGroups:
-        !GetAtt RDSPostgresSG.GroupId
+        - !GetAtt RDSPostgresSG.GroupId
   RDSPostgresSG:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: !Sub '${AWS::StackName}PostgresSG'
+      GroupName: !Sub '${AWS::StackName}RDSPostgresSG'
       GroupDescription: Internet facing SG for ECS Service
       VpcId: 
         Fn::ImportValue:
@@ -81,3 +81,8 @@ Resources:
           - ","
           - Fn::ImportValue:
               !Sub '${NetworkingStack}PubSubnets'
+Outputs:
+  RDSSecurityGrpId:
+    Value: !GetAtt RDSPostgresSG.GroupId
+    Export:
+      Name: !Sub '${AWS::StackName}RDSSecurityGrpId' 

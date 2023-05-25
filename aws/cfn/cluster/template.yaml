@@ -18,7 +18,7 @@ Parameters:
     Default: /
   FEHealthCheckPort: 
     Type: String
-    Default: 80
+    Default: 3000
   FEHealthCheckProtocol: 
     Type: String
     Default: HTTP
@@ -42,7 +42,7 @@ Parameters:
     Default: /api/health_check
   BEHealthCheckPort: 
     Type: String
-    Default: 80
+    Default: 4567
   BEHealthCheckProtocol: 
     Type: String
     Default: HTTP
@@ -189,12 +189,7 @@ Resources:
       VpcId: 
         Fn::ImportValue:
           !Sub '${NetworkingStack}VpcId'
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: !Ref FEPort
-          ToPort: !Ref FEPort
-          SourceSecurityGroupId: !GetAtt ALBSG.GroupId
-          Description: Service FE from ALB   
+      SecurityGroupIngress:  
         - IpProtocol: tcp
           FromPort: !Ref BEPort
           ToPort: !Ref BEPort
@@ -215,7 +210,7 @@ Resources:
         HttpCode: 200
       Port: !Ref FEPort
       Protocol: HTTP
-      ProtocolVersion: HTTP1
+      ProtocolVersion: HTTP2
       Tags: 
         - Key: target-grp-name
           Value: frontend
