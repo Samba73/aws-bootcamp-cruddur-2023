@@ -1,0 +1,25 @@
+#! /usr/bin/env bash
+set -e
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="Create Cluster for Cruddur using CFN"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+printf "hello"
+ABS_PATH=$(readlink -f "$0")
+DDB_PATH=$(dirname $ABS_PATH)
+TEMPL_PATH="$DDB_PATH/template.yaml"
+FUNC_PATH="$DDB_PATH/cruddur-messaging-stream/"
+CONFIG_PATH="$DDB_PATH/config.toml"
+sam validate -t $TEMPL_PATH
+echo $FUNC_PATH
+echo "== build"
+# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-build.html
+# --use-container
+# use container is for building the lambda in a container
+# it's still using the runtimes and its not a custom runtime
+sam build \
+--use-container \
+--config-file $CONFIG_PATH \
+--template $TEMPL_PATH \
+--base-dir $FUNC_PATH
+#--parameter-overrides
