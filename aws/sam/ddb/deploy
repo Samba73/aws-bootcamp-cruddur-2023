@@ -8,16 +8,18 @@ printf "hello"
 ABS_PATH=$(readlink -f "$0")
 DDB_PATH=$(dirname $ABS_PATH)
 SAM_PATH=$(dirname $DDB_PATH)
-PROJ_PATH=$(dirname $SAM_PATH)
-CONFIG_PATH="$PROJ_PATH/aws/cfn/config.toml"
+AWS_PATH=$(dirname $SAM_PATH)
+PROJ_PATH=$(dirname $AWS_PATH)
+printf $PROJ_PATH
+CONFIG_PATH="$PROJ_PATH/aws/sam/ddb/config.toml"
 
 PACKAGED_TEMPL_PATH="$PROJ_PATH/.aws-sam/build/packaged.yaml"
-
+printf $PACKAGED_TEMPL_PATH
 
 echo "== deploy"
 # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-deploy.html
 sam deploy \
-  --template-file $PACKAGED_TEMPLATE_PATH  \
+  --template-file $PACKAGED_TEMPL_PATH  \
   --config-file $CONFIG_PATH \
   --stack-name "CrdDdb" \
   --tags group=cruddur-ddb \

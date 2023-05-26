@@ -82,7 +82,7 @@ Resources:
   LambdaLogStream:
     Type: AWS::Logs::LogStream
     Properties:
-      LogGroupName: !Ref MyLogGroup
+      LogGroupName: !Ref LambdaLogGroup
       LogStreamName: DDBLambda                      
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -102,12 +102,12 @@ Resources:
             Statement:
               - Effect: Allow
                 Action: logs:CreateLogGroup
-                Resource: !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*
+                Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*"
               - Effect: Allow
                 Action:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
-                Resource: arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:${LambdaLogGroup}:*
+                Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:${LambdaLogGroup}:*"
               - Effect: Allow
                 Action:
                   - ec2:CreateNetworkInterface

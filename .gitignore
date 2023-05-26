@@ -3,3 +3,6 @@ frontend-react-js/build/*
 *.env
 backend-flask/migrations/16842995329395182_add_bio_column.py
 .vscode/settings.json
+.aws-sam
+build.toml
+tmp/*

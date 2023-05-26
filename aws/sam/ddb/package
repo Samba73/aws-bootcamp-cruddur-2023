@@ -12,8 +12,9 @@ ARTIFACT_BUCKET="cfn-artifacts-cruddur.in"
 OUTPUT_TEMPL_PATH="/workspace/aws-bootcamp-cruddur-2023/.aws-sam/build/packaged.yaml"
 SAM_PATH=$(dirname $DDB_PATH)
 PROJ_PATH=$(dirname $SAM_PATH)
-CONFIG_PATH="PROJ_PATH/aws/cfn/config.toml"
 
+CONFIG_PATH="$PROJ_PATH/sam/ddb/config.toml"
+printf $CONFIG_PATH
 echo "== package"
 # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-package.html
 sam package \
