@@ -1,0 +1,39 @@
+#! /usr/bin/env bash
+set -e
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="Create cicd pipeline for Github pull merge for Cruddur using CFN"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+printf "hello"
+ABS_PATH=$(readlink -f "$0")
+CFN_PATH=$(dirname $ABS_PATH)
+BIN_PATH=$(dirname $CFN_PATH)
+PROJ_PATH=$(dirname $BIN_PATH)
+TEMPL_PATH="$PROJ_PATH/aws/cfn/service/template.yaml"
+
+CONFIG_PATH="$PROJ_PATH/aws/cfn/config.toml"
+printf $CONFIG_PATH
+
+BUCKET=$(cfn-toml key deploy.bucket -t $CONFIG_PATH)
+REGION=$(cfn-toml key deploy.region -t $CONFIG_PATH)
+STACK_NAME=$(cfn-toml key deploy.sstack_name -t $CONFIG_PATH)
+PARAMETERS=$(cfn-toml params v2 -t $CONFIG_PATH)
+
+printf $PARAMETERS
+
+cfn-lint $TEMPL_PATH
+
+printf $STACK_NAME
+
+aws cloudformation deploy \
+  --profile default \
+  --stack-name $STACK_NAME \
+  --s3-bucket $BUCKET\
+  --s3-prefix cicd \
+  --template-file $TEMPL_PATH \
+  --no-execute-changeset \
+  --capabilities CAPABILITY_NAMED_IAM \
+  --tags group=cruddur-cicd \
+  --parameter-overrides $PARAMETERS \
+  --output table \
+  --color on 

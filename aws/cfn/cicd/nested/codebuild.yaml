@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  - code build
+Parameters:
+
+
+Resources:
+  Type: AWS::CodeBuild::Project
+  Properties:
+    
+
+Outputs:

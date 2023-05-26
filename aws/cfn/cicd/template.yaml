@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  - Codestar connection to Github
+  - CodePipeline
+  - CodeBuild
+  
+Parameters:
+  GitHubBranch:
+    Type: String
+  GitHubRepo:
+    Type: String  
+  ClusterStack:
+    Type: String
+  ServiceStack:
+    Type: String    
+
+Resources:
+
+
+Outputs:
+

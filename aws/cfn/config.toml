@@ -5,6 +5,7 @@ nstack_name = 'CrdNet'
 cstack_name = 'CrdCluster'
 sstack_name = 'CrdService'
 rdsstack_name = 'CrdRDS'
+cicdstack_name = 'CrdCiCd'
 
 [parameters]
 CertificateArn = 'arn:aws:acm:ap-southeast-1:623053391718:certificate/327f532d-3fb0-4461-9fa5-4f5a866016a2'
@@ -28,3 +29,5 @@ BEPort = 4567
 DBMasterUsername = 'cruddurroot'
 DBMasterUserPwd = 'Password999'
 DBName = 'cruddur'
+GitHubBranch = 'main'
+GitHubRepo = ''
