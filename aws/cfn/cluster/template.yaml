@@ -269,5 +269,9 @@ Outputs:
   BackendTGArn:
     Value: !Ref BackendTG
     Export:
-      Name: !Sub '${AWS::StackName}BackendTGArn'   
+      Name: !Sub '${AWS::StackName}BackendTGArn'  
+  AcmCertificate:
+    Value: !Ref ALBSslCert
+    Export:
+      Name: !Sub '${AWS::StackName}AcmCertificate'     
     

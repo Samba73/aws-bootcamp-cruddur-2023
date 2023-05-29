@@ -34,4 +34,6 @@ aws cloudformation deploy \
   --no-execute-changeset \
   --capabilities CAPABILITY_NAMED_IAM \
   --parameter-overrides $PARAMETERS \
-  --tags group=cruddur-frontrnf
+  --tags group=cruddur-frontend
+
+  
