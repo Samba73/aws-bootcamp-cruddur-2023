@@ -1,0 +1,85 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  - CloufFront Distribution
+  - WWWDomainBucket
+  - BareDomainBucket
+  - BucketPolicy
+Parameters:
+  RootDomainName:
+    Type: String
+Resources:
+  BareDomainBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+         Bucket: !Ref Bare
+         PolicyDocument:
+              Statement:
+                - Action:
+                    - 's3-GetObject'
+                  Effect: Allow
+                  Resource: !Sub "arn:aws:s3:::${BareDomainBucket}/*"
+                  Principal: '*'  
+  BareDomainBucket:
+    Type: AWS::S3::Bucket 
+    Properties:
+         BucketName: !Ref RootDomainName
+         PublicAccessBlockConfiguration:
+             BlockPublicPolicy: false 
+         WebsiteConfiguration:
+              IndexDocument: index.html
+              ErrorDocument: error.html
+  WWWDomainBucket:
+    Type: AWS::S3::Bucket 
+    Properties:
+        BucketName: !Sub "www.${RootDomainName}"
+        AccessControl: BucketOwnerFullControl
+        WebsiteConfiguration:
+          RedirectAllRequestsTo:
+          HostName: !Ref BareDomainBucket
+  BucketDNS:
+    Type: AWS::Route53::RecordSet
+    Properties:
+        HostedZoneName: !Sub "${RootDomainName}" 
+        Comment: Zone apex alias
+        RecordSets:
+            - Name: !Ref RootDomainName
+              Type: A
+              AliasTarget:
+                DNSName: !GetAtt CFDistribution.DomainName
+                HostedZoneId: Z0887069LX6AP47F67RT
+            - Name: !Sub "www.${RootDomainName}"
+              Type: CNAME
+              TTL: 600
+              ResourceRecords:
+                   - !GetAtt WWWDomainBucket.DomainName
+  CFDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+         DistributionConfig:
+            Aliases:
+                 - cruddur.in
+                 - www.cruddur.in
+            Comment: Frontend ReactJS for cruddur
+            DefaultRootObject: index.html
+            Enabled: true
+            HttpVersion: http2and3
+            Origins:
+              - DomainName: !GetAtt BareDomainBucket.DomainName
+                Id: BareBucketOrigin
+                S3OriginConfig: {}
+            DefaultCacheBehavior:
+                ForwardedValues:
+                     QueryString: false
+                     Cookies:
+                          Forward: none
+                TargetOriginId: BareDomainOrigin
+                ViewerProtocolPolicy: redirect-to-https
+            ViewerCertificate:
+                 AcmCertificateArn: 
+                 SslSupportMethod: sni-only
+Outputs:
+     WebsiteURL:
+      Value: !GetAtt BareDomainBucket.WebsiteURL
+              
+              
+     

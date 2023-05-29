@@ -2,11 +2,103 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: |
   - code build
 Parameters:
-
-
+  LogGroupPath:
+    Type: String
+    Default: "/cruddur/codebuild/backend-flask-image"
+  LogStream:
+    Type: String
+    Default: "backend-flask"
+  CodeBuildOS:
+    Type: String
+    Default: "LINUX_CONTAINER"
+  CodeBuildOSImage:
+    Type: String
+    Default: "aws/codebuild/amazonlinux2-x86_64-standard:5.0" 
+  CodeBuildComputeType:
+    Type: String
+    Default: "BUILD_GENERAL1_SMALL"
+  QueuedTimeout:
+    Type: Number
+    Default: 5   
 Resources:
-  Type: AWS::CodeBuild::Project
-  Properties:
-    
-
+  CruddurCodeBuild:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Artifacts:
+           Type: CODEPIPELINE
+      QueuedTimeoutInMinutes: !Ref QueuedTimeout
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Environment:
+        ComputeType: !Ref CodeBuildComputeType
+        Image: !Ref CodeBuildOSImage
+        PrivilegedMode: true
+        Type: !Ref CodeBuildOS
+      LogsConfig:
+        CloudWatchLogs:
+          GroupName: !Ref LogGroupPath
+          Status: ENABLED
+          StreamName: !Ref LogStream
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: 'buildspec.yml'
+  CodeBuildRole:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: ['sts:AssumeRole']
+          Effect: Allow
+          Principal:
+            Service: [codebuild.amazonaws.com]
+        Version: '2012-10-17'
+      Path: /
+      Policies:
+        - PolicyName: !Sub ${AWS::StackName}ECRPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - ecr:BatchCheckLayerAvailability
+                - ecr:CompleteLayerUpload
+                - ecr:GetAuthorizationToken
+                - ecr:InitiateLayerUpload
+                - ecr:BatchGetImage
+                - ecr:GetDownloadUrlForLayer
+                - ecr:PutImage
+                - ecr:UploadLayerPart
+                Effect: Allow
+                Resource: "*"
+        - PolicyName: !Sub ${AWS::StackName}VPCPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - ec2:CreateNetworkInterface
+                - ec2:DescribeDhcpOptions
+                - ec2:DescribeNetworkInterfaces
+                - ec2:DeleteNetworkInterface
+                - ec2:DescribeSubnets
+                - ec2:DescribeSecurityGroups
+                - ec2:DescribeVpcs
+                Effect: Allow
+                Resource: "*"
+              - Action:
+                - ec2:CreateNetworkInterfacePermission
+                Effect: Allow
+                Resource: "*"
+        - PolicyName: !Sub ${AWS::StackName}Logs
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+                Effect: Allow
+                Resource:
+                  - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:${LogGroupPath}*
+                  - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:${LogGroupPath}:*
 Outputs:
+  CodeBuildProjectName:
+    Value: !Sub ${AWS::StackName}Project
