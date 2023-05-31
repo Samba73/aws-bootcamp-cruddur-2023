@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-05-31T10:14:05.148Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 OPR/98.0.0.0 (Edition std-1)" etag="gtLxf6_9269jCOz_Vw1Z" version="21.3.6" type="github">
+<mxfile host="app.diagrams.net" modified="2023-05-31T10:22:24.675Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 OPR/98.0.0.0 (Edition std-1)" etag="4x00mSSxYPUa2h36xEjl" version="21.3.6" type="github">
   <diagram name="Page-1" id="iBFqbfJ5lfss9En26aZK">
     <mxGraphModel dx="3352" dy="1938" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
@@ -1063,8 +1063,8 @@
         <mxCell id="z7iGLDnE0kBt8kmmu716-151" value="A: api.cruddur.in" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="z7iGLDnE0kBt8kmmu716-152">
           <mxGeometry y="91" width="162" height="31" as="geometry" />
         </mxCell>
-        <mxCell id="z7iGLDnE0kBt8kmmu716-159" value="CF Distribution&lt;br&gt;(Frontend)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="-559" y="-623" width="97" height="41" as="geometry" />
+        <mxCell id="z7iGLDnE0kBt8kmmu716-159" value="CF Distribution&lt;br&gt;(Cruddur Frontend)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-571" y="-623" width="121" height="41" as="geometry" />
         </mxCell>
         <mxCell id="z7iGLDnE0kBt8kmmu716-161" value="" style="group" vertex="1" connectable="0" parent="1">
           <mxGeometry x="-574" y="-702" width="125" height="81" as="geometry" />
@@ -1079,7 +1079,7 @@
           <mxGeometry x="47" y="29" width="44" height="44" as="geometry" />
         </mxCell>
         <mxCell id="z7iGLDnE0kBt8kmmu716-162" value="&lt;b&gt;Aliases&lt;/b&gt;&lt;br&gt;cruddur.in&lt;br&gt;www.cruddur.in" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="-551" y="-589" width="99" height="55" as="geometry" />
+          <mxGeometry x="-561" y="-588" width="99" height="55" as="geometry" />
         </mxCell>
         <mxCell id="z7iGLDnE0kBt8kmmu716-163" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#5a30b5;strokeWidth=2;" edge="1" parent="1" source="z7iGLDnE0kBt8kmmu716-149" target="z7iGLDnE0kBt8kmmu716-136">
           <mxGeometry relative="1" as="geometry" />
@@ -1121,6 +1121,19 @@
           <mxGeometry x="-0.0279" y="-1" relative="1" as="geometry">
             <mxPoint x="1" y="-3" as="offset" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="z7iGLDnE0kBt8kmmu716-177" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#3F8624;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.policy;" vertex="1" parent="1">
+          <mxGeometry x="-525.36" y="-971" width="47.73" height="41" as="geometry" />
+        </mxCell>
+        <mxCell id="z7iGLDnE0kBt8kmmu716-178" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#3f8624;" edge="1" parent="1" source="z7iGLDnE0kBt8kmmu716-142" target="z7iGLDnE0kBt8kmmu716-177">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-589" y="-950" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z7iGLDnE0kBt8kmmu716-179" value="GetObject" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-546.5" y="-935" width="72" height="26" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
