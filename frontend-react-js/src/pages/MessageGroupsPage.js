@@ -25,7 +25,7 @@ export default function MessageGroupsPage() {
       });
       let resJson = await res.json();
       console.log(resJson)
-      if (res.status == 200) {
+      if (res.status === 200) {
         setMessageGroups(resJson)
       } else {
         console.log(res)

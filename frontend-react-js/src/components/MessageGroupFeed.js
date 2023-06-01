@@ -7,7 +7,7 @@ export default function MessageGroupFeed(props) {
     const [showModal, setShowModal] = useState(false);
     const [message, setMessage] = useState('');
     const [handle, setHandle] = useState('');
-    const [newmessage, setNewMessage] = useState([]);
+    //const [newmessage, setNewMessage] = useState([]);
   
     const handleNewMessage = () => {
       setShowModal(true);
@@ -39,7 +39,7 @@ export default function MessageGroupFeed(props) {
           body: JSON.stringify(json),
         });
       
-        let data = await res.json();
+        //let data = await res.json();
         if (res.status === 200) {
           //props.setMessages('Test')
           //props.setNewMessage(current => [...current,data]);

@@ -26,7 +26,7 @@
     "process": "^0.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "6.4.3",
+    "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
@@ -34,7 +34,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "client-s3-deploy": "aws s3 sync build/ s3://cruddur.in --profile default",
+    "client-cloudfront-invalidation": "aws cloudfront create-invalidation --distribution ",
+    "client-deploy": "npm run build && client-s3-deploy && client-cloudfront-invalidation"
   },
   "eslintConfig": {
     "extends": [

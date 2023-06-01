@@ -6,3 +6,4 @@ backend-flask/migrations/16842995329395182_add_bio_column.py
 .aws-sam
 build.toml
 tmp/*
+frontend-react-js/build/*

@@ -3,6 +3,7 @@ import Search from '../components/Search';
 import TrendingSection from '../components/TrendingsSection'
 import SuggestedUsersSection from '../components/SuggestedUsersSection'
 import JoinSection from '../components/JoinSection'
+import { Routes, Route, Link } from "react-router-dom";
 
 export default function DesktopSidebar(props) {
   const trendings = [
@@ -12,6 +13,15 @@ export default function DesktopSidebar(props) {
     {"hashtag": "FreeWillyReboot", "count": 7753 }
   ]
 
+  function About() {
+    return <h2>About Cruddur</h2>
+  }
+  function TermsofService() {
+    return <h2>Terms of Service</h2>
+  }
+  function PrivacyPolicy() {
+    return <h2>Privacy Policy</h2>
+  }
   const users = [
     {"display_name": "vishnu r", "handle": "vishnu"}
   ]
@@ -38,10 +48,21 @@ export default function DesktopSidebar(props) {
       {suggested}
       {join}
       <footer>
-        <a href="#">About</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">Privacy Policy</a>
+        <Link to="/about">About</Link>
+        <Link to="/tos">Terms of Service</Link>
+        <Link to="/pp">Privacy Policy</Link>
       </footer>
+      <Routes>
+        <Route path="/about">
+          <About />
+        </Route>
+        <Route path="/to">
+          <TermsofService />
+        </Route>
+        <Route path="/pp">
+          <PrivacyPolicy />
+        </Route>
+      </Routes>
     </section>
   );
 }
