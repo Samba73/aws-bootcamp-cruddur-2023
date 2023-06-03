@@ -23,7 +23,7 @@ jobs:
           echo "REACT_APP_CLIENT_ID=${{ secrets.REACT_APP_CLIENT_ID }}" >> $GITHUB_ENV
           echo "REACT_APP_AWS_USER_POOLS_ID=${{ secrets.REACT_APP_AWS_USER_POOLS_ID }}" >> $GITHUB_ENV
       - run: npm run build
-        working-directory: frontend-react-js
+        working-directory: .
 
 
 
