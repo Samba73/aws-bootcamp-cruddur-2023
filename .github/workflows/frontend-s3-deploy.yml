@@ -16,13 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: cd frontend-react-js
-      - run: npx create-react-app .
-      - run: npm install
-      - run: npm install aws-amplify
-      - run: npm install dotenv@16.1.3
-      - run: npm install js-cookie@3.0.1
-      - run: npm install react-router-dom@6.11.2
-      - run: npm run build
+      - run: cat package.json
 
 
 
