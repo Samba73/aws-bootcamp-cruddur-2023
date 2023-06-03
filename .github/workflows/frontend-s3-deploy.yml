@@ -19,6 +19,7 @@ jobs:
       - run: npm install
       - run: npm ci
       - run: npm install react-scripts
+      - run: npm install react-dom
       - run: |
           echo "REACT_APP_AWS_PROJECT_REGION=${{ secrets.REACT_APP_AWS_PROJECT_REGION }}" >> $GITHUB_ENV
           echo "REACT_APP_AWS_COGNITO_REGION=${{ secrets.REACT_APP_AWS_COGNITO_REGION }}" >> $GITHUB_ENV
