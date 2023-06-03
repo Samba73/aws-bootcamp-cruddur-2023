@@ -37,8 +37,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "client-s3-deploy": "aws s3 sync build/ s3://cruddur.in --profile default",
-    "client-cloudfront-invalidation": "aws cloudfront create-invalidation --distribution-id E1X4QHQHDTKRWM --paths '/*' --profile default",
-    "client-deploy": "npm run build && client-s3-deploy && client-cloudfront-invalidation"
+    "client-cloudfront-invalidation": "aws cloudfront create-invalidation --distribution-id E3L92QTA45LBFY --paths '/*' --profile default",
+    "client-deploy": "npm run build && npm run client-s3-deploy && npm run client-cloudfront-invalidation"
   },
   "eslintConfig": {
     "extends": [
