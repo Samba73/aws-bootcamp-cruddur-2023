@@ -18,6 +18,7 @@ jobs:
       - run: cd frontend-react-js
       - run: npm install
       - run: npm ci
+      - run: npm install react-scripts
       - run: |
           echo "REACT_APP_AWS_PROJECT_REGION=${{ secrets.REACT_APP_AWS_PROJECT_REGION }}" >> $GITHUB_ENV
           echo "REACT_APP_AWS_COGNITO_REGION=${{ secrets.REACT_APP_AWS_COGNITO_REGION }}" >> $GITHUB_ENV
