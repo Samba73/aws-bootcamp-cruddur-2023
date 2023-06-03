@@ -16,18 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: cd frontend-react-js
-      - run: npm install
-      - run: npm ci
-      - run: npm install react-scripts
-      - run: npm install react-dom
-      - run: npm install react-router-dom
-      - run: |
-          echo "REACT_APP_AWS_PROJECT_REGION=${{ secrets.REACT_APP_AWS_PROJECT_REGION }}" >> $GITHUB_ENV
-          echo "REACT_APP_AWS_COGNITO_REGION=${{ secrets.REACT_APP_AWS_COGNITO_REGION }}" >> $GITHUB_ENV
-          echo "REACT_APP_CLIENT_ID=${{ secrets.REACT_APP_CLIENT_ID }}" >> $GITHUB_ENV
-          echo "REACT_APP_AWS_USER_POOLS_ID=${{ secrets.REACT_APP_AWS_USER_POOLS_ID }}" >> $GITHUB_ENV
-      - run: npm run build
-        working-directory: frontend-react-js
+      - run: ls frontend-react-js
 
 
 
