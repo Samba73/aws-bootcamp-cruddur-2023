@@ -9,64 +9,20 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [16.x]
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Install react dependencies
-        run: npm i  
-          
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      
-      - name: Install dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm ci
-      
-        
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
-      - name: Verify react-scripts installation
-        run: ls node_modules/react-scripts
-
-      - name: Verify node_modules
-        run: ls node_modules
-
-                  
-      - name: Set environment variables
-        run: |
+      - uses: actions/checkout@v1
+      - run: npm install
+      - run: |
           echo "REACT_APP_AWS_PROJECT_REGION=${{ secrets.REACT_APP_AWS_PROJECT_REGION }}" >> $GITHUB_ENV
           echo "REACT_APP_AWS_COGNITO_REGION=${{ secrets.REACT_APP_AWS_COGNITO_REGION }}" >> $GITHUB_ENV
           echo "REACT_APP_CLIENT_ID=${{ secrets.REACT_APP_CLIENT_ID }}" >> $GITHUB_ENV
           echo "REACT_APP_AWS_USER_POOLS_ID=${{ secrets.REACT_APP_AWS_USER_POOLS_ID }}" >> $GITHUB_ENV
-
-      - name: Build frontend
-        run: npm run build
+      - run: npm run build
         working-directory: frontend-react-js
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.REACT_APP_AWS_PROJECT_REGION }}
 
-      - name: Install and configure AWS CLI
-        run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set default.region ${{ secrets.REACT_APP_AWS_PROJECT_REGION }}
 
-      - name: Deploy to S3 bucket
-        run: npm run client-deploy
