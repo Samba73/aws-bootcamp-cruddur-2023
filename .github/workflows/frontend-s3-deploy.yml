@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: cd frontend-react-js
-      - run: ls frontend-react-js
+      - run: npm install
       - run: cat package.json
 
 
