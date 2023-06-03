@@ -21,6 +21,12 @@ jobs:
         with:
           node-version: 16
 
+      - name: Verify react-scripts installation
+        run: ls node_modules/react-scripts
+      - name: Verify node_modules
+        run: ls node_modules
+
+                  
       - name: Set environment variables
         run: |
           echo "REACT_APP_AWS_PROJECT_REGION=${{ secrets.REACT_APP_AWS_PROJECT_REGION }}" >> $GITHUB_ENV
