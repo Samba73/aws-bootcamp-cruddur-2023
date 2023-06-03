@@ -21,9 +21,6 @@ jobs:
         with:
           node-version: 16
 
-      - name: Install dependencies
-        run: npm ci
-
       - name: Set environment variables
         run: |
           echo "REACT_APP_AWS_PROJECT_REGION=${{ secrets.REACT_APP_AWS_PROJECT_REGION }}" >> $GITHUB_ENV
