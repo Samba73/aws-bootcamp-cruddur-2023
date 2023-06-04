@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Build app .
+    name: Build app.
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -18,6 +18,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: cd frontend-react-js
+      - run: pwd
+      - run: ls frontend-react-js
       - run: cat package.json
       - run: npm ci
       - run: |
@@ -29,7 +31,7 @@ jobs:
       - run: npm run build
       - run: cat package.json
   deploy:
-    name: Sync Static Build to S3 Bucket
+    name: Deploy Build to S3 Bucket
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS credentials
