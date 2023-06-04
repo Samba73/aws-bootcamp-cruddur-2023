@@ -1,54 +1,54 @@
-name: Frontend Build and Deploy
+name: Build and Deploy
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
-  build:
-    name: Build app.
+  build-and-deploy:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [ 18.x]
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
-      - run: cd frontend-react-js
-      - run: pwd
-      - run: ls frontend-react-js
-      - run: cat package.json
-      - run: npm ci
-      - run: |
+          node-version: 18
+   
+      - name: Install dependencies
+        run: npm ci
+        working-directory: frontend-react-js
+
+      - name: Set environment variables
+        run: |
           echo "REACT_APP_BACKEND_URL=${{ secrets.REACT_APP_BACKEND_URL }}" >> $GITHUB_ENV
           echo "REACT_APP_AWS_PROJECT_REGION=${{ secrets.REACT_APP_AWS_PROJECT_REGION }}" >> $GITHUB_ENV
           echo "REACT_APP_AWS_COGNITO_REGION=${{ secrets.REACT_APP_AWS_COGNITO_REGION }}" >> $GITHUB_ENV
           echo "REACT_APP_AWS_USER_POOLS_ID=${{ secrets.REACT_APP_AWS_USER_POOLS_ID }}" >> $GITHUB_ENV
           echo "REACT_APP_CLIENT_ID=${{ secrets.REACT_APP_CLIENT_ID }}" >> $GITHUB_ENV
-      - run: npm run build
-      - run: cat package.json
-  deploy:
-    name: Deploy Build to S3 Bucket
-    runs-on: ubuntu-latest
-    steps:
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: frontend-react-js
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            aws-region: ${{ secrets.REACT_APP_AWS_PROJECT_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.REACT_APP_AWS_PROJECT_REGION }}
 
       - name: Install and configure AWS CLI
         run: |
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
-            aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            aws configure set default.region ${{ secrets.REACT_APP_AWS_PROJECT_REGION }}
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region ${{ secrets.REACT_APP_AWS_PROJECT_REGION }}
 
       - name: Deploy to S3 bucket
         run: npm run client-deploy
