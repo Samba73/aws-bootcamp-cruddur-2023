@@ -81,7 +81,7 @@ class Db():
     def query_execution_array(self, sql, params={}, verbose=True):
         if verbose:
             self.print_sql('SQL Execution, array result', sql, params)
-        wrapped_sql = query_wrap_array(sql)
+        wrapped_sql = self.query_wrap_array(sql)
         print(wrapped_sql)
         with self.pool.connection() as conn:
             cur = conn.cursor()
@@ -93,7 +93,7 @@ class Db():
     def query_execution_object(self, sql, params={}, verbose=True):
         if verbose:
             self.print_sql('SQL Execution, object return', sql, params)
-        wrapped_sql = query_wrap_object(sql)
+        wrapped_sql = self.query_wrap_object(sql)
         print(wrapped_sql)
         with self.pool.connection() as conn:
             cur = conn.cursor()
