@@ -102,4 +102,3 @@ Resources:
 Outputs:
   CodeBuildProjectName:
     Value: !Sub ${AWS::StackName}Project
-0
