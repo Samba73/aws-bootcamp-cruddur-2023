@@ -8,16 +8,16 @@ abspath         = os.path.abspath(__file__)
 current_path    = os.path.dirname(abspath)
 parent_path     = os.path.abspath(os.path.join(current_path, '..', '..','backend-flask'))
 sys.path.append(parent_path)
-from lib.db import extract_query, query_insert
-
+#from lib.db import extract_query, query_insert
+from lib.db_new import db
 
 user_pool_id = os.getenv("AWS_COGNITO_USER_POOL_ID")
 client = boto3.client('cognito-idp')
 
 
 def update_user_cognito_id(cognito_id, handle):
-    sql = extract_query('cognito', 'update_user_id')
-    response = query_insert(sql, {
+    sql = db.extract_query('cognito', 'update_user_id')
+    db.query_insert(sql, {
         'cognito_user_id': cognito_id,
         'handle': handle
     })
