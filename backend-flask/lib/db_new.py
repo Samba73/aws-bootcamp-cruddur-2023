@@ -58,7 +58,7 @@ class Db():
             no_color = '\033[0m'
             print(f'{blue} Parameters for above SQL are:{no_color}')
             for key, value in params.items():
-                print(f'{key}:, {value}')    
+                print(f'{key}:{value}')    
                 
     def query_insert(self, sql, params={}, verbose=True):
         if verbose:
@@ -75,7 +75,7 @@ class Db():
                 if is_returning_id:
                     return returning_value      
         except Exception as err:
-            print_sql_err(err)            
+            self.print_sql_err(err)            
                    
                    
     def query_execution_array(self, sql, params={}, verbose=True):
@@ -116,7 +116,7 @@ class Db():
             else:
                 return json[0]
     
-    def print_sql_err(err):
+    def print_sql_err(self, err):
         # get details about the exception
         err_type, err_obj, traceback = sys.exc_info()
 
