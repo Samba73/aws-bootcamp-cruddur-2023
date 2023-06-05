@@ -17,6 +17,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 18   
+      
+      - name: Install dependencies
+        run: npm ci
+        working-directory: frontend-react-js    
+
+      - name: Install react-router-dom
+        run: npm i react-router-dom@6.4.3
+        working-directory: frontend-react-js
 
       - name: Set environment variables
         run: |
