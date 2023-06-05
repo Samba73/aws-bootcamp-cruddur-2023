@@ -72,7 +72,7 @@ class Db():
                 if is_returning_id:
                     returning_value = cur.fetchone()[0]
                 conn.commit()
-                if is_returing_id:
+                if is_returning_id:
                     return returning_value      
         except Exception as err:
             print_sql_err(err)            
@@ -83,7 +83,7 @@ class Db():
             self.print_sql('SQL Execution, array result', sql, params)
         wrapped_sql = query_wrap_array(sql)
         print(wrapped_sql)
-        with pool.connection() as conn:
+        with self.pool.connection() as conn:
             cur = conn.cursor()
             cur.execute(wrapped_sql, params)
             json = cur.fetchone()
@@ -95,7 +95,7 @@ class Db():
             self.print_sql('SQL Execution, object return', sql, params)
         wrapped_sql = query_wrap_object(sql)
         print(wrapped_sql)
-        with pool.connection() as conn:
+        with self.pool.connection() as conn:
             cur = conn.cursor()
             cur.execute(wrapped_sql, params)
             json = cur.fetchone()
@@ -107,7 +107,7 @@ class Db():
     def query_value(self, sql,params={}, verbose=True):
         if verbose:
             self.print_sql("Extract value", sql, params)
-        with pool.connection() as conn:
+        with self.pool.connection() as conn:
             cur = conn.cursor()
             cur.execute(sql,params)
             json = cur.fetchone()

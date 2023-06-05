@@ -3,7 +3,6 @@ import Search from '../components/Search';
 import TrendingSection from '../components/TrendingsSection'
 import SuggestedUsersSection from '../components/SuggestedUsersSection'
 import JoinSection from '../components/JoinSection'
-import { Routes, Route, Link } from "react-router-dom";
 
 export default function DesktopSidebar(props) {
   const trendings = [
@@ -13,30 +12,16 @@ export default function DesktopSidebar(props) {
     {"hashtag": "FreeWillyReboot", "count": 7753 }
   ]
 
-  function About() {
-    return <h2>About Cruddur</h2>
-  }
-  function TermsofService() {
-    return <h2>Terms of Service</h2>
-  }
-  function PrivacyPolicy() {
-    return <h2>Privacy Policy</h2>
-  }
   const users = [
-    {"display_name": "vishnu r", "handle": "vishnu"}
+    {"display_name": "Andrew Brown", "handle": "andrewbrown"}
   ]
 
   let trending;
-  if (props.user) {
-    trending = <TrendingSection trendings={trendings} />
-  }
-
   let suggested;
-  if (props.user) {
-    suggested = <SuggestedUsersSection users={users} />
-  }
   let join;
   if (props.user) {
+    trending = <TrendingSection trendings={trendings} />
+    suggested = <SuggestedUsersSection users={users} />
   } else {
     join = <JoinSection />
   }
@@ -48,21 +33,10 @@ export default function DesktopSidebar(props) {
       {suggested}
       {join}
       <footer>
-        <Link to="/about">About</Link>
-        <Link to="/tos">Terms of Service</Link>
-        <Link to="/pp">Privacy Policy</Link>
+        <a href="/about">About!</a>
+        <a href="/terms-of-service">Terms of Service</a>
+        <a href="/privacy-policy">Privacy Policy</a>
       </footer>
-      <Routes>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/to">
-          <TermsofService />
-        </Route>
-        <Route path="/pp">
-          <PrivacyPolicy />
-        </Route>
-      </Routes>
     </section>
   );
 }

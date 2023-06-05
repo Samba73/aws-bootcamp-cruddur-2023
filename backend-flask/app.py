@@ -166,25 +166,25 @@ with app.app_context():
     @app.route("/api/profile/update", methods=['POST','OPTIONS'])
     @cross_origin()
     def data_update_profile():
-    bio          = request.json.get('bio',None)
-    display_name = request.json.get('display_name',None)
-    access_token = extract_access_token(request.headers)
-    try:
-        claims = cognito_jwt_token.verify(access_token)
-        cognito_user_id = claims['sub']
-        model = UpdateProfile.run(
-        cognito_user_id=cognito_user_id,
-        bio=bio,
-        display_name=display_name
-        )
-        if model['errors'] is not None:
-        return model['errors'], 422
-        else:
-        return model['data'], 200
-    except TokenVerifyError as e:
-        # unauthenicatied request
-        app.logger.debug(e)
-        return {}, 401
+        bio          = request.json.get('bio',None)
+        display_name = request.json.get('display_name',None)
+        access_token = extract_access_token(request.headers)
+        try:
+            claims = cognito_jwt_token.verify(access_token)
+            cognito_user_id = claims['sub']
+            model = UpdateProfile.run(
+            cognito_user_id=cognito_user_id,
+            bio=bio,
+            display_name=display_name
+            )
+            if model['errors'] is not None:
+                return model['errors'], 422
+            else:
+                return model['data'], 200
+        except TokenVerifyError as e:
+            # unauthenicatied request
+            app.logger.debug(e)
+            return {}, 401
 
     @app.route("/api/messages", methods=['POST', 'OPTIONS'])
     @cross_origin()
