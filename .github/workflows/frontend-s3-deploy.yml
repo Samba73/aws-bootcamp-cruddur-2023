@@ -23,7 +23,7 @@ jobs:
         working-directory: frontend-react-js    
 
       - name: Install react-router-dom
-        run: npm i react-router-dom@6.4.3
+        run: npm i react-router-dom@6.4.3 --save
         working-directory: frontend-react-js
 
       - name: Set environment variables
