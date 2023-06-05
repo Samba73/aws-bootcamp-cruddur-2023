@@ -14,7 +14,7 @@ AWS_PATH=$(dirname $SAM_PATH)
 PROJ_PATH=$(dirname $AWS_PATH)
 OUTPUT_TEMPL_PATH="$PROJ_PATH/.aws-sam/build/packaged.yaml"
 
-CONFIG_PATH="$PROJ_PATH/sam/ddb/config.toml"
+CONFIG_PATH="$DDB_PATH/config.toml"
 printf $CONFIG_PATH
 echo "== package"
 # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-package.html
