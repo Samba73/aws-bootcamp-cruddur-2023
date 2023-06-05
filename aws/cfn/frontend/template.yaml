@@ -79,6 +79,10 @@ Resources:
             ViewerCertificate:
                  AcmCertificateArn: !Ref AcmCertificate
                  SslSupportMethod: sni-only
+            CustomErrorResponses:
+              -   ErrorCode: 403
+                  ResponseCode: 200
+                  ResponsePagePath: /index.html      
 Outputs:
      WebsiteURL:
       Value: !GetAtt BareDomainBucket.WebsiteURL
