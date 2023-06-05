@@ -82,11 +82,7 @@ Resources:
             CustomErrorResponses:
               -   ErrorCode: 403
                   ResponseCode: 200
-<<<<<<< HEAD
                   ResponsePagePath: /index.html      
-=======
-                  ResponsePagePath: /index.html 
->>>>>>> c10fb7bf (frontend error showing. not fixed yet)
 Outputs:
      WebsiteURL:
       Value: !GetAtt BareDomainBucket.WebsiteURL
