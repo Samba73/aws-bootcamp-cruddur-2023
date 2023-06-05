@@ -30,7 +30,7 @@ Parameters:
     Default: 0
   DBEngineVersion:
     Type: String
-    Default: 15.2
+    Default: '15.2'
 Resources:
   RDSPostgres:
     Type: AWS::RDS::DBInstance
