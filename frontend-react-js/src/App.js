@@ -19,7 +19,6 @@ import {
 import { Amplify } from 'aws-amplify';
 
 Amplify.configure({
-  "REACT_APP_BACKEND_URL": process.env.REACT_APP_BACKEND_URL,
   "AWS_PROJECT_REGION": process.env.REACT_APP_AWS_PROJECT_REGION,
   "aws_cognito_region": process.env.REACT_APP_AWS_COGNITO_REGION,
   "aws_user_pools_id": process.env.REACT_APP_AWS_USER_POOLS_ID,
