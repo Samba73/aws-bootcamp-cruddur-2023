@@ -8,6 +8,8 @@ Parameters:
     Description: This is base network stack like vpc, subnet
   DomainName:
     Type: String
+  AlternativeDomainName:
+    Type: String  
   HostedZoneId:
     Type: String    
   FEHealthCheckIntervalSeconds: 
@@ -81,6 +83,8 @@ Resources:
       DomainValidationOptions:
         - DomainName: !Ref DomainName
           HostedZoneId: !Ref HostedZoneId 
+      SubjectAlternativeNames:
+        - !Ref AlternativeDomainName 
   ALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
