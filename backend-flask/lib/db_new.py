@@ -2,7 +2,7 @@ from psycopg_pool import ConnectionPool
 import os, sys
 import re
 
-class Db():
+class Db:
     def __init__(self):
         self.init_connection()
     

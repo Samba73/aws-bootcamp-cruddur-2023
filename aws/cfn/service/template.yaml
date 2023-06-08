@@ -222,3 +222,7 @@ Outputs:
     Value: !GetAtt FargateService.Name
     Export:
       Name: !Sub '${AWS::StackName}ServiceName'
+  ServiceArn:
+    Value: !GetAtt FargateService.ServiceArn
+    Export:
+      Name: !Sub '${AWS::StackName}ServiceArn'    
