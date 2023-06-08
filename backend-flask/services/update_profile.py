@@ -1,4 +1,3 @@
-from lib.db import extract_query, query_execution_array, query_insert, query_execution_select
 from lib.db_new import db
 class UpdateProfile:
   def run(cognito_user_id,bio,display_name):

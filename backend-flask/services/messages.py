@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta, timezone
-from lib.db import extract_query, query_execution_select, query_insert
 from lib.ddb import DDB
 import logging
 from lib.db_new import db

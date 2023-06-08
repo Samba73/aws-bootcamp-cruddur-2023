@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta, timezone
 from opentelemetry import trace
-from lib.db import query_execution_array, query_execution_select, query_insert, extract_query
 from lib.db_new import db
 tracer = trace.get_tracer("home.activities")
 
