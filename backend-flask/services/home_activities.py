@@ -15,5 +15,5 @@ class HomeActivities:
       #query = extract_query('activities', 'home')
       query = db.extract_query('activities', 'home')
       #results = query_execution_array(query)
-      results = db.query_execution_array(sql=query)
+      results = db.query_execution_array(query)
       return results
