@@ -67,13 +67,13 @@ class Db:
         is_returning_id = re.search(pattern, sql)
         try:
             with self.pool.connection() as conn:
-                cur = conn.cursor()
-                cur.execute(sql, params)
-                if is_returning_id:
-                    returning_value = cur.fetchone()[0]
-                conn.commit()
-                if is_returning_id:
-                    return returning_value      
+                with conn.cursor() as cur:
+                    cur.execute(sql, params)
+                    if is_returning_id:
+                        returning_value = cur.fetchone()[0]
+                    conn.commit()
+                    if is_returning_id:
+                        return returning_value      
         except Exception as err:
             self.print_sql_err(err)            
                    
@@ -84,11 +84,11 @@ class Db:
         wrapped_sql = self.query_wrap_array(sql)
         print(wrapped_sql)
         with self.pool.connection() as conn:
-            cur = conn.cursor()
-            cur.execute(wrapped_sql, params)
-            json = cur.fetchone()
-            print(json)
-            return json[0]           
+            with conn.cursor() as cur:
+                cur.execute(wrapped_sql, params)
+                json = cur.fetchone()
+                print(json)
+                return json[0]           
 
     def query_execution_object(self, sql, params={}, verbose=True):
         if verbose:
@@ -96,25 +96,25 @@ class Db:
         wrapped_sql = self.query_wrap_object(sql)
         print(wrapped_sql)
         with self.pool.connection() as conn:
-            cur = conn.cursor()
-            cur.execute(wrapped_sql, params)
-            json = cur.fetchone()
-            if json is None:
-                return "{}"
-            else:
-                return json[0]
+            with conn.cursor() as cur:
+                cur.execute(wrapped_sql, params)
+                json = cur.fetchone()
+                if json is None:
+                    return "{}"
+                else:
+                    return json[0]
             
     def query_value(self, sql,params={}, verbose=True):
         if verbose:
             self.print_sql("Extract value", sql, params)
         with self.pool.connection() as conn:
-            cur = conn.cursor()
-            cur.execute(sql,params)
-            json = cur.fetchone()
-            if json == None:
-                return None
-            else:
-                return json[0]
+            with conn.cursor() as cur:
+                cur.execute(sql,params)
+                json = cur.fetchone()
+                if json == None:
+                    return None
+                else:
+                    return json[0]
     
     def print_sql_err(self, err):
         # get details about the exception
