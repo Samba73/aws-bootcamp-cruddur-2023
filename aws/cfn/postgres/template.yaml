@@ -13,7 +13,7 @@ Parameters:
     Type: String
     Default: cruddur-db
   DBName:
-    Type: String  
+    Type: String   
   DBMasterUsername:
     Type: String
   DBMasterUserPwd:
@@ -55,6 +55,7 @@ Resources:
       StorageType: !Ref DBStorageType
       VPCSecurityGroups:
         - !GetAtt RDSPostgresSG.GroupId
+ 
   RDSPostgresSG:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -81,6 +82,7 @@ Resources:
           - ","
           - Fn::ImportValue:
               !Sub '${NetworkingStack}PubSubnets'
+           
 Outputs:
   RDSSecurityGrpId:
     Value: !GetAtt RDSPostgresSG.GroupId

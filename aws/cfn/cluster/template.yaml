@@ -82,9 +82,9 @@ Resources:
       ValidationMethod: DNS
       DomainValidationOptions:
         - DomainName: !Ref DomainName
-          HostedZoneId: !Ref HostedZoneId 
+          HostedZoneId: !Ref HostedZoneId  
       SubjectAlternativeNames:
-        - !Ref AlternativeDomainName 
+           - !Ref AlternativeDomainName
   ALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
@@ -161,17 +161,7 @@ Resources:
           FromPort: 443
           ToPort: 443
           CidrIp: 0.0.0.0/0
-          Description: Public HTTPS
-        - IpProtocol: tcp
-          FromPort: !Ref FEPort
-          ToPort: !Ref FEPort
-          CidrIp: 0.0.0.0/0
-          Description: Public Frontend
-        - IpProtocol: tcp
-          FromPort: !Ref BEPort
-          ToPort: !Ref BEPort
-          CidrIp: 0.0.0.0/0
-          Description: Public Backend    
+          Description: Public HTTPS   
   ApiALBListenerRule:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
     Properties:   
