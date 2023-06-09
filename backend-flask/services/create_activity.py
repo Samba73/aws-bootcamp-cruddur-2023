@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime, timedelta, timezone
 from lib.db_new import db
 class CreateActivity:
-  def run(message, user_handle, ttl):
+  def run(message, cognito_user_id, ttl):
     model = {
       'errors': None,
       'data': None
@@ -27,8 +27,8 @@ class CreateActivity:
     else:
       model['errors'] = ['ttl_blank']
 
-    if user_handle == None or len(user_handle) < 1:
-      model['errors'] = ['user_handle_blank']
+    if cognito_user_id == None or len(cognito_user_id) < 1:
+      model['errors'] = ['user_cognito_id_blank']
 
     if message == None or len(message) < 1:
       model['errors'] = ['message_blank'] 
@@ -37,29 +37,19 @@ class CreateActivity:
 
     if model['errors']:
       model['data'] = {
-        'handle':  user_handle,
+        'cognito_user_id':  cognito_user_id,
         'message': message
       }   
     else:
-      print(user_handle)
-      #query = extract_query('activities', 'create')
+      print('activity', cognito_user_id)
       query = db.extract_query('activities', 'create')
-      """
-      result = query_insert(query, {
-        'handle': user_handle,
-        'message': message,
-        'created_at': now.isoformat(),
-        'expires_at': (now + ttl_offset).isoformat()
-      })
-      """
       result = db.query_insert(query, {
-        'handle': user_handle,
+        'cognito_user_id': cognito_user_id,
         'message': message,
         'created_at': now.isoformat(),
         'expires_at': (now + ttl_offset).isoformat()
       })
       print(result)
-      #activity = query_execution_select(result)
       activity = db.query_execution_object(result)
       model["data"] = activity
     return model
