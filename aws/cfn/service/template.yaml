@@ -148,7 +148,9 @@ Resources:
             - Name: 'RollbarAccessToken'
               ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/ROLLBAR_ACCESS_TOKEN'
             - Name: 'OtelExporterOtlpHeaders'
-              ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/OTEL_EXPORTER_OTLP_HEADERS'         
+              ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/OTEL_EXPORTER_OTLP_HEADERS' 
+            - Name: 'AWS_ENDPOINT_URL'
+              ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/AWS_ENDPOINT_URL'          
       Tags: 
         - Key: task
           Value: !Ref ServiceName

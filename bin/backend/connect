@@ -14,7 +14,7 @@ else
 fi    
 CONTAINER_NAME=backend-flask
 aws ecs execute-command  \
-    --cluster cruddur \
+    --cluster CrdClusterFargateCluster \
     --task $TASK_ID \
     --container $CONTAINER_NAME \
     --command "/bin/bash" \

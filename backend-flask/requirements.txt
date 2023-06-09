@@ -9,6 +9,6 @@ watchtower
 blinker
 rollbar
 Flask-AWSCognito
-psycopg[binary]
-psycopg[pool]
+psycopg2-binary
+psycopg2-pool
 boto3

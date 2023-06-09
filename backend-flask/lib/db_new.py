@@ -1,6 +1,8 @@
-from psycopg_pool import ConnectionPool
-import os, sys
+import os
+import sys
 import re
+import psycopg2
+from psycopg2 import pool
 
 class Db:
     def __init__(self):
@@ -23,8 +25,14 @@ class Db:
         return sql
     
     def init_connection(self):
-        connection_url = os.getenv("CONNECTION_URL")
-        self.pool = ConnectionPool(connection_url)    
+        db_host = 'cruddur-db.cyzqxlnlmrnn.ap-southeast-1.rds.amazonaws.com'  # Replace with the host endpoint of your RDS instance
+        db_port = '5432'  # Replace with the port number of your RDS instance
+        db_name = 'cruddur'  # Replace with the name of your database
+        db_user = 'cruddurroot'  # Replace with your database username
+        db_password = 'Password999'  # Replace with your database password
+
+        connection_url = f"host={db_host} port={db_port} dbname={db_name} user={db_user} password={db_password}"
+        self.pool = psycopg2.pool.SimpleConnectionPool(minconn=1, maxconn=10, dsn=connection_url)
     
     def extract_query(self, folder, file):
         file = file + ".sql"
@@ -62,40 +70,45 @@ class Db:
                 
     def query_insert(self, sql, params={}, verbose=True):
         if verbose:
-            self.print_sql('Insert query with rturn value', sql, params)
+            self.print_sql('Insert query with return value', sql, params)
         pattern = r"\bRETURNING\b"
         is_returning_id = re.search(pattern, sql)
         try:
-            with self.pool.connection() as conn:
-                with conn.cursor() as cur:
-                    cur.execute(sql, params)
-                    if is_returning_id:
-                        returning_value = cur.fetchone()[0]
-                    conn.commit()
-                    if is_returning_id:
-                        return returning_value      
+            conn = self.pool.getconn()
+            with conn.cursor() as cur:
+                cur.execute(sql, params)
+                if is_returning_id:
+                    returning_value = cur.fetchone()[0]
+                conn.commit()
+                if is_returning_id:
+                    return returning_value
         except Exception as err:
-            self.print_sql_err(err)            
-                   
+            self.print_sql_err(err)
+        finally:
+            self.pool.putconn(conn)
                    
     def query_execution_array(self, sql, params={}, verbose=True):
         if verbose:
             self.print_sql('SQL Execution, array result', sql, params)
         wrapped_sql = self.query_wrap_array(sql)
         print(wrapped_sql)
-        with self.pool.connection() as conn:
+        conn = self.pool.getconn()
+        try:
             with conn.cursor() as cur:
                 cur.execute(wrapped_sql, params)
                 json = cur.fetchone()
                 print(json)
-                return json[0]           
-
+                return json[0]
+        finally:
+            self.pool.putconn(conn)
+        
     def query_execution_object(self, sql, params={}, verbose=True):
         if verbose:
             self.print_sql('SQL Execution, object return', sql, params)
         wrapped_sql = self.query_wrap_object(sql)
         print(wrapped_sql)
-        with self.pool.connection() as conn:
+        conn = self.pool.getconn()
+        try:
             with conn.cursor() as cur:
                 cur.execute(wrapped_sql, params)
                 json = cur.fetchone()
@@ -103,18 +116,20 @@ class Db:
                     return "{}"
                 else:
                     return json[0]
+        finally:
+            self.pool.putconn(conn)
             
-    def query_value(self, sql,params={}, verbose=True):
+    def query_value(self, sql, params={}, verbose=True):
         if verbose:
             self.print_sql("Extract value", sql, params)
-        with self.pool.connection() as conn:
+        conn = self.pool.getconn()
+        try:
             with conn.cursor() as cur:
-                cur.execute(sql,params)
+                cur.execute(sql, params)
                 json = cur.fetchone()
-                if json == None:
-                    return None
-                else:
-                    return json[0]
+                return json[0]
+        finally:
+            self.pool.putconn(conn)
     
     def print_sql_err(self, err):
         # get details about the exception
