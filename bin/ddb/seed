@@ -7,7 +7,7 @@ import uuid
 current_path = os.path.dirname(os.path.abspath(__file__))
 parent_path = os.path.abspath(os.path.join(current_path, '..', '..',"backend-flask"))
 sys.path.append(parent_path)
-from lib.db import query_execution_array, query_execution_select, query_insert, extract_query
+from lib.db_new import db
 
 #now = datetime.now(timezone.utc).astimezone()
 now = datetime.now()
@@ -27,9 +27,17 @@ print('parent', parent_path)
 print(sys.path.append(parent_path))
 
 def get_users():
+    """
     query = extract_query('messages', 'users')
     
     users_int = query_execution_array(query, {
+        "my_handle": "samba",
+        "other_handle": "vishnu"
+    })
+    """
+    query = db.extract_query('messages', 'users')
+    
+    users_int = db.query_execution_array(query, {
         "my_handle": "samba",
         "other_handle": "vishnu"
     })

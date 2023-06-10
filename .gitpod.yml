@@ -1,4 +1,16 @@
 tasks:
+  - name: aws-sam
+    init: |
+        cd /workspace
+        wget https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip
+        unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
+        sudo ./sam-installation/install
+        cd $THEIA_WORKSPACE_ROOT
+  - name: cfn
+    before: |
+      pip install cfn-lint
+      cargo install cfn-guard
+      gem install cfn-toml  
   - name: aws-cli
     env:
       AWS_CLI_AUTO_PROMPT: on-partial
@@ -7,13 +19,7 @@ tasks:
       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       unzip awscliv2.zip
       sudo ./aws/install
-      cd $THEIA_WORKSPACE_ROOT
-  - name: cdk
-    before: |
-      npm install aws-cdk -g    
-      cd thumbing-serverless-cdk
-      cp .env.example .env
-      npm install 
+      cd $THEIA_WORKSPACE_ROOT 
   - name: postgres
     before: |
       curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg
@@ -53,7 +59,12 @@ tasks:
        curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
        sudo dpkg -i session-manager-plugin.deb  
        cd backend-flask
-  
+  - name: cdk
+    before: |
+      npm install aws-cdk -g
+      cd thumbing-serverless-cdk
+      cp .env.example .env
+      npm i
 vscode:
   extensions:
     - 42Crunch.vscode-openapi

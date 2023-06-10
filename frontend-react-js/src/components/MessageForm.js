@@ -2,7 +2,7 @@ import './MessageForm.css';
 import React from "react";
 import process from 'process';
 import { useParams } from 'react-router-dom';
-import { checkAuth, getAuth } from '../lib/CheckAuth';
+import { getAuth } from '../lib/CheckAuth';
 
 export default function ActivityForm(props) {
   const [count, setCount] = React.useState(0);

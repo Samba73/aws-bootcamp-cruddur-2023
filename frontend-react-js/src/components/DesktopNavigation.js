@@ -5,7 +5,7 @@ import CrudButton from '../components/CrudButton';
 import ProfileInfo from '../components/ProfileInfo';
 
 export default function DesktopNavigation(props) {
-
+  console.log('dekstop', props)
   let button;
   let profile;
   let notificationsLink;
@@ -25,7 +25,7 @@ export default function DesktopNavigation(props) {
       handle="messages" 
       active={props.active} />
     profileLink = <DesktopNavigationLink 
-      url="/@samba" 
+      url={"/@" + props.user.handle}
       name="Profile"
       handle="profile"
       active={props.active} />

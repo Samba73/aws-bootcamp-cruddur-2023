@@ -1,8 +1,8 @@
 import uuid
 from datetime import datetime, timedelta, timezone
-from lib.db import extract_query, query_execution_select, query_insert
 from lib.ddb import DDB
 import logging
+from lib.db_new import db
 
 class CreateMessage:
   def run(trans,cognito_user_id, message, handle=None, message_group_uuid=None):
@@ -16,10 +16,18 @@ class CreateMessage:
     elif len(message) > 1024:
       model['errors'] = ['message_exceed_max_chars'] 
 
-    sql = extract_query('messages', 'create_message_user')
+    #sql = extract_query('messages', 'create_message_user')
+    sql = db.extract_query('messages', 'create_message_user')
     print('the sql is', sql)
+    """
     if handle:
       user = query_execution_array(sql, {
+        'cognito_user_id': cognito_user_id,
+        'user_receiver_handle': handle
+      })  
+    """
+    if handle:
+      user = db.query_execution_array(sql, {
         'cognito_user_id': cognito_user_id,
         'user_receiver_handle': handle
       })    
@@ -30,10 +38,16 @@ class CreateMessage:
           other_user = item  
 
     else:
+      """
       user = query_execution_array(sql, {
         'cognito_user_id': cognito_user_id,
         'user_receiver_handle': ''  
       })  
+      """
+      user = db.query_execution_array(sql, {
+        'cognito_user_id': cognito_user_id,
+        'user_receiver_handle': ''  
+      })
       # for item in user:
       #   if item['kind'] == 'sender':
       #     my_user = item

@@ -3,7 +3,7 @@ import EditProfileButton from '../components/EditProfileButton';
 import ProfileAvatar from '../components/ProfileAvatar';
 
 export default function ProfileHeading(props) {
-  console.log('props', props)
+  console.log('profileheading props', props)
   const backgroundImage = 'url("https://assets.cruddur.in/banners/banner.jpg")';
   const styles = {
     backgroundImage: backgroundImage,

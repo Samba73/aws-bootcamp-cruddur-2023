@@ -1,7 +1,7 @@
 import './HomeFeedPage.css';
 import React from "react";
 
-import { Auth } from 'aws-amplify';
+//import { Auth } from 'aws-amplify';
 
 import DesktopNavigation  from '../components/DesktopNavigation';
 import DesktopSidebar     from '../components/DesktopSidebar';
@@ -82,7 +82,7 @@ export default function HomeFeedPage() {
         />
         </div>
       </div>  
-      <DesktopSidebar user={user} />
+      <DesktopSidebar user={user} /> 
     </article>
   );
 }

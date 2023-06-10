@@ -1,0 +1,26 @@
+#! /usr/bin/env bash
+set -e
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="Package the ddb and ddbstream with lambda using sam"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+printf "hello"
+ABS_PATH=$(readlink -f "$0")
+DDB_PATH=$(dirname $ABS_PATH)
+TEMPL_PATH="$DDB_PATH/template.yaml"
+ARTIFACT_BUCKET="cfn-artifacts-cruddur.in"
+SAM_PATH=$(dirname $DDB_PATH)
+AWS_PATH=$(dirname $SAM_PATH)
+PROJ_PATH=$(dirname $AWS_PATH)
+OUTPUT_TEMPL_PATH="$PROJ_PATH/.aws-sam/build/packaged.yaml"
+
+CONFIG_PATH="$DDB_PATH/config.toml"
+printf $CONFIG_PATH
+echo "== package"
+# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-package.html
+sam package \
+  --s3-bucket $ARTIFACT_BUCKET \
+  --s3-prefix ddb \
+  --config-file $CONFIG_PATH \
+  --output-template-file $OUTPUT_TEMPL_PATH \
+  --template-file $TEMPL_PATH \

@@ -13,3 +13,4 @@ source "$DB_PATH/create" $1
 source "$DB_PATH/scheme-load" $1
 source "$DB_PATH/seed" $1
 "$DB_PATH/update_cognito_id_db"
+"$DB_PATH/migrate"

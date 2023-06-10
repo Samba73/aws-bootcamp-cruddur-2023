@@ -8,7 +8,7 @@ import { Auth } from 'aws-amplify';
 export default function ConfirmationPage() {
   const [email, setEmail] = React.useState('');
   const [code, setCode] = React.useState('');
-  const [errors, setErrors] = React.useState('');
+  //const [errors, setErrors] = React.useState('');
   const [codeSent, setCodeSent] = React.useState(false);
   const [cognitoErrors, setCognitoErrors] = React.useState('');
 
@@ -23,7 +23,7 @@ export default function ConfirmationPage() {
 
   const resend_code = async (event) => {
     setCognitoErrors('')
-    setErrors('')
+    //setErrors('')
     try {
       await Auth.resendSignUp(email);
       console.log('code resent successfully');
@@ -33,10 +33,10 @@ export default function ConfirmationPage() {
       // does cognito always return english
       // for this to be an okay match?
       console.log(err)
-      if (err.message == 'Username cannot be empty'){
-        setErrors("You need to provide an email in order to send Resend Activiation Code")   
-      } else if (err.message == "Username/client id combination not found."){
-        setErrors("Email is invalid or cannot be found.")   
+      if (err.message === 'Username cannot be empty'){
+        setCognitoErrors("You need to provide an email in order to send Resend Activiation Code")   
+      } else if (err.message === "Username/client id combination not found."){
+        setCognitoErrors("Email is invalid or cannot be found.")   
       }
     }
   }
@@ -44,12 +44,12 @@ export default function ConfirmationPage() {
   const onsubmit = async (event) => {
     event.preventDefault();
     setCognitoErrors('')
-    setErrors('')
+    //setErrors('')
     try {
       await Auth.confirmSignUp(email, code);
       window.location.href = "/"
     } catch (error) {
-      setErrors(error.message)
+      setCognitoErrors(error.message)
     }
     return false
   }

@@ -1,0 +1,53 @@
+#! /usr/bin/env bash
+#set -e
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="Create cicd pipeline for Github pull merge for Cruddur using CFN"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+ABS_PATH=$(readlink -f "$0")
+CFN_PATH=$(dirname $ABS_PATH)
+BIN_PATH=$(dirname $CFN_PATH)
+PROJ_PATH=$(dirname $BIN_PATH)
+TEMPL_PATH="$PROJ_PATH/aws/cfn/cicd/template.yaml"
+
+CONFIG_PATH="$PROJ_PATH/aws/cfn/config.toml"
+printf $CONFIG_PATH
+
+BUCKET=$(cfn-toml key deploy.bucket -t $CONFIG_PATH)
+REGION=$(cfn-toml key deploy.region -t $CONFIG_PATH)
+STACK_NAME=$(cfn-toml key deploy.cicdstack_name -t $CONFIG_PATH)
+PARAMETERS=$(cfn-toml params v2 -t $CONFIG_PATH)
+
+
+cfn-lint $TEMPL_PATH
+
+printf $STACK_NAME
+
+cd $PROJ_PATH
+mkdir tmp
+PACKAGED_PATH="$PROJ_PATH/tmp/package-templ.yaml"
+
+
+echo "Packaging CFN to s3"
+aws cloudformation package \
+  --profile default \
+  --template-file $TEMPL_PATH \
+  --s3-bucket $BUCKET \
+  --s3-prefix cicd-package \
+  --region $REGION \
+  --output-template-file "$PACKAGED_PATH"
+
+aws cloudformation deploy \
+  --profile default \
+  --stack-name $STACK_NAME \
+  --s3-bucket $BUCKET\
+  --s3-prefix cicd \
+  --region $REGION \
+  --template-file $PACKAGED_PATH \
+  --no-execute-changeset \
+  --capabilities CAPABILITY_NAMED_IAM \
+  --tags group=cruddur-cicd \
+  --parameter-overrides $PARAMETERS \
+  --output table \
+  --color on 

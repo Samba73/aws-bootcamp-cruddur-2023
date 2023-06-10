@@ -1,0 +1,149 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  - Codestar connection to Github
+  - CodePipeline
+  - CodeBuild
+Parameters:
+  GitHubBranch:
+    Type: String
+  GitHubRepo:
+    Type: String  
+  ClusterStack:
+    Type: String
+  ServiceStack:
+    Type: String    
+Resources:
+  CodeBuildBackendFlask:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: nested/codebuild.yaml
+  CodeStarConnection:
+    Type: AWS::CodeStarConnections::Connection
+    Properties:
+      ProviderType: GitHub
+      ConnectionName: !Sub ${AWS::StackName}-connection
+  ArtifactStoreS3:
+    Type: AWS::S3::Bucket  
+    Properties:
+      BucketName: codedeploy-cruddur.in  
+  Pipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      ArtifactStore:
+           Type: S3
+           Location: !Ref ArtifactStoreS3
+      RoleArn: !GetAtt CodePipelineRole.Arn      
+      Stages:
+      - Name: Source
+        Actions:
+          - Name: ApplicationSource
+            ActionTypeId:
+              Owner: AWS
+              Category: Source
+              Version: '1'
+              Provider: CodeStarSourceConnection 
+            OutputArtifacts:
+              - Name: Source
+            Configuration:
+              ConnectionArn: !Ref CodeStarConnection
+              FullRepositoryId: !Ref GitHubRepo
+              BranchName: !Ref GitHubBranch
+              OutputArtifactFormat: CODE_ZIP
+      - Name: Build
+        Actions:
+          - Name: CodeBuild
+            InputArtifacts:
+              - Name: Source
+            ActionTypeId:
+              Category: Build
+              Owner: AWS
+              Version: 1
+              Provider: CodeBuild
+            OutputArtifacts:
+              - Name: ImageDefinition
+            Configuration:
+              ProjectName: !GetAtt CodeBuildBackendFlask.Outputs.CodeBuildProjectName
+              BatchEnabled: false
+      - Name: Deploy
+        Actions:
+          - Name: CodeDeploy
+            InputArtifacts:
+              - Name: ImageDefinition
+            ActionTypeId:
+              Category: Deploy
+              Owner: AWS
+              Version: 1
+              Provider: ECS
+            Configuration:
+              DeploymentTimeout: 10
+              ClusterName: 
+                Fn::ImportValue:
+                  !Sub ${ClusterStack}ClusterName
+              ServiceName:
+                Fn::ImportValue:
+                  !Sub ${ServiceStack}ServiceName    
+  CodePipelineRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: CodeBuildECRRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codepipeline.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: !Sub ${AWS::StackName}CodeStarPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: 
+                  - codestar-connections:UseConnection
+                Resource: !Ref CodeStarConnection
+        - PolicyName: !Sub ${AWS::StackName}ECSDeployPolicy
+          PolicyDocument: 
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ecs:DescribeServices
+                  - ecs:DescribeTaskDefinition
+                  - ecs:DescribeTasks
+                  - ecs:ListTasks
+                  - ecs:RegisterTaskDefinition
+                  - ecs:UpdateService
+                Resource: "*"
+        - PolicyName: !Sub ${AWS::StackName}CodeCommitPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - codebuild:StartBuild
+                  - codebuild:StopBuild
+                  - codebuild:RetryBuild
+                Resource: !Sub "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${CodeBuildBackendFlask.Outputs.CodeBuildProjectName}"
+        - PolicyName: !Sub ${AWS::StackName}CodePipelinePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - s3:*
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+                - cloudformation:*
+                - iam:PassRole
+                - iam:CreateRole
+                - iam:DetachRolePolicy
+                - iam:DeleteRolePolicy
+                - iam:PutRolePolicy
+                - iam:DeleteRole
+                - iam:AttachRolePolicy
+                - iam:GetRole
+                - iam:PassRole
+                Effect: Allow
+                Resource: '*'
+
