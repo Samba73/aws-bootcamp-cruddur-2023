@@ -42,14 +42,17 @@ class CreateActivity:
       }   
     else:
       print('activity', cognito_user_id)
-      query = db.extract_query('activities', 'create')
-      result = db.query_insert(query, {
+      query          = db.extract_query('activities', 'create')
+      returning_uuid = db.query_insert(query, {
         'cognito_user_id': cognito_user_id,
         'message': message,
-        'created_at': now.isoformat(),
         'expires_at': (now + ttl_offset).isoformat()
       })
-      print(result)
-      activity = db.query_execution_object(result)
+      print('returning uuid', returning_uuid)
+      activity_query = db.extract_query('activities', 'select')
+      print(activity_query)
+      activity = db.query_execution_object(activity_query, {
+        'uuid': returning_uuid
+      })
       model["data"] = activity
     return model

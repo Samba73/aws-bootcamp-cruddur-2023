@@ -151,6 +151,16 @@ Resources:
               ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/OTEL_EXPORTER_OTLP_HEADERS' 
             - Name: 'AWS_ENDPOINT_URL'
               ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/AWS_ENDPOINT_URL'          
+            - Name: 'POSTGRES_HOST'
+              ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/POSTGRES_HOST'      
+            - Name: 'POSTGRES_PORT'
+              ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/POSTGRES_PORT' 
+            - Name: 'POSTGRES_DBNAME'
+              ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/POSTGRES_DBNAME' 
+            - Name: 'POSTGRES_UNAME'
+              ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/POSTGRES_UNAME' 
+            - Name: 'POSTGRES_PWD'
+              ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/POSTGRES_PWD'   
       Tags: 
         - Key: task
           Value: !Ref ServiceName
