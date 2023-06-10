@@ -20,6 +20,11 @@ Parameters:
   QueuedTimeout:
     Type: Number
     Default: 5   
+  BuildSpec:
+    Type: String
+    Default: "buildspec.yml"  
+  ArtifactStoreS3:
+    Type: String  
 Resources:
   CruddurCodeBuild:
     Type: AWS::CodeBuild::Project
@@ -40,7 +45,7 @@ Resources:
           StreamName: !Ref LogStream
       Source:
         Type: CODEPIPELINE
-        BuildSpec: 'buildspec.yml'
+        BuildSpec: !Ref BuildSpec
   CodeBuildRole:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html
     Type: AWS::IAM::Role
@@ -54,6 +59,17 @@ Resources:
         Version: '2012-10-17'
       Path: /
       Policies:
+        - PolicyName: !Sub ${AWS::StackName}S3ArtifactAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:        
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                Resource:
+                  - !Sub "arn:aws:s3:::${ArtifactStoreS3}"
+                  - !Sub "arn:aws:s3:::${ArtifactStoreS3}/*"    
         - PolicyName: !Sub ${AWS::StackName}ECRPolicy
           PolicyDocument:
             Version: '2012-10-17'
@@ -101,4 +117,4 @@ Resources:
                   - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:${LogGroupPath}:*
 Outputs:
   CodeBuildProjectName:
-    Value: !Sub ${AWS::StackName}Project
+    Value: !Ref CruddurCodeBuild

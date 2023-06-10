@@ -12,11 +12,16 @@ Parameters:
     Type: String
   ServiceStack:
     Type: String    
+  BuildSpec:
+    Type: String  
 Resources:
   CodeBuildBackendFlask:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: nested/codebuild.yaml
+      Parameters:
+        ArtifactStoreS3: !Ref ArtifactStoreS3
+        BuildSpec: !Ref BuildSpec   
   CodeStarConnection:
     Type: AWS::CodeStarConnections::Connection
     Properties:
@@ -115,6 +120,17 @@ Resources:
                   - ecs:RegisterTaskDefinition
                   - ecs:UpdateService
                 Resource: "*"
+        - PolicyName: !Sub ${AWS::StackName}S3ArtifactAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:        
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                Resource:
+                  - !Sub "arn:aws:s3:::${ArtifactStoreS3}"
+                  - !Sub "arn:aws:s3:::${ArtifactStoreS3}/*"        
         - PolicyName: !Sub ${AWS::StackName}CodeCommitPolicy
           PolicyDocument:
             Version: "2012-10-17"
@@ -124,6 +140,7 @@ Resources:
                   - codebuild:StartBuild
                   - codebuild:StopBuild
                   - codebuild:RetryBuild
+                  - codebuild:BatchGetBuilds
                 Resource: !Sub "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${CodeBuildBackendFlask.Outputs.CodeBuildProjectName}"
         - PolicyName: !Sub ${AWS::StackName}CodePipelinePolicy
           PolicyDocument:
