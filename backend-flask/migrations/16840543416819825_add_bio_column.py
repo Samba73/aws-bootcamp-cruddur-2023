@@ -1,4 +1,4 @@
-from lib.db import query_insert
+from lib.db_new import db
 class AddBioColumnMigration:
   def migrate_sql():
     data = """
@@ -11,10 +11,10 @@ class AddBioColumnMigration:
     """
     return data
   def migrate():
-    query_insert(AddBioColumnMigration.migrate_sql(),{
+    db.query_insert(AddBioColumnMigration.migrate_sql(),{
     })
   def rollback():
-    query_insert(AddBioColumnMigration.rollback_sql(),{
+    db.query_insert(AddBioColumnMigration.rollback_sql(),{
     })
     
 migration = AddBioColumnMigration    
