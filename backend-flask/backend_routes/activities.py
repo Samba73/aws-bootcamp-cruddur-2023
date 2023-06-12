@@ -1,7 +1,8 @@
 from flask                              import request, g
+from flask_cors                         import cross_origin
 
 from lib.return_data                    import return_json
-from lib.decode_verify_jwt              import jwt_decoder
+from lib.decode_verify_jwt              import jwt_required
 from lib.return_data                    import return_json
 
 from services.home_activities           import *
@@ -16,7 +17,7 @@ def load(app):
             app.logger.debug(e)
             app.logger.debug("unauthenicated")
             data = HomeActivities.run()
-            return(return_json(data))
+            return data, 200
             
     @app.route("/api/activities/home", methods=['GET'])
     @jwt_required(on_error=default_home_page)
@@ -24,19 +25,19 @@ def load(app):
         #  data = HomeActivities.run(LOGGER)
         #  with xray_recorder.in_subsegment('api-route'):
         data = HomeActivities.run(cognito_user_id=g.cognito_user_id)
-        return(return_json(data))
+        return data, 200
     
     @app.route("/api/activities/notifications", methods=['GET'])
     def data_notifications():
         data = NotificationsActivities.run()
-        return(return_json(data))
+        return data, 200
 
 
     @app.route("/api/activities/search", methods=['GET'])
     def data_search():
         term = request.args.get('term')
         model = SearchActivities.run(term)
-        return(return_json(model))
+        return return_json(model)
 
     @app.route("/api/activities", methods=['POST', 'OPTIONS'])
     @cross_origin()
@@ -46,7 +47,7 @@ def load(app):
         message             = request.json['message']
         ttl                 = request.json['ttl']
         model = CreateActivity.run(message, g.cognito_user_id, ttl)
-        return(return_json(model))
+        return return_json(model)
 
 
 
@@ -56,4 +57,4 @@ def load(app):
     def data_activities_reply(activity_uuid):
         message = request.json['message']
         model = CreateReply.run(message, g.cognito_user_id, activity_uuid)
-        return(return_json(model))
+        return return_json(model)

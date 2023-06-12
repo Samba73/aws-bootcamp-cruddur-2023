@@ -4,7 +4,7 @@ from flask import got_request_exception
 import os
 
 
-def init_rollbar():
+def init_rollbar(app):
     """init rollbar module"""
     rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
     rollbar.init(

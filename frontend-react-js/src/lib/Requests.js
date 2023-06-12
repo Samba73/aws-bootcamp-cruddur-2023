@@ -1,5 +1,4 @@
-import {getAccessToken} from 'lib/CheckAuth';
-
+import { getAuth } from '../lib/CheckAuth'
 async function request(method,url,payload_data,options){
   if (options.hasOwnProperty('setErrors')){
     options.setErrors('')
@@ -15,7 +14,7 @@ async function request(method,url,payload_data,options){
     }
 
     if (options.hasOwnProperty('auth') && options.auth === true){
-      await getAccessToken()
+      await getAuth()
       const access_token = localStorage.getItem("access_token")
       attrs.headers['Authorization'] = `Bearer ${access_token}`
     }

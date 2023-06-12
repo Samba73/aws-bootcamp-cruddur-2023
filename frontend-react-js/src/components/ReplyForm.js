@@ -1,18 +1,12 @@
 import './ReplyForm.css';
-<<<<<<< HEAD
-import React            from "react";
-import process          from 'process';
-import {post}           from 'lib/Requests';
 
-import ActivityContent  from 'components/ActivityContent';
-import FormErrors       from 'components/FormErrors';
-=======
-import React from "react";
-import process from 'process';
-import {ReactComponent as BombIcon} from './svg/bomb.svg';
-import { checkAuth, getAuth } from '../lib/CheckAuth';
-import ActivityContent  from '../components/ActivityContent';
->>>>>>> 6f6acb74563480b7acdc005d909ffff75466ad86
+import React              from "react";
+import process            from 'process';
+import { post }           from '../lib/Requests';
+
+import ActivityContent    from '../components/ActivityContent';
+import FormErrors         from '../components/FormErrors';
+
 
 export default function ReplyForm(props) {
   const [count, setCount] = React.useState(0);
@@ -27,7 +21,7 @@ export default function ReplyForm(props) {
 
   const onsubmit = async (event) => {
     event.preventDefault();
-<<<<<<< HEAD
+
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/${props.activity.uuid}/reply`
     const payload_data = {
       activity_uuid: props.activity.uuid,
@@ -40,34 +34,7 @@ export default function ReplyForm(props) {
         if (props.setReplies) {
           props.setReplies(current => [data,...current]);
         }
-=======
-    try {
-      await getAuth()
-      const access_token = localStorage.getItem("access_token")
-      const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/${props.activity.uuid}/reply`
-      const res = await fetch(backend_url, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${access_token}`, 
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          message: message
-        }),
-      });
-      let data = await res.json();
-      if (res.status === 200) {
-        // add activity to the feed
 
-        let activities_deep_copy = JSON.parse(JSON.stringify(props.activities))
-        let found_activity = activities_deep_copy.find(function (element) {
-          return element.uuid ===  props.activity.uuid;
-        });
-        found_activity.replies.push(data)
-
-        props.setActivities(activities_deep_copy);
->>>>>>> 6f6acb74563480b7acdc005d909ffff75466ad86
         // reset and close the form
         setCount(0)
         setMessage('')
