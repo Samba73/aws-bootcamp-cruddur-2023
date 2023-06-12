@@ -6,8 +6,8 @@ export default function MessageGroupFeed(props) {
   if (props.otherUser) {
     message_group_new_item = <MessageGroupNewItem user={props.otherUser} />
   }
-  console.log('messagegroupfeed', props)
-  console.log('issue', props.message_groups.data)
+  //console.log('messagegroupfeed', props)
+  //console.log('issue', props.message_groups.data)
   let message_groups = props.message_groups.data || []; // Initialize with an empty array if props.message_groups is undefined
 
   return (
