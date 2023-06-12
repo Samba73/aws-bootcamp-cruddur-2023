@@ -27,16 +27,16 @@ class Db:
     
     def init_connection(self):
       # sample entries
-        #db_host = 'cruddur-db.cyzqxlnlmrnn.ap-southeast-1.rds.amazonaws.com'  # Replace with the host endpoint of your RDS instance
-        #db_port = '5432'  # Replace with the port number of your RDS instance
-        #db_name = 'cruddur'  # Replace with the name of your database
-        #db_user = 'cruddurroot'  # Replace with your database username
-        #db_password = 'Password999'  # Replace with your database password
-        db_host = os.getenv('POSTGRES_HOST')
-        db_port = int(os.getenv('POSTGRES_PORT')) 
-        db_name = os.getenv('POSTGRES_DBNAME') 
-        db_user = os.getenv('POSTGRES_UNAME')  
-        db_password = os.getenv('POSTGRES_PWD') 
+        db_host = 'cruddur-db.cyzqxlnlmrnn.ap-southeast-1.rds.amazonaws.com'  # Replace with the host endpoint of your RDS instance
+        db_port = '5432'  # Replace with the port number of your RDS instance
+        db_name = 'cruddur'  # Replace with the name of your database
+        db_user = 'cruddurroot'  # Replace with your database username
+        db_password = 'Password999'  # Replace with your database password
+        # db_host = os.getenv('POSTGRES_HOST')
+        # db_port = int(os.getenv('POSTGRES_PORT')) 
+        # db_name = os.getenv('POSTGRES_DBNAME') 
+        # db_user = os.getenv('POSTGRES_UNAME')  
+        # db_password = os.getenv('POSTGRES_PWD') 
 
         connection_url = f"host={db_host} port={db_port} dbname={db_name} user={db_user} password={db_password}"
         #connection_url=os.getenv("CONNECTION_URL")
@@ -78,7 +78,7 @@ class Db:
                 
     def query_insert(self, sql, params={}, verbose=True):
         if verbose:
-            self.print_sql('Insert query with return value', sql, params)
+            self.print_sql('Insert query with/without return value', sql, params)
         pattern = r"\bRETURNING\b"
         is_returning_id = re.search(pattern, sql)
         try:
