@@ -14,10 +14,6 @@ class UserActivities:
     if user_handle == None or len(user_handle) < 1:
       model['errors'] = ['blank_user_handle']
     else:
-      """
-      sql = extract_query('users','userProfile')
-      results = query_execution_select(sql,{'handle': user_handle})
-      """
       sql = db.extract_query('users','userProfile')
       results = db.query_execution_object(sql,{'handle': user_handle})
       model['data'] = results

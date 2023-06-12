@@ -1,7 +1,8 @@
 import uuid
 from datetime import datetime, timedelta, timezone
+from lib.db_new import db
 class CreateReply:
-  def run(message, user_handle, activity_uuid):
+  def run(message, cognito_user_id, activity_uuid):
     model = {
       'errors': None,
       'data': None
@@ -21,19 +22,22 @@ class CreateReply:
     if model['errors']:
       # return what we provided
       model['data'] = {
-        'display_name': 'Samba Krishnamurthy',
-        'handle':  user_sender_handle,
         'message': message,
         'reply_to_activity_uuid': activity_uuid
       }
     else:
       now = datetime.now(timezone.utc).astimezone()
-      model['data'] = {
-        'uuid': uuid.uuid4(),
-        'display_name': 'Samba Krishnamurthy',
-        'handle':  user_handle,
+      reply_query = db.extract_query('activities', 'reply')
+      
+      reply_id = db.query_insert(sql)(reply_query, {
+        'cognito_user-id': cognito_user_id,
         'message': message,
-        'created_at': now.isoformat(),
         'reply_to_activity_uuid': activity_uuid
-      }
-    return model
+      })
+      
+      display_reply = db.extract_query('activities', 'select')
+      reply = db.query_execution_object(display_reply, {
+        'uuid': reply_id
+      })     
+      model['data'] = reply                                    
+  return model
