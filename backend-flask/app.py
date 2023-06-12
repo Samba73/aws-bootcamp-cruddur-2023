@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import request, g
 from flask import request
 from flask_cors import CORS, cross_origin
 import os
@@ -161,9 +162,6 @@ with app.app_context():
         message            = request.json['message']
         handle             =  request.json.get('handle', None)
         message_group_uuid = request.json.get('message_group_uuid', None)
-            # authenicatied request
-        app.logger.debug("authenicated")
-        app.logger.debug(claims)
         cognito_user_id = g.cognito_user_id
         app.logger.debug(cognito_user_id)
         if handle:
@@ -183,16 +181,15 @@ with app.app_context():
         app.logger.debug(e)
         app.logger.debug("unauthenicated")
         data = HomeActivities.run()
+        return data, 200
         
     @app.route("/api/activities/home", methods=['GET'])
     @jwt_required(on_error=default_home_page)
     def data_home():
         #  data = HomeActivities.run(LOGGER)
         #  with xray_recorder.in_subsegment('api-route'):
-        app.logger.debug("authenicated")
-        app.logger.debug(claims)
         data = HomeActivities.run(cognito_user_id=g.cognito_user_id)
-
+        return data, 200
     @app.route("/api/activities/notifications", methods=['GET'])
     def data_notifications():
         data = NotificationsActivities.run()
