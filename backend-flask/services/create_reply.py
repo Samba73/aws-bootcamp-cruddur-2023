@@ -8,9 +8,6 @@ class CreateReply:
       'data': None
     }
 
-    if user_handle == None or len(user_handle) < 1:
-      model['errors'] = ['user_handle_blank']
-
     if activity_uuid == None or len(activity_uuid) < 1:
       model['errors'] = ['activity_uuid_blank']
 
@@ -29,8 +26,8 @@ class CreateReply:
       now = datetime.now(timezone.utc).astimezone()
       reply_query = db.extract_query('activities', 'reply')
       
-      reply_id = db.query_insert(sql)(reply_query, {
-        'cognito_user-id': cognito_user_id,
+      reply_id = db.query_insert(reply_query, {
+        'cognito_user_id': cognito_user_id,
         'message': message,
         'reply_to_activity_uuid': activity_uuid
       })
@@ -40,4 +37,4 @@ class CreateReply:
         'uuid': reply_id
       })     
       model['data'] = reply                                    
-  return model
+    return model

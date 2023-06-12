@@ -80,7 +80,7 @@ Resources:
               Version: 1
               Provider: ECS
             Configuration:
-              DeploymentTimeout: 10
+              DeploymentTimeout: 30
               ClusterName: 
                 Fn::ImportValue:
                   !Sub ${ClusterStack}ClusterName

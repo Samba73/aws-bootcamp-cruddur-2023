@@ -13,7 +13,8 @@ class HomeActivities:
       span.set_attribute("app.now", now.isoformat())
 
       #query = extract_query('activities', 'home')
-      query = db.extract_query('activities', 'home')
+      activities_query = db.extract_query('activities', 'home')
       #results = query_execution_array(query)
-      results = db.query_execution_array(query)
-      return results
+      activities = db.query_execution_array(activities_query)
+      print('activities', activities)
+      return activities
