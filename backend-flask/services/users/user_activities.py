@@ -1,5 +1,5 @@
-from datetime import datetime, timedelta, timezone
-from lib.ddb import DDB
+from datetime   import datetime, timedelta, timezone
+from lib.ddb    import DDB
 from lib.db_new import db
 
 class UserActivities:

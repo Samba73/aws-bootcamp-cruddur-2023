@@ -1,8 +1,9 @@
-import uuid
-from datetime import datetime, timedelta, timezone
-from lib.ddb import DDB
+
+from datetime     import datetime, timedelta, timezone
+from lib.ddb      import DDB
+from lib.db_new   import db
 import logging
-from lib.db_new import db
+import uuid
 
 class CreateMessage:
   def run(trans,cognito_user_id, message, handle=None, message_group_uuid=None):

@@ -1,7 +1,7 @@
-from datetime import datetime, timedelta, timezone
-from lib.ddb import DDB
-import logging
+from datetime   import datetime, timedelta, timezone
+from lib.ddb    import DDB
 from lib.db_new import db
+import logging
 class MessageGroups:
   def run(cognito_user_id):
     model = {

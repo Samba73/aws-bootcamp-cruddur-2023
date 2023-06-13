@@ -1,6 +1,7 @@
-import uuid
-from datetime import datetime, timedelta, timezone
+from datetime   import datetime, timedelta, timezone
 from lib.db_new import db
+import uuid
+
 class CreateActivity:
   def run(message, cognito_user_id, ttl):
     model = {

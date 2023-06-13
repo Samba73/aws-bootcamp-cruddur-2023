@@ -5,9 +5,9 @@ from lib.return_data            import return_json
 from lib.decode_verify_jwt      import jwt_required
 from lib.return_data            import return_json
 
-from services.show_activity     import *
-from services.update_profile    import *
-from services.user_activities   import *
+from services.show_activity     import ShowActivities
+from services.update_profile    import UpdateProfile
+from services.user_activities   import UserActivities
 
 def load(app):
     @app.route("/api/profile/update", methods=['POST','OPTIONS'])

@@ -5,11 +5,11 @@ from lib.return_data                    import return_json
 from lib.decode_verify_jwt              import jwt_required
 from lib.return_data                    import return_json
 
-from services.home_activities           import *
-from services.notifications_activities  import *
-from services.create_activity           import *
-from services.search_activities         import *
-from services.create_reply              import *
+from services.home_activities           import HomeActivities
+from services.notifications_activities  import NotificationsActivities
+from services.create_activity           import CreateActivity
+from services.search_activities         import SearchActivities
+from services.create_reply              import CreateReply
 
 
 def load(app):

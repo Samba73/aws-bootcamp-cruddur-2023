@@ -1,6 +1,7 @@
-import uuid
-from datetime import datetime, timedelta, timezone
+from datetime   import datetime, timedelta, timezone
 from lib.db_new import db
+import uuid
+
 class CreateReply:
   def run(message, cognito_user_id, activity_uuid):
     model = {

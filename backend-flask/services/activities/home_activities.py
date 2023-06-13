@@ -1,6 +1,6 @@
-from datetime import datetime, timedelta, timezone
-from opentelemetry import trace
-from lib.db_new import db
+from datetime       import datetime, timedelta, timezone
+from opentelemetry  import trace
+from lib.db_new     import db
 tracer = trace.get_tracer("home.activities")
 
 class HomeActivities:

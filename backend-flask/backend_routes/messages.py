@@ -5,9 +5,9 @@ from lib.return_data            import return_json
 from lib.decode_verify_jwt      import jwt_required
 from lib.return_data            import return_json
 
-from services.message_groups    import *
-from services.messages          import *
-from services.create_message    import *
+from services.message_groups    import MessageGroups
+from services.messages          import Messages
+from services.create_message    import CreateMessage
 
 def load(app):
     @app.route("/api/message_groups", methods=['GET'])

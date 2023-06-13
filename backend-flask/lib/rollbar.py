@@ -1,7 +1,7 @@
-import rollbar
-import rollbar.contrib.flask
 from flask import got_request_exception
 import os
+import rollbar
+import rollbar.contrib.flask
 
 
 def init_rollbar(app):
