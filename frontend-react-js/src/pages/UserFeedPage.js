@@ -1,14 +1,14 @@
+import React                    from "react";
+import { useParams }            from 'react-router-dom';
+import DesktopNavigation        from '../components/DesktopNavigation';
+import DesktopSidebar           from '../components/DesktopSidebar';
+import ActivityFeed             from '../components/ActivityFeed';
+import ActivityForm             from '../components/ActivityForm';
+import ProfileHeading           from '../components/ProfileHeading';
+import ProfileForm              from '../components/ProfileForm';
+import { checkAuth }   from '../lib/CheckAuth';
+import { get }                       from '../lib/Requests';
 import './UserFeedPage.css';
-import React from "react";
-import { useParams } from 'react-router-dom';
-
-import DesktopNavigation  from '../components/DesktopNavigation';
-import DesktopSidebar     from '../components/DesktopSidebar';
-import ActivityFeed from '../components/ActivityFeed';
-import ActivityForm from '../components/ActivityForm';
-import ProfileHeading from '../components/ProfileHeading';
-import ProfileForm from '../components/ProfileForm';
-import { checkAuth, getAuth } from '../lib/CheckAuth';
 
 export default function UserFeedPage() {
   const [activities, setActivities] = React.useState([]);
@@ -22,30 +22,16 @@ export default function UserFeedPage() {
  
 
   const loadData = async () => {
-    try {
-      await getAuth()
-      const access_token = localStorage.getItem("access_token")
-      const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/@${params.handle}`
-      const res = await fetch(backend_url, {
-        headers: {
-          Authorization: `Bearer ${access_token}`
-        },
-        method: "GET"
-      });
-      let resJson = await res.json();
-      console.log(resJson)
-      console.log('profilee', resJson.profile)
-      if (res.status === 200) {
-        setProfile(resJson.profile)
-        setActivities(resJson.activities)
-        console.log('profile', {profile})
-      } else {
-        console.log(res)
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/@${params.handle}`
+    get(url,{
+      auth: false,
+      success: function(data){
+        console.log('setprofile',data.profile)
+        setProfile(data.profile)
+        setActivities(data.activities)
       }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    })
+  }
 
   React.useEffect(()=>{
     //prevents double call

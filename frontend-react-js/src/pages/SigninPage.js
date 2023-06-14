@@ -1,8 +1,9 @@
-import './SigninPage.css';
-import React from "react";
+import React                    from "react";
 import {ReactComponent as Logo} from '../components/svg/logo.svg';
-import { Link } from "react-router-dom";
-import { Auth } from 'aws-amplify';
+import { Link }                 from "react-router-dom";
+import { Auth }                 from 'aws-amplify';
+import FormErrors               from '../components/FormErrors';
+import './SigninPage.css';
 
 export default function SigninPage() {
 
@@ -34,11 +35,6 @@ export default function SigninPage() {
     setPassword(event.target.value);
   }
 
-  let el_errors;
-  if (cognitoErrors){
-    el_errors = <div className='errors'>{cognitoErrors}</div>;
-  }
-
   return (
     <article className="signin-article">
       <div className='signin-info'>
@@ -68,7 +64,7 @@ export default function SigninPage() {
               />
             </div>
           </div>
-          {el_errors}
+          <FormErrors errors={errors} />
           <div className='submit'>
             <Link to="/forgot" className="forgot-link">Forgot Password?</Link>
             <button type='submit'>Sign In</button>

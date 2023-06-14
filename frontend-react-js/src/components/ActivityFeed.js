@@ -5,7 +5,7 @@ export default function ActivityFeed(props) {
   let content;
   if (props.activities.length === 0){
     content = <div className='activity_feed_primer'>
-      <span>Nothing to see here yet</span>
+      <span>Start Crud to see it here ...</span>
     </div>
   } else {
     content = <div className='activity_feed_collection'>
