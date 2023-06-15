@@ -36,7 +36,7 @@ export default function MessageGroupFeed(props) {
         auth: true,
         setErrors: setErrors,
         success: function(data){
-          props.setMessages(current => [data,...current]);
+          //props.setMessages(current => [data,...current]);
           setMessage('')
           setShowModal(false);
         }
