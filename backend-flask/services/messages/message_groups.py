@@ -8,13 +8,9 @@ class MessageGroups:
       'errors': None,
       'data': None
     }
-    #sql = extract_query('messages', 'cognito_user_id')
+  
     sql = db.extract_query('messages', 'cognito_user_id')
-    """
-    user_id = query_execution_array(sql, {
-      'cognito_user_id': cognito_user_id
-    })
-    """
+ 
     user_id = db.query_value(sql, {
       'cognito_user_id': cognito_user_id
     })

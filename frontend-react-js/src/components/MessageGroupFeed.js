@@ -6,15 +6,15 @@ import './MessageGroupFeed.css';
 import { post } from '../lib/Requests';
 
 export default function MessageGroupFeed(props) {
-  console.log('final props', props)
-  const data = props.message_groups['data']
-  console.log('data', data)
-  const { message_groups } = data;
+  
   const [showModal, setShowModal] = useState(false);
-  const [message, setMessage] = useState('');
-  const [handle, setHandle] = useState('');
+  const [message, setMessage] = useState([]);
+  const [handle, setHandle] = useState([]);
   const [errors, setErrors] = React.useState([]);
 
+  console.log('final props', props)
+
+  const { message_groups } = props;
 
     const handleNewMessage = () => {
       setShowModal(true);

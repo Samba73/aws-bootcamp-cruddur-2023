@@ -12,21 +12,33 @@ class CreateMessage:
       'data': None
     }
 
+    if (trans == "update"):
+      if message_group_uuid == None or len(message_group_uuid) < 1:
+        model['errors'] = ['message_group_uuid_blank']
+
+
+    if cognito_user_id == None or len(cognito_user_id) < 1:
+      model['errors'] = ['cognito_user_id_blank']
+
+    if (trans == "new"):
+      if handle == None or len(handle) < 1:
+        model['errors'] = ['user_reciever_handle_blank']
+
     if message == None or len(message) < 1:
       model['errors'] = ['message_blank'] 
     elif len(message) > 1024:
-      model['errors'] = ['message_exceed_max_chars'] 
+      model['errors'] = ['message_exceed_max_chars_1024'] 
+
+    if model['errors']:
+      # return what we provided
+      model['data'] = {
+        'error': "Error in data"
+      }
 
     #sql = extract_query('messages', 'create_message_user')
     sql = db.extract_query('messages', 'create_message_user')
     print('the sql is', sql)
-    """
-    if handle:
-      user = query_execution_array(sql, {
-        'cognito_user_id': cognito_user_id,
-        'user_receiver_handle': handle
-      })  
-    """
+
     if handle:
       user = db.query_execution_array(sql, {
         'cognito_user_id': cognito_user_id,
@@ -40,12 +52,7 @@ class CreateMessage:
           other_user = item  
 
     else:
-      """
-      user = query_execution_array(sql, {
-        'cognito_user_id': cognito_user_id,
-        'user_receiver_handle': ''  
-      })  
-      """
+
       user = db.query_execution_array(sql, {
         'cognito_user_id': cognito_user_id,
         'user_receiver_handle': ''  
@@ -55,7 +62,7 @@ class CreateMessage:
       #     my_user = item
       #   elif item['kind'] == 'recv':
       #     other_user = item  
-    print('new message user', user)
+      print('new message user', user)
     #my_user = next((item for item in user if item["kind"] == 'sender'),None)
     #other_user = next((item for item in user if item["kind"] == 'recv'),None)
     

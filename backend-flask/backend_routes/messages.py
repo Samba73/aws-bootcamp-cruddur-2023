@@ -15,9 +15,9 @@ def load(app):
     def data_message_groups():
         cognito_user_id = g.cognito_user_id
         app.logger.debug(cognito_user_id)
-        data = MessageGroups.run(cognito_user_id=cognito_user_id)
-        print('message_groups', data)
-        return data, 200
+        model = MessageGroups.run(cognito_user_id=cognito_user_id)
+        print('message_groups', model)
+        return return_json(model)
 
     @app.route("/api/messages/<string:message_group_uuid>", methods=['GET'])
     @jwt_required()
