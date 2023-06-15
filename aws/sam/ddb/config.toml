@@ -1,9 +1,12 @@
 version=0.1
 [default.build.parameters]
 region = "ap-southeast-1"
+TableName = "cruddur-message"
 
 [default.package.parameters]
 region = "ap-southeast-1"
+TableName = "cruddur-message"
 
 [default.deploy.parameters]
 region = "ap-southeast-1"
+TableName = "cruddur-message"

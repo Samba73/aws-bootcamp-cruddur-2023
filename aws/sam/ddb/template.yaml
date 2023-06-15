@@ -22,6 +22,8 @@ Parameters:
   Timeout:
     Type: Number  
     Default: 3
+  TableName:
+    Type: String  
 Resources:
   CruddurDDBTable:
     Type: AWS::DynamoDB::Table
@@ -33,6 +35,7 @@ Resources:
           AttributeType: S
         - AttributeName: sk
           AttributeType: S
+      TableName: !Ref TableName    
       TableClass: STANDARD
       KeySchema: 
         - AttributeName: pk
@@ -125,4 +128,9 @@ Resources:
                   - dynamodb:GetShardIterator
                   - dynamodb:ListStreams
                 Resource: "*"
+Outputs:
+    DDBTable:
+      Value: !Ref CruddurDDBTable
+      Export:
+        Name: !Sub '${AWS::StackName}DDBTable'
 
