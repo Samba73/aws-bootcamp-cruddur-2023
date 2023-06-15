@@ -9,7 +9,7 @@ export default function MessageGroupFeed(props) {
   console.log('final props', props)
   const data = props.message_groups['data']
   console.log('data', data)
-  const { message_groups } = props;
+  const { message_groups } = data;
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState('');
   const [handle, setHandle] = useState('');
