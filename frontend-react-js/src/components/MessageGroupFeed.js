@@ -1,5 +1,6 @@
 import MessageGroupItem     from './MessageGroupItem';
 import MessageGroupNewItem  from './MessageGroupNewItem';
+import React, { useState }  from 'react';
 import './MessageGroupFeed.css';
 
 export default function MessageGroupFeed(props) {

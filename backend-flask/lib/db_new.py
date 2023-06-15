@@ -32,16 +32,16 @@ class Db:
         # db_name = 'cruddur'  # Replace with the name of your database
         # db_user = 'cruddurroot'  # Replace with your database username
         # db_password = 'Password999'  # Replace with your database password
-        db_host = os.getenv('POSTGRES_HOST')
-        db_port = int(os.getenv('POSTGRES_PORT')) 
-        db_name = os.getenv('POSTGRES_DBNAME') 
-        db_user = os.getenv('POSTGRES_UNAME')  
-        db_password = os.getenv('POSTGRES_PWD') 
-        # db_host = '172.19.0.3'
-        # db_port = 5432
-        # db_name = 'cruddur' 
-        # db_user = 'postgres'  
-        # db_password = 'password' 
+        # db_host = os.getenv('POSTGRES_HOST')
+        # db_port = int(os.getenv('POSTGRES_PORT')) 
+        # db_name = os.getenv('POSTGRES_DBNAME') 
+        # db_user = os.getenv('POSTGRES_UNAME')  
+        # db_password = os.getenv('POSTGRES_PWD') 
+        db_host = '172.18.0.2'
+        db_port = 5432
+        db_name = 'cruddur' 
+        db_user = 'postgres'  
+        db_password = 'password' 
         
 
         connection_url = f"host={db_host} port={db_port} dbname={db_name} user={db_user} password={db_password}"

@@ -1,13 +1,13 @@
 import React                            from "react";
 import { useParams, useNavigate }       from 'react-router-dom';
-import DesktopNavigation                from 'components/DesktopNavigation';
-import DesktopSidebar                   from 'components/DesktopSidebar';
-import ActivityForm                     from 'components/ActivityForm';
-import ReplyForm                        from 'components/ReplyForm';
-import Replies                          from 'components/Replies';
-import ActivityShowItem                 from 'components/ActivityShowItem'
-import {get}                            from 'lib/Requests';
-import {checkAuth}                      from 'lib/CheckAuth';
+import DesktopNavigation                from '../components/DesktopNavigation';
+import DesktopSidebar                   from '../components/DesktopSidebar';
+import ActivityForm                     from '../components/ActivityForm';
+import ReplyForm                        from '../components/ReplyForm';
+import Replies                          from '../components/Replies';
+import ActivityShowItem                 from '../components/ActivityShowItem'
+import {get}                            from '../lib/Requests';
+import {checkAuth}                      from '../lib/CheckAuth';
 import './ActivityShow.css';
 
 export default function ActivityShowPage() {
@@ -30,8 +30,11 @@ export default function ActivityShowPage() {
     get(url,{
       auth: false,
       success: function(data){
-        setActivity(data.activity)
-        setReplies(data.replies)
+        console.log('activityshow', data[0].activity)
+        setActivity(data[0].activity)
+        setReplies(data[0].replies)
+        console.log('activityshow-activity', activity)
+        console.log('activityshow-replies', replies)
       }
     })
   }

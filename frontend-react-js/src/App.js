@@ -8,7 +8,7 @@ import MessageGroupsPage                          from './pages/MessageGroupsPag
 import MessageGroupPage                           from './pages/MessageGroupPage';
 import MessageGroupNewPage                        from './pages/MessageGroupNewPage';
 import ConfirmationPage                           from './pages/ConfirmationPage';
-import ActivityShow                               from './pages/ActivityShowPage';
+import ActivityShow                               from './pages/ActivityShow';
 import React                                      from 'react';
 import { createBrowserRouter, RouterProvider }    from "react-router-dom";
 import { Amplify }                                from 'aws-amplify';

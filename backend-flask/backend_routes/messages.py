@@ -1,13 +1,13 @@
-from flask                      import request, g
-from flask_cors                 import cross_origin
+from flask                                  import request, g
+from flask_cors                             import cross_origin
 
-from lib.return_data            import return_json
-from lib.decode_verify_jwt      import jwt_required
-from lib.return_data            import return_json
+from lib.return_data                        import return_json
+from lib.decode_verify_jwt                  import jwt_required
+from lib.return_data                        import return_json
 
-from services.message_groups    import MessageGroups
-from services.messages          import Messages
-from services.create_message    import CreateMessage
+from services.messages.message_groups       import MessageGroups
+from services.messages.messages             import Messages
+from services.messages.create_message       import CreateMessage
 
 def load(app):
     @app.route("/api/message_groups", methods=['GET'])
@@ -35,8 +35,6 @@ def load(app):
         handle             =  request.json.get('handle', None)
         message_group_uuid = request.json.get('message_group_uuid', None)
             # authenicatied request
-        app.logger.debug("authenicated")
-        app.logger.debug(claims)
         cognito_user_id = g.cognito_user_id
         app.logger.debug(cognito_user_id)
         if handle:

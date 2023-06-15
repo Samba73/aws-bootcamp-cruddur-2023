@@ -1,8 +1,8 @@
 import React                          from "react";
 import process                        from 'process';
 import { ReactComponent as BombIcon } from './svg/bomb.svg';
-import { post }                       from 'lib/Requests';
-import FormErrors                     from 'components/FormErrors';
+import { post }                       from '../lib/Requests';
+import FormErrors                     from '../components/FormErrors';
 import './ActivityForm.css';
 
 export default function ActivityForm(props) {

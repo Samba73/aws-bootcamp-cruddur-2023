@@ -8,7 +8,7 @@ import {ReactComponent as BombIcon}                 from './svg/bomb.svg';
 import './ActivityItem.css';
 
 export default function ActivityShowItem(props) {
-
+  console.log('activityshowitem', props)
   const attrs = {}
   attrs.className = 'activity_item expanded'
   return (
