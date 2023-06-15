@@ -37,7 +37,7 @@ class Db:
         # db_name = os.getenv('POSTGRES_DBNAME') 
         # db_user = os.getenv('POSTGRES_UNAME')  
         # db_password = os.getenv('POSTGRES_PWD') 
-        db_host = '172.18.0.2'
+        db_host = '172.18.0.3'
         db_port = 5432
         db_name = 'cruddur' 
         db_user = 'postgres'  

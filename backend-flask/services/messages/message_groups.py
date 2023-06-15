@@ -15,10 +15,10 @@ class MessageGroups:
       'cognito_user_id': cognito_user_id
     })
     """
-    user_id = db.query_execution_array(sql, {
+    user_id = db.query_value(sql, {
       'cognito_user_id': cognito_user_id
     })
-    print(user_id)
+    print('new is', user_id)
     ddb = DDB.client()
     message_groups = DDB.display_message_groups(ddb, user_id)
     model['data'] = message_groups

@@ -7,8 +7,9 @@ import { post } from '../lib/Requests';
 
 export default function MessageGroupFeed(props) {
   console.log('final props', props)
-  console.log('final props id', props.message_group_uuid)
-  
+  const data = props.message_groups['data']
+  console.log('data', data)
+  const { message_groups } = props;
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState('');
   const [handle, setHandle] = useState('');
@@ -36,7 +37,7 @@ export default function MessageGroupFeed(props) {
         auth: true,
         setErrors: setErrors,
         success: function(data){
-          //props.setMessages(current => [data,...current]);
+          props.setMessage(current => [data,...current]);
           setMessage('')
           setShowModal(false);
         }
@@ -86,11 +87,18 @@ export default function MessageGroupFeed(props) {
         </div>
       )}
       </div>
-      <div className='message_group_feed_collection'>
+      <div className="message_group_feed_collection">
         {message_group_new_item}
-        {props.message_groups.map(message_group => {
-        return  <MessageGroupItem key={message_group.uuid} message_group={message_group} />
-        })}
+        {Array.isArray(message_groups) && message_groups.length > 0 ? (
+          message_groups.map((message_group) => (
+            <MessageGroupItem
+              key={message_group.uuid}
+              message_group={message_group}
+            />
+          ))
+        ) : (
+          <p>No message groups found.</p>
+        )}
       </div>
     </div>
   );

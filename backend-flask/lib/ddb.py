@@ -17,7 +17,7 @@ class DDB():
         tableName = "cruddur-message"
         #print(client)
         print(user_uuid)
-        user_id = user_uuid[0]['uuid']
+        user_id = user_uuid
         #print(user_id)
         partition_key_value = {'S': f"GRP#{user_id}"}
         sort_key_prefix = {'S': str(datetime.now().year)}

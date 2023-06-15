@@ -1,12 +1,14 @@
-import React                    from "react";
-import { useParams }            from 'react-router-dom';
-import DesktopNavigation        from '../components/DesktopNavigation';
-import MessageGroupFeed         from '../components/MessageGroupFeed';
-import MessagesFeed             from '../components/MessageFeed';
-import MessagesForm             from '../components/MessageForm';
-import { checkAuth }            from '../lib/CheckAuth';
-import { get }                  from '../lib/Requests'
 import './MessageGroupPage.css';
+import React from "react";
+import { useParams } from 'react-router-dom';
+
+import {get} from '../lib/Requests';
+import {checkAuth} from '../lib/CheckAuth';
+
+import DesktopNavigation  from '../components/DesktopNavigation';
+import MessageGroupFeed from '../components/MessageGroupFeed';
+import MessagesFeed from '../components/MessageFeed';
+import MessagesForm from '../components/MessageForm';
 
 export default function MessageGroupPage() {
   const [messageGroups, setMessageGroups] = React.useState([]);
@@ -15,7 +17,7 @@ export default function MessageGroupPage() {
   const [user, setUser] = React.useState(null);
   const dataFetchedRef = React.useRef(false);
   const params = useParams();
-  console.log('messagegrouppage', params)
+
   const loadMessageGroupsData = async () => {
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/message_groups`
     get(url,{
@@ -25,7 +27,7 @@ export default function MessageGroupPage() {
       }
     })
   }
-
+  console.log('messagegrppage',messageGroups)
   const loadMessageGroupData = async () => {
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/messages/${params.message_group_uuid}`
     get(url,{
@@ -35,7 +37,7 @@ export default function MessageGroupPage() {
       }
     })
   }
-
+  console.log('messagegrppage',messages)
   React.useEffect(()=>{
     //prevents double call
     if (dataFetchedRef.current) return;

@@ -32,6 +32,7 @@ class CreateMessage:
         'cognito_user_id': cognito_user_id,
         'user_receiver_handle': handle
       })    
+      print('item is', user)
       for item in user:
         if item['kind'] == 'sender':
           my_user = item
@@ -54,7 +55,7 @@ class CreateMessage:
       #     my_user = item
       #   elif item['kind'] == 'recv':
       #     other_user = item  
-    print('user', user)
+    print('new message user', user)
     #my_user = next((item for item in user if item["kind"] == 'sender'),None)
     #other_user = next((item for item in user if item["kind"] == 'recv'),None)
     
