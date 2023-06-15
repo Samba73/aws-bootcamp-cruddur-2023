@@ -1,13 +1,19 @@
 import MessageGroupItem     from './MessageGroupItem';
 import MessageGroupNewItem  from './MessageGroupNewItem';
+import FormErrors           from '../components/FormErrors';
 import React, { useState }  from 'react';
 import './MessageGroupFeed.css';
+import { post } from '../lib/Requests';
 
 export default function MessageGroupFeed(props) {
+  console.log('final props', props)
+  console.log('final props id', props.message_group_uuid)
+  
   const [showModal, setShowModal] = useState(false);
-    const [message, setMessage] = useState('');
-    const [handle, setHandle] = useState('');
-    const [newmessage, setNewMessage] = useState([]);
+  const [message, setMessage] = useState('');
+  const [handle, setHandle] = useState('');
+  const [errors, setErrors] = React.useState([]);
+
 
     const handleNewMessage = () => {
       setShowModal(true);
@@ -21,36 +27,21 @@ export default function MessageGroupFeed(props) {
 
     const handleSubmit = async (event) => {
       event.preventDefault();
-      try {
-        const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/messages`
-        console.log('onsubmit payload', message)
-        console.log('handle is', handle)
-        let json = {
-          'message': message,
-          'handle': handle
-        }
-        const res = await fetch(backend_url, {
-          method: "POST",
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(json),
-        });
-
-        let data = await res.json();
-        if (res.status === 200) {
-          //props.setMessages('Test')
-          //props.setNewMessage(current => [...current,data]);
-          console.log('message saved')
-        } else {
-          console.log(res)
-        }
-      } catch (err) {
-        console.log(err);
+      const url = `${process.env.REACT_APP_BACKEND_URL}/api/messages`
+      const payload_data = {
+        message: message,
+        handle: handle
       }
-    };
+      post(url, payload_data, {
+        auth: true,
+        setErrors: setErrors,
+        success: function(data){
+          props.setMessages(current => [data,...current]);
+          setMessage('')
+          setShowModal(false);
+        }
+      })
+    } 
 
     const handleInputChange = (event) => {
       setMessage(event.target.value);
@@ -65,7 +56,7 @@ export default function MessageGroupFeed(props) {
   }
   //console.log('messagegroupfeed', props)
   //console.log('issue', props.message_groups.data)
-  let message_groups = props.message_groups.data || []; // Initialize with an empty array if props.message_groups is undefined
+  //let message_groups = props.message_groups.data || []; // Initialize with an empty array if props.message_groups is undefined
 
   return (
     <div className='message_group_feed'>
@@ -91,13 +82,14 @@ export default function MessageGroupFeed(props) {
               </button>
             </div>
           </div>
+          <FormErrors errors={errors} />
         </div>
       )}
       </div>
       <div className='message_group_feed_collection'>
         {message_group_new_item}
-        {message_groups.map(message_group => {
-        return  <MessageGroupItem key={message_group.message_group_uuid} message_group={message_group} />
+        {props.message_groups.map(message_group => {
+        return  <MessageGroupItem key={message_group.uuid} message_group={message_group} />
         })}
       </div>
     </div>
