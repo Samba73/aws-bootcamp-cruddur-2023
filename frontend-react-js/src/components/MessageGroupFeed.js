@@ -92,7 +92,7 @@ export default function MessageGroupFeed(props) {
         {Array.isArray(message_groups) && message_groups.length > 0 ? (
           message_groups.map((message_group) => (
             <MessageGroupItem
-              key={message_group.uuid}
+              key={message_group.message_group_uuid}
               message_group={message_group}
             />
           ))
