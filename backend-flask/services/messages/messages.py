@@ -14,11 +14,7 @@ class Messages:
     print('message_group_uuid',message_group_uuid)
     #sql = extract_query('messages', 'cognito_user_id')
     sql = db.extract_query('messages', 'cognito_user_id')
-    """
-    user_id = query_execution_select(sql, {
-      'cognito_user_id': cognito_user_id
-    })
-    """
+ 
     user_id = db.query_execution_object(sql, {
       'cognito_user_id': cognito_user_id
     })
