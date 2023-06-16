@@ -12,10 +12,16 @@ export default function MessageGroupFeed(props) {
   const [handle, setHandle] = useState([]);
   const [errors, setErrors] = React.useState([]);
 
-  console.log('final props', props)
-
   const { message_groups } = props;
   const { message_group_uuid } = props.message_group_uuid
+
+
+
+  message_groups.map((message_group) => {
+    console.log('message_group_uuid:', message_group.message_group_uuid);
+    return null; // Map function requires a return value
+  });
+
 
     const handleNewMessage = () => {
       setShowModal(true);
@@ -82,9 +88,10 @@ export default function MessageGroupFeed(props) {
               <button type="button" onClick={handleSubmit}>
                 Submit
               </button>
+              <FormErrors errors={errors} />
             </div>
           </div>
-          <FormErrors errors={errors} />
+      
         </div>
       )}
       </div>
