@@ -15,6 +15,7 @@ export default function MessageGroupFeed(props) {
   console.log('final props', props)
 
   const { message_groups } = props;
+  const { message_group_uuid } = props.message_group_uuid
 
     const handleNewMessage = () => {
       setShowModal(true);
@@ -89,16 +90,9 @@ export default function MessageGroupFeed(props) {
       </div>
       <div className="message_group_feed_collection">
         {message_group_new_item}
-        {Array.isArray(message_groups) && message_groups.length > 0 ? (
-          message_groups.map((message_group) => (
-            <MessageGroupItem
-              key={message_group.message_group_uuid}
-              message_group={message_group}
-            />
-          ))
-        ) : (
-          <p>No message groups found.</p>
-        )}
+        {message_groups && message_groups.length > 0 && message_groups.map((message_group) => {
+          return <MessageGroupItem key={message_group.message_group_uuid} message_group={message_group} />;
+        })}
       </div>
     </div>
   );
