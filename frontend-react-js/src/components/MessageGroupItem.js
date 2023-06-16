@@ -5,10 +5,10 @@ import { useParams } from 'react-router-dom';
 
 export default function MessageGroupItem(props) {
   const params = useParams();
-
+  console.log('what i see here...',props.message_group.message_group_uuid)
   const classes = () => {
     let classes = ["message_group_item"];
-    if (params.message_group_uuid === props.message_group.uuid){
+    if (params.message_group_uuid === props.message_group.message_group_uuid){
       classes.push('active')
     }
     return classes.join(' ');
@@ -18,7 +18,7 @@ export default function MessageGroupItem(props) {
     <Link className={classes()} to={`/messages/`+props.message_group.uuid}>
       <div className='message_group_avatar'></div>
       <div className='message_content'>
-        <div classsName='message_group_meta'>
+        <div className='message_group_meta'>
           <div className='message_group_identity'>
             <div className='display_name'>{props.message_group.user_display_name}</div>
             <div className="handle">@{props.message_group.user_handle}</div>
