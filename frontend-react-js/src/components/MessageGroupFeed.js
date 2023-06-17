@@ -14,7 +14,7 @@ export default function MessageGroupFeed(props) {
 
   const { message_groups } = props;
   const { message_group_uuid } = props.message_group_uuid
-
+  console.log('message_group_uuid', message_group_uuid)
 
 
   message_groups.map((message_group) => {
