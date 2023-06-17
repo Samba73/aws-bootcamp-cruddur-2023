@@ -13,14 +13,14 @@ export default function MessageGroupFeed(props) {
   const [errors, setErrors] = React.useState([]);
 
   const { message_groups } = props;
-  const { message_group_uuid } = props.message_group_uuid
-  console.log('message_group_uuid', message_group_uuid)
+  //const { message_group_uuid } = props.message_group_uuid
+  //console.log('message_group_uuid', message_group_uuid)
 
 
-  message_groups.map((message_group) => {
-    console.log('message_group_uuid:', message_group.message_group_uuid);
-    return null; // Map function requires a return value
-  });
+ // message_groups.map((message_group) => {
+ //   console.log('message_group_uuid:', message_group.message_group_uuid);
+ //   return null; // Map function requires a return value
+ // });
 
 
     const handleNewMessage = () => {

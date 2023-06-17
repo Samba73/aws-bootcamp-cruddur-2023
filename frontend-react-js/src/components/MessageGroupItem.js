@@ -9,13 +9,14 @@ export default function MessageGroupItem(props) {
   const classes = () => {
     let classes = ["message_group_item"];
     if (params.message_group_uuid === props.message_group.message_group_uuid){
+      console.log('true')
       classes.push('active')
     }
     return classes.join(' ');
   }
 
   return (
-    <Link className={classes()} to={`/messages/`+props.message_group.uuid}>
+    <Link className={classes()} to={`/messages/`+props.message_group.message_group_uuid}>
       <div className='message_group_avatar'></div>
       <div className='message_content'>
         <div className='message_group_meta'>
