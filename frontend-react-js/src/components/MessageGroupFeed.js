@@ -13,15 +13,6 @@ export default function MessageGroupFeed(props) {
   const [errors, setErrors] = React.useState([]);
 
   const { message_groups } = props;
-  //const { message_group_uuid } = props.message_group_uuid
-  //console.log('message_group_uuid', message_group_uuid)
-
-
- // message_groups.map((message_group) => {
- //   console.log('message_group_uuid:', message_group.message_group_uuid);
- //   return null; // Map function requires a return value
- // });
-
 
     const handleNewMessage = () => {
       setShowModal(true);
@@ -62,10 +53,7 @@ export default function MessageGroupFeed(props) {
   if (props.otherUser) {
     message_group_new_item = <MessageGroupNewItem user={props.otherUser} />
   }
-  //console.log('messagegroupfeed', props)
-  //console.log('issue', props.message_groups.data)
-  //let message_groups = props.message_groups.data || []; // Initialize with an empty array if props.message_groups is undefined
-
+  
   return (
     <div className='message_group_feed'>
       <div className='message_group_feed_heading'>

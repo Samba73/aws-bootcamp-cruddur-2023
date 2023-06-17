@@ -33,7 +33,7 @@ export default function MessageGroupsPage() {
     <article>
       <DesktopNavigation user={user} active={'home'} setPopped={setPopped} />
       <section className='message_groups'>
-        <MessageGroupFeed message_groups={messageGroups} />
+      <MessageGroupFeed message_groups={messageGroups} />
       </section>
       <div className='content'>
       </div>
