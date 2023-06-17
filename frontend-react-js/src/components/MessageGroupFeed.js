@@ -1,14 +1,17 @@
 import MessageGroupItem     from './MessageGroupItem';
 import MessageGroupNewItem  from './MessageGroupNewItem';
+import MessageFeed from './MessageFeed';
+import MessageForm from './MessageForm';
 import FormErrors           from '../components/FormErrors';
 import React, { useState }  from 'react';
 import './MessageGroupFeed.css';
 import { post } from '../lib/Requests';
 
-export default function MessageGroupFeed(props) {
+export default function MessageGroupPage(props) {
   
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState([]);
+  const [messages, setMessages] = React.useState([]);
   const [handle, setHandle] = useState([]);
   const [errors, setErrors] = React.useState([]);
 

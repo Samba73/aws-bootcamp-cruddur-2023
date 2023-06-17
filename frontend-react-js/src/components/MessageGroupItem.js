@@ -1,10 +1,12 @@
 import './MessageGroupItem.css';
 import { Link } from "react-router-dom";
+import MessageFeed from './MessageFeed';
 import { format_datetime, message_time_ago } from '../lib/DateTimeFormats';
 import { useParams } from 'react-router-dom';
 
 export default function MessageGroupItem(props) {
   const params = useParams();
+  console.log('messagegroupitemprops', props)
   console.log('what i see here...',props.message_group.message_group_uuid)
   const classes = () => {
     let classes = ["message_group_item"];
@@ -14,7 +16,9 @@ export default function MessageGroupItem(props) {
     }
     return classes.join(' ');
   }
+  const message_group = Object.entries(props)
 
+  console.log('messagegroupitem', message_group)
   return (
     <Link className={classes()} to={`/messages/`+props.message_group.message_group_uuid}>
       <div className='message_group_avatar'></div>
