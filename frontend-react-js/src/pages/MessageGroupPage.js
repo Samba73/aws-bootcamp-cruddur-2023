@@ -51,9 +51,7 @@ export default function MessageGroupPage() {
     <article>
       <DesktopNavigation user={user} active={'home'} setPopped={setPopped} />
       <section className='message_groups'>
-      {messageGroups && messageGroups.length > 0 && messageGroups.map((message_groups) => {
-          return <MessageGroupFeed key={message_groups.message_group_uuid} message_groups={message_groups} />;
-        })}
+        <MessageGroupFeed message_groups={messageGroups} />
       </section>
       <div className='content messages'>
         <MessagesFeed messages={messages} />

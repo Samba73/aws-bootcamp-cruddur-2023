@@ -83,11 +83,11 @@ export default function MessageGroupFeed(props) {
         </div>
       )}
       </div>
-      <div className="message_group_feed_collection">
+      <div className='message_group_feed_collection'>
         {message_group_new_item}
-        {message_groups && message_groups.length > 0 && message_groups.map((message_group) => {
-          return <MessageGroupItem key={message_group.message_group_uuid} message_group={message_group} />;
-        })}
+        {props.message_groups.map(message_group => {
+          return  <MessageGroupItem key={message_group.message_group_uuid} message_group={message_group} />
+      })}
       </div>
     </div>
   );
