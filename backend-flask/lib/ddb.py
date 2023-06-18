@@ -12,9 +12,11 @@ class DDB():
 
         ddb = boto3.client('dynamodb', **attr)
         return ddb
-
+    def get_tablename():
+        return os.getenv("DDB_TABLENAME")
+    
     def display_message_groups(client, user_uuid):
-        tableName = "cruddur-message"
+        tableName = get_tablename()
         #print(client)
         print(user_uuid)
         user_id = user_uuid
@@ -54,7 +56,7 @@ class DDB():
 
     def display_messages(client,message_group_uuid):
         year = str(datetime.now().year)
-        table_name = 'cruddur-message'
+        table_name = get_tablename()
         query_string = {
         'TableName': table_name,
         'KeyConditionExpression': 'pk = :pkval AND begins_with(sk,:skval)',
@@ -83,7 +85,7 @@ class DDB():
         return results
 
     def create_message(client, message_group_uuid, message, user_uuid, user_display_name=None, user_handle=None):
-        table_name = 'cruddur-message'
+        table_name = get_tablename()
         pkval = f"MSG#{message_group_uuid}"
         skval = datetime.now().isoformat()
         message_uuid = str(uuid.uuid4())
@@ -117,7 +119,7 @@ class DDB():
         }
 
     def create_message_group(client, message, my_user_uuid, my_user_display_name, my_user_handle, other_user_uuid, other_user_display_name, other_user_handle):
-        table_name          = "cruddur-message"
+        table_name          = get_tablename()
         message_group_uuid  = str(uuid.uuid4())
         message_uuid        = str(uuid.uuid4())
         now                 = str(datetime.now().astimezone().isoformat())
