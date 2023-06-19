@@ -16,7 +16,7 @@ class MessageGroups:
     })
     print('new is', user_id)
     ddb = DDB.client()
-    message_groups = DDB.display_message_groups(ddb, os.getenv("DDB_TABLENAME"), user_id)
+    message_groups = DDB.display_message_groups(ddb, os.getenv("DDBTABLENAME"), user_id)
     model['data'] = message_groups
     print('model', model)
     return model

@@ -19,7 +19,7 @@ class Messages:
       'cognito_user_id': cognito_user_id
     })
     ddb = DDB.client()
-    message_groups = DDB.display_messages(ddb, os.getenv("DDB_TABLENAME"), message_group_uuid)
+    message_groups = DDB.display_messages(ddb, os.getenv("DDBTABLENAME"), message_group_uuid)
     model['data'] = message_groups
     print('messages model', model)
     return model

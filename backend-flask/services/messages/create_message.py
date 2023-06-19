@@ -70,7 +70,7 @@ class CreateMessage:
         ddb = DDB.client()
         if trans == 'update':
             message = DDB.create_message(
-                client=ddb, tableName=os.getenv("DDB_TABLENAME"),
+                client=ddb, tableName=os.getenv("DDBTABLENAME"),
                 message_group_uuid=message_group_uuid,
                 message=message, user_uuid=user[0]['uuid'],
                 user_handle=user[0]['handle'], user_display_name=user[0]['display_name'])
