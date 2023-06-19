@@ -35,9 +35,9 @@ export default function MessageGroupItem(props) {
         </div>{/* created_at */}
       </div>{/* message_content */}
       <div className='message_re-feed_collection'>
-        {props.message_group && props.message_group.length > 0 && props.message_group.map(messages => {
-        return  <MessageFeed messages={messages} />
-        })}
+      {message_group.length > 0 && message_group.map(([key, value]) => (
+          <MessageFeed key={key} messages={value} />
+        ))}
       </div>
     </Link>
   );
