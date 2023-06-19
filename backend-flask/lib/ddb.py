@@ -12,11 +12,9 @@ class DDB():
 
         ddb = boto3.client('dynamodb', **attr)
         return ddb
-    def get_tablename():
-        return os.getenv("DDB_TABLENAME")
     
-    def display_message_groups(client, user_uuid):
-        tableName = get_tablename()
+    def display_message_groups(client, tableName, user_uuid):
+        tableName = tableName
         #print(client)
         print(user_uuid)
         user_id = user_uuid
@@ -54,11 +52,11 @@ class DDB():
         print(results)    
         return results    
 
-    def display_messages(client,message_group_uuid):
+    def display_messages(client, tableName, message_group_uuid):
         year = str(datetime.now().year)
-        table_name = get_tablename()
+        table_name = tableName
         query_string = {
-        'TableName': table_name,
+        'TableName': tableName,
         'KeyConditionExpression': 'pk = :pkval AND begins_with(sk,:skval)',
         'ScanIndexForward': False,
         'ExpressionAttributeValues': {
@@ -84,7 +82,7 @@ class DDB():
             })
         return results
 
-    def create_message(client, message_group_uuid, message, user_uuid, user_display_name=None, user_handle=None):
+    def create_message(client, tableName, message_group_uuid, message, user_uuid, user_display_name=None, user_handle=None):
         table_name = get_tablename()
         pkval = f"MSG#{message_group_uuid}"
         skval = datetime.now().isoformat()
@@ -101,7 +99,7 @@ class DDB():
         }
 
         response = client.put_item(
-            TableName=table_name,
+            TableName=tableName,
             Item=item
         )
 
@@ -118,8 +116,8 @@ class DDB():
 
         }
 
-    def create_message_group(client, message, my_user_uuid, my_user_display_name, my_user_handle, other_user_uuid, other_user_display_name, other_user_handle):
-        table_name          = get_tablename()
+    def create_message_group(client, tableName, message, my_user_uuid, my_user_display_name, my_user_handle, other_user_uuid, other_user_display_name, other_user_handle):
+        table_name          = tableName
         message_group_uuid  = str(uuid.uuid4())
         message_uuid        = str(uuid.uuid4())
         now                 = str(datetime.now().astimezone().isoformat())
@@ -156,7 +154,7 @@ class DDB():
         }
 
         put_requests = {
-            table_name: [
+            tableName: [
             {'PutRequest': {'Item': my_message_group}},
             {'PutRequest': {'Item': other_message_group}},
             {'PutRequest': {'Item': message_group}}
