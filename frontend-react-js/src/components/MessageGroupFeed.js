@@ -3,8 +3,9 @@ import MessageGroupNewItem  from './MessageGroupNewItem';
 import { checkAuth }        from '../lib/CheckAuth';
 import FormErrors           from '../components/FormErrors';
 import React, { useState }  from 'react';
+import { post, get }        from '../lib/Requests';
 import './MessageGroupFeed.css';
-import { post, get } from '../lib/Requests';
+
 
 export default function MessageGroupFeed(props) {
   
@@ -41,7 +42,7 @@ export default function MessageGroupFeed(props) {
         auth: true,
         setErrors: setErrors,
         success: function(data){
-          props.setMessage(current => [data,...current]);
+          //props.setMessage(current => [data,...current]);
           setMessage('')
           setShowModal(false);
         }

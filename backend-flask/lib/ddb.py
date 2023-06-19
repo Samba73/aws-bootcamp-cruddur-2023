@@ -83,7 +83,7 @@ class DDB():
         return results
 
     def create_message(client, tableName, message_group_uuid, message, user_uuid, user_display_name=None, user_handle=None):
-        table_name = get_tablename()
+        table_name = tableName
         pkval = f"MSG#{message_group_uuid}"
         skval = datetime.now().isoformat()
         message_uuid = str(uuid.uuid4())
