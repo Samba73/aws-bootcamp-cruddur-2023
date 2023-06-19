@@ -1,14 +1,12 @@
+import React                from "react";
+import { useParams }        from 'react-router-dom';
+import {get}                from '../lib/Requests';
+import {checkAuth}          from '../lib/CheckAuth';
+import DesktopNavigation    from '../components/DesktopNavigation';
+import MessageGroupFeed     from '../components/MessageGroupFeed';
+import MessageFeed          from '../components/MessageFeed';
+import MessageForm          from '../components/MessageForm';
 import './MessageGroupPage.css';
-import React from "react";
-import { useParams } from 'react-router-dom';
-
-import {get} from '../lib/Requests';
-import {checkAuth} from '../lib/CheckAuth';
-
-import DesktopNavigation  from '../components/DesktopNavigation';
-import MessageGroupFeed from '../components/MessageGroupFeed';
-import MessageFeed from '../components/MessageFeed';
-import MessageForm from '../components/MessageForm';
 
 export default function MessageGroupPage() {
   const [messageGroups, setMessageGroups] = React.useState([]);

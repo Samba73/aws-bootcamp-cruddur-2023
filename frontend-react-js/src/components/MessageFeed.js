@@ -3,6 +3,7 @@ import MessageItem from './MessageItem';
 
 export default function MessageFeed(props) {
   console.log('here', props)
+  //const messages = Object.entries(props)
   return (
     <div className='message_feed'>
       <div className='message_feed_heading'>
