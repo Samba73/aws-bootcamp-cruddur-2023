@@ -1,8 +1,8 @@
+import { Link }                               from "react-router-dom";
+import MessageFeed                            from './MessageFeed';
+import { format_datetime, message_time_ago }  from '../lib/DateTimeFormats';
+import { useParams }                          from 'react-router-dom';
 import './MessageGroupItem.css';
-import { Link } from "react-router-dom";
-import MessageFeed from './MessageFeed';
-import { format_datetime, message_time_ago } from '../lib/DateTimeFormats';
-import { useParams } from 'react-router-dom';
 
 export default function MessageGroupItem(props) {
   const params = useParams();
@@ -11,7 +11,7 @@ export default function MessageGroupItem(props) {
   const classes = () => {
     let classes = ["message_group_item"];
     if (params.message_group_uuid === props.message_group.message_group_uuid){
-      console.log('true')
+      console.log('true', props.message_group)
       classes.push('active')
     }
     return classes.join(' ');
@@ -34,6 +34,11 @@ export default function MessageGroupItem(props) {
           <span className='ago'>{message_time_ago(props.message_group.created_at)}</span> 
         </div>{/* created_at */}
       </div>{/* message_content */}
+      <div className='message_re-feed_collection'>
+        {props.message_group && props.message_group.length > 0 && props.message_group.map(messages => {
+        return  <MessageFeed messages={messages} />
+        })}
+      </div>
     </Link>
   );
 }
