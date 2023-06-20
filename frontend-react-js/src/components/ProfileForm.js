@@ -8,6 +8,7 @@ import './ProfileForm.css';
 export default function ProfileForm(props) {
   const [bio, setBio] = React.useState(0);
   const [displayName, setDisplayName] = React.useState(0);
+  const [errors, setErrors] = React.useState([]);
 
   React.useEffect(() => {
     console.log('useEffects', props)
