@@ -59,7 +59,7 @@ psql $NO_DB_CONNECTION_URL -c "drop database cruddur;"
 ```
 ### Created the schema and seed sql to work with bash scripts in previous step
 
-### `./bin/db-schem-load` to load the schema 
+### `./bin/db-scheme-load` to load the schema 
 #! /usr/bin/bash
 
 CYAN='\033[1;36m'
