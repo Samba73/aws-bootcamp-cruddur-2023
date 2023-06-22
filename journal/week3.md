@@ -8,20 +8,19 @@ In this live session, I first created a UserPool in AWS Cognito.
 
 **Steps to setup UserPool in AWS Cognito**
 - Login to your AWS Console
-- Check your region in which you want to use your service. I personally prefer `us-east-1` region as in that region most of the services works well.
 - Search for **Cognito** service and you will find **UserPool** tab in your left side panel.
 - After clicking on **UserPool** -> **Create UserPool**.
 - You will be displayed with a **Authentication providers** page where I chose **Username** and **Email** for Cognito user pool sign-in options -> click **Next**
 - Password Policy I kept it as **Cognito Default**.
-- Under Multi-factor authentication -> I selected **No MFA** -> **Next**
+- Under Multi-factor authentication -> **No MFA** -> **Next**
 - In User account recovery -> checkbox **Email only** -> **Next**
-- Under Required attributes -> I selected **Name** and **preferred username** -> **Next**
+- Under Required attributes -> selected **Name** and **preferred username** -> **Next**
 - Then I chose **Send email with Cognito** for first time -> **Next**
-- After that you will be asked to give your User Pool Name , I gave it as **crddur-user-pool** -> under Initial app client I kept it as **Public client** -> enter app client name **(eg: cruddur)** -> **Next**
+- Provide user pool name** -> under Initial app client I kept it as **Public client** -> enter app client name **(eg: cruddur)** -> **Next**
 - You will get a chance to verify all the filled details and then click on **Create User Pool**, your usepool is being created.
 
 ## Gitpod Code Working 
-I installed AWS Amplify as it is development platform and provides you set of pre-built UI components and Libraries. 
+Installed AWS Amplify as it is development platform and provides you set of pre-built UI components and Libraries. 
 ```
 npm i aws-amplify --save
 ```
@@ -30,7 +29,7 @@ After installing this I found `"aws-amplify": "^5.0.16",` in my frontend-react-j
 **Note: make sure you are running these commands in your `frontend-react-js` directory.**
 
 ### Configure Amplify
-I added this code in `app.js` of frontend-react-js directory.
+Added following code in `app.js` of frontend-react-js directory.
 ```js
 import { Amplify } from 'aws-amplify';
 
