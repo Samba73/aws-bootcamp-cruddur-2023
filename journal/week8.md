@@ -78,6 +78,7 @@ Since we don't use versioned file names for a user's avatar, CloudFront edge cac
 This ensures that CloudFront will always serve the latest avatar uploaded by the user.
 
 ### process images using a javascript lambda running sharpjs
+
 ### implement lambda layers
 ### use s3 event notifications to trigger processing images
 ### implement HTTP API Gateway using a lambda authorizer
