@@ -1,13 +1,13 @@
-from flask                      import request, g
-from flask_cors                 import cross_origin
+from flask                              import request, g
+from flask_cors                         import cross_origin
 
-from lib.return_data            import return_json
-from lib.decode_verify_jwt      import jwt_required
-from lib.return_data            import return_json
+from lib.return_data                    import return_json
+from lib.decode_verify_jwt              import jwt_required
+from lib.return_data                    import return_json
 
-from services.show_activity     import *
-from services.update_profile    import *
-from services.user_activities   import *
+from services.users.show_activity       import ShowActivities
+from services.users.update_profile      import UpdateProfile
+from services.users.user_activities     import UserActivities
 
 def load(app):
     @app.route("/api/profile/update", methods=['POST','OPTIONS'])
@@ -32,7 +32,6 @@ def load(app):
         
     
     @app.route("/api/activities/@<string:handle>/status/<string:activity_uuid>", methods=['GET'])
-    @jwt_required()
     def data_show_activity(handle, activity_uuid):
-        data = ShowActivity.run(handle, activity_uuid=activity_uuid)
+        data = ShowActivities.run(activity_uuid=activity_uuid)
         return data, 200        

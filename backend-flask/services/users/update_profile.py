@@ -1,4 +1,5 @@
 from lib.db_new import db
+
 class UpdateProfile:
   def run(cognito_user_id,bio,display_name):
     model = {

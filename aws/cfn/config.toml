@@ -7,6 +7,7 @@ sstack_name = 'CrdService'
 rdsstack_name = 'CrdRDS'
 cicdstack_name = 'CrdCiCd'
 fstack_name = 'CrdFrontend'
+muserstack_name = 'CrdMachineuser'
 
 [parameters]
 AcmCertificate = 'arn:aws:acm:us-east-1:623053391718:certificate/5bb23926-5b53-4c8d-be37-0595d513bdcf'
@@ -36,3 +37,4 @@ GitHubRepo = 'samba73/aws-bootcamp-cruddur-2023'
 RootDomainName = 'cruddur.in'
 ArtifactStoreS3 = 'codedeploy-cruddur.in'
 BuildSpec = 'backend-flask/buildspec.yml'
+DDBTABLENAME = 'cruddur-message'

@@ -1,13 +1,13 @@
+from jose                           import jwk, jwt
+from flask                          import request, g
+from jose.exceptions                import JOSEError
+from jose.utils                     import base64url_decode
+from flask_awscognito.exceptions    import FlaskAWSCognitoError, TokenVerifyError
+from flask                          import current_app as app
+from functools                      import wraps, partial
+import os
 import time
 import requests
-from jose import jwk, jwt
-from flask import request, g
-from jose.exceptions import JOSEError
-from jose.utils import base64url_decode
-from flask_awscognito.exceptions import FlaskAWSCognitoError, TokenVerifyError
-import os
-from flask import current_app as app
-from functools import wraps, partial
 class TokenVerifyError:
     pass
 

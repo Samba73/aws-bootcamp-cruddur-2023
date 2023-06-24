@@ -45,9 +45,7 @@ for migration_file in migration_files:
   match = re.match(r'^\d+', filename)
   if match:
     file_time = int(match.group())
-    if int(last_successful_run) <= file_time:
+    if int(last_successful_run) < file_time:
       mod = importlib.import_module(module_name)
       mod.migration.migrate()
-      print('running migration: ',module_name)
-      timestamp = str(time.time()).replace(".","")
-      last_successful_run = set_last_successful_run(timestamp)
+      last_successful_run = set_last_successful_run(file_time)

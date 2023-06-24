@@ -1,15 +1,14 @@
+
+import React                    from "react";
+import DesktopNavigation        from '../components/DesktopNavigation';
+import DesktopSidebar           from '../components/DesktopSidebar';
+import ActivityFeed             from '../components/ActivityFeed';
+import ActivityForm             from '../components/ActivityForm';
+import ReplyForm                from '../components/ReplyForm';
+import { checkAuth }            from '../lib/CheckAuth';
+import { get }                  from '../lib/Requests';
+
 import './HomeFeedPage.css';
-import React from "react";
-
-//import { Auth } from 'aws-amplify';
-
-import DesktopNavigation  from '../components/DesktopNavigation';
-import DesktopSidebar     from '../components/DesktopSidebar';
-import ActivityFeed from '../components/ActivityFeed';
-import ActivityForm from '../components/ActivityForm';
-import ReplyForm from '../components/ReplyForm';
-import { checkAuth, getAuth } from '../lib/CheckAuth';
-
 
 export default function HomeFeedPage() {
   const [activities, setActivities] = React.useState([]);
@@ -21,29 +20,14 @@ export default function HomeFeedPage() {
 
 
   const loadData = async () => {
-
-    try {
-      await getAuth()
-      const access_token = localStorage.getItem("access_token")
-      console.log(access_token)
-      const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/home`
-      const res = await fetch(backend_url, {
-        headers: {
-          Authorization: `Bearer ${access_token}`
-        },
-        method: "GET"
-      });
-      let resJson = await res.json();
-      console.log(resJson)
-      if (res.status === 200) {
-        setActivities(resJson)
-      } else {
-        console.log(res)
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/home`
+    get(url,{
+      auth: true,
+      success: function(data){
+        setActivities(data)
       }
-    } catch (err) {
-      console.log(err);
-    } 
-  };
+    })
+  }
 
   React.useEffect(()=>{
     //prevents double call

@@ -1,13 +1,12 @@
+import React                from "react";
+import { useParams }        from 'react-router-dom';
+import {get}                from '../lib/Requests';
+import {checkAuth}          from '../lib/CheckAuth';
+import DesktopNavigation    from '../components/DesktopNavigation';
+import MessageGroupFeed     from '../components/MessageGroupFeed';
+import MessageFeed          from '../components/MessageFeed';
+import MessageForm          from '../components/MessageForm';
 import './MessageGroupPage.css';
-import React from "react";
-import { useParams } from 'react-router-dom';
-
-import DesktopNavigation  from '../components/DesktopNavigation';
-import MessageGroupFeed from '../components/MessageGroupFeed';
-import MessagesFeed from '../components/MessageFeed';
-import MessagesForm from '../components/MessageForm';
-import { checkAuth, getAuth } from '../lib/CheckAuth';
-import { get } from '../lib/Requests'
 
 export default function MessageGroupPage() {
   const [messageGroups, setMessageGroups] = React.useState([]);
@@ -16,7 +15,7 @@ export default function MessageGroupPage() {
   const [user, setUser] = React.useState(null);
   const dataFetchedRef = React.useRef(false);
   const params = useParams();
-  console.log('messagegrouppage', params)
+
   const loadMessageGroupsData = async () => {
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/message_groups`
     get(url,{
@@ -26,7 +25,7 @@ export default function MessageGroupPage() {
       }
     })
   }
-
+  console.log('messagegrppage',messageGroups)
   const loadMessageGroupData = async () => {
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/messages/${params.message_group_uuid}`
     get(url,{
@@ -36,7 +35,7 @@ export default function MessageGroupPage() {
       }
     })
   }
-
+  console.log('messagegrppage',messages)
   React.useEffect(()=>{
     //prevents double call
     if (dataFetchedRef.current) return;
@@ -47,14 +46,16 @@ export default function MessageGroupPage() {
     checkAuth(setUser);
   }, [])
   return (
-    <article>
+<article>
       <DesktopNavigation user={user} active={'home'} setPopped={setPopped} />
       <section className='message_groups'>
-        <MessageGroupFeed message_groups={messageGroups} />
+      {messageGroups && messageGroups.length > 0 && messageGroups.map((message_groups) => {
+          return <MessageGroupFeed key={message_groups.message_group_uuid} message_groups={message_groups} />;
+        })}
       </section>
       <div className='content messages'>
-        <MessagesFeed messages={messages} />
-        <MessagesForm setMessages={setMessages} />
+        <MessageFeed messages={messages} />
+        <MessageForm setMessages={setMessages} />
       </div>
     </article>
   );

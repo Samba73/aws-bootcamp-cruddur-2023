@@ -1,7 +1,7 @@
+from flask import request
+from time  import strftime
 import watchtower
 import logging
-from flask import request
-from time import strftime
 
 def init_cloudwatch(response):
   timestamp = strftime('[%Y-%b-%d %H:%M]')

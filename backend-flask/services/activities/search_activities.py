@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+
 class SearchActivities:
   def run(search_term):
     model = {

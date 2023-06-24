@@ -43,6 +43,9 @@ Parameters:
     Type: String
   BackendUrl:
     Type: String
+  DDBTABLENAME:
+    Type: String
+    Default: cruddur-message  
 Resources:
   FargateService:
     Type: AWS::ECS::Service
@@ -137,7 +140,9 @@ Resources:
             - Name: 'BACKEND_URL'
               Value: !Ref BackendUrl
             - Name: 'AWS_DEFAULT_REGION'
-              Value: !Ref AWS::Region      
+              Value: !Ref AWS::Region     
+            - Name:   DDBTABLENAME
+              Value: !Ref   DDBTABLENAME  
           Secrets:
             - Name: 'AWSAccessKeyId'
               ValueFrom: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceName}/AWS_ACCESS_KEY_ID'

@@ -1,15 +1,15 @@
-from flask                              import request, g
-from flask_cors                         import cross_origin
+from flask                                          import request, g
+from flask_cors                                     import cross_origin
 
-from lib.return_data                    import return_json
-from lib.decode_verify_jwt              import jwt_required
-from lib.return_data                    import return_json
+from lib.return_data                                import return_json
+from lib.decode_verify_jwt                          import jwt_required
+from lib.return_data                                import return_json
 
-from services.home_activities           import *
-from services.notifications_activities  import *
-from services.create_activity           import *
-from services.search_activities         import *
-from services.create_reply              import *
+from services.activities.home_activities            import HomeActivities
+from services.activities.notifications_activities   import NotificationsActivities
+from services.activities.create_activity            import CreateActivity
+from services.activities.search_activities          import SearchActivities
+from services.activities.create_reply               import CreateReply
 
 
 def load(app):

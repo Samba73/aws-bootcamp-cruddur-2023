@@ -1,6 +1,5 @@
-import './Replies.css';
-
 import ActivityItem from './ActivityItem';
+import './Replies.css';
 
 export default function Replies(props) {
   let content;

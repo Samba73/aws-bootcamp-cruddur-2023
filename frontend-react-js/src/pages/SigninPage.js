@@ -1,17 +1,19 @@
-import './SigninPage.css';
-import React from "react";
+import React                    from "react";
 import {ReactComponent as Logo} from '../components/svg/logo.svg';
-import { Link } from "react-router-dom";
-import { Auth } from 'aws-amplify';
+import { Link }                 from "react-router-dom";
+import { Auth }                 from 'aws-amplify';
+import FormErrors               from '../components/FormErrors';
+import './SigninPage.css';
 
 export default function SigninPage() {
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [cognitoErrors, setCognitoErrors] = React.useState('');
+  const [errors, setErrors] = React.useState('');
+
 
   const onsubmit = async (event) => {
-    setCognitoErrors('')
+    setErrors('')
     event.preventDefault();
       Auth.signIn(email, password)
         .then(user => {
@@ -22,7 +24,7 @@ export default function SigninPage() {
           if (error.code === 'UserNotConfirmedException') {
             window.location.href = "/confirm"
           }
-      setCognitoErrors(error.message)
+      setErrors(error.message)
     });
     return false
   }
@@ -32,11 +34,6 @@ export default function SigninPage() {
   }
   const password_onchange = (event) => {
     setPassword(event.target.value);
-  }
-
-  let el_errors;
-  if (cognitoErrors){
-    el_errors = <div className='errors'>{cognitoErrors}</div>;
   }
 
   return (
@@ -68,7 +65,7 @@ export default function SigninPage() {
               />
             </div>
           </div>
-          {el_errors}
+          <FormErrors errors={errors} />
           <div className='submit'>
             <Link to="/forgot" className="forgot-link">Forgot Password?</Link>
             <button type='submit'>Sign In</button>
