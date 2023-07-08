@@ -7,7 +7,9 @@ attr = {
 }
 if len(sys.argv) == 2:
     if "prod" in sys.argv[1]:
-        attr = {}
+        attr = {
+            'endpoint_url': 'https://dynamodb.ap-southeast-1.amazonaws.com'
+            }
 
 import boto3
 
