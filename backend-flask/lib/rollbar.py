@@ -3,6 +3,16 @@ import os
 import rollbar
 import rollbar.contrib.flask
 
+def _get_flask_request():
+    print("Gettingflask request")
+    from flask import request
+    print("rollbar request:", request)
+    return request
+rollbar._get_flask_request = _get_flask_request
+
+def _build_request_data(request):
+    return rollbar._build_werkzeug_request_data(request)
+rollbar._build_request_data = _build_request_data    
 
 def init_rollbar(app):
     """init rollbar module"""

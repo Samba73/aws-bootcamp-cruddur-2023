@@ -27,16 +27,16 @@ class Db:
     
     def init_connection(self):
       # sample entries
-        # db_host = 'cruddur-db.cyzqxlnlmrnn.ap-southeast-1.rds.amazonaws.com'  # Replace with the host endpoint of your RDS instance
-        # db_port = '5432'  # Replace with the port number of your RDS instance
-        # db_name = 'cruddur'  # Replace with the name of your database
-        # db_user = 'cruddurroot'  # Replace with your database username
-        # db_password = 'Password999'  # Replace with your database password
-        db_host = os.getenv('POSTGRES_HOST')
-        db_port = int(os.getenv('POSTGRES_PORT')) 
-        db_name = os.getenv('POSTGRES_DBNAME') 
-        db_user = os.getenv('POSTGRES_UNAME')  
-        db_password = os.getenv('POSTGRES_PWD') 
+        db_host = 'cruddur-db.cyzqxlnlmrnn.ap-southeast-1.rds.amazonaws.com'  # Replace with the host endpoint of your RDS instance
+        db_port = '5432'  # Replace with the port number of your RDS instance
+        db_name = 'cruddur'  # Replace with the name of your database
+        db_user = 'cruddurroot'  # Replace with your database username
+        db_password = 'Password999'  # Replace with your database password
+        # db_host = os.getenv('POSTGRES_HOST')
+        # db_port = int(os.getenv('POSTGRES_PORT')) 
+        # db_name = os.getenv('POSTGRES_DBNAME') 
+        # db_user = os.getenv('POSTGRES_UNAME')  
+        # db_password = os.getenv('POSTGRES_PWD') 
         # db_host = '172.18.0.3'
         # db_port = 5432
         # db_name = 'cruddur' 
