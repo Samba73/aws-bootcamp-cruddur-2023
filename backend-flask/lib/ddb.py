@@ -117,12 +117,13 @@ class DDB():
         }
 
     def create_message_group(client, tableName, message, my_user_uuid, my_user_display_name, my_user_handle, other_user_uuid, other_user_display_name, other_user_handle):
+        print('message_groups ddb', tableName)
         table_name          = tableName
         message_group_uuid  = str(uuid.uuid4())
         message_uuid        = str(uuid.uuid4())
         now                 = str(datetime.now().astimezone().isoformat())
         created_at          = now
-        
+        print('message_groups ddb', table_name)
         my_message_group = {
             'pk': {'S': f'GRP#{my_user_uuid}'},
             'sk': {'S': f'{created_at}'},
