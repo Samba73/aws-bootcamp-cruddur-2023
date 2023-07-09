@@ -131,7 +131,7 @@ Resources:
               awslogs-stream-prefix: !Ref ServiceName
           Environment:
             - Name: FLASK_ENV
-              value: !Ref FLASKENV
+              Value: !Ref FLASKENV
             - Name: 'OTEL_SERVICE_NAME'   
               Value: !Ref OtelServiceName
             - Name: 'OTEL_EXPORTER_OTLP_ENDPOINT'   
