@@ -14,7 +14,7 @@ class DDB():
         return ddb
     
     def display_message_groups(client, tableName, user_uuid):
-        tableName = tableName
+        table_name = tableName
         #print(client)
         print(user_uuid)
         user_id = user_uuid
@@ -24,7 +24,7 @@ class DDB():
         #print(partition_key_value)
         #print('s', sort_key_prefix)
         query_string = {
-            'TableName': tableName,
+            'TableName': table_name,
             'ScanIndexForward': False,
             'ReturnConsumedCapacity': 'TOTAL',
             'Limit': 20,
@@ -56,7 +56,7 @@ class DDB():
         year = str(datetime.now().year)
         table_name = tableName
         query_string = {
-        'TableName': tableName,
+        'TableName': table_name,
         'KeyConditionExpression': 'pk = :pkval AND begins_with(sk,:skval)',
         'ScanIndexForward': False,
         'ExpressionAttributeValues': {
@@ -99,7 +99,7 @@ class DDB():
         }
 
         response = client.put_item(
-            TableName=tableName,
+            TableName=table_name,
             Item=item
         )
 
@@ -154,7 +154,7 @@ class DDB():
         }
 
         put_requests = {
-            tableName: [
+            table_name: [
             {'PutRequest': {'Item': my_message_group}},
             {'PutRequest': {'Item': other_message_group}},
             {'PutRequest': {'Item': message_group}}
