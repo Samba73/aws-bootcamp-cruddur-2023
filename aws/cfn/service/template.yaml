@@ -45,7 +45,10 @@ Parameters:
     Type: String
   DDBTABLENAME:
     Type: String
-    Default: cruddur-message  
+    Default: cruddur-message
+  FLASKENV:
+    Type: String
+    Default: production    
 Resources:
   FargateService:
     Type: AWS::ECS::Service
@@ -127,6 +130,8 @@ Resources:
               awslogs-region: !Ref AWS::Region
               awslogs-stream-prefix: !Ref ServiceName
           Environment:
+            - Name: FLASK_ENV
+              value: !Ref FLASKENV
             - Name: 'OTEL_SERVICE_NAME'   
               Value: !Ref OtelServiceName
             - Name: 'OTEL_EXPORTER_OTLP_ENDPOINT'   
