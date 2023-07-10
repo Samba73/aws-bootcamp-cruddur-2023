@@ -27,6 +27,7 @@ export default function ActivityForm(props) {
     } else {
       payload_data.message_group_uuid = params.message_group_uuid
     }
+    console.log('message form', payload_data)
     post(url,payload_data,{
       auth: true,
       setErrors: setErrors,
