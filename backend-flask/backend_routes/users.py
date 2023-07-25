@@ -10,7 +10,7 @@ from services.users.update_profile      import UpdateProfile
 from services.users.user_activities     import UserActivities
 
 def load(app):
-    @app.route("/api/profile/update", methods=['PUT','OPTIONS'])
+    @app.route("/api/profile/update", methods=['POST','OPTIONS'])
     @cross_origin()
     @jwt_required()
     def data_update_profile():
