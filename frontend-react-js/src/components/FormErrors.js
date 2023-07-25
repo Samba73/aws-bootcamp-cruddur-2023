@@ -3,7 +3,7 @@ import FormErrorItem from '../components/FormErrorItem';
 
 export default function FormErrors(props) {
   let el_errors = null
-
+  console.log('formserror',props)
   if (props.errors.length > 0) {
     el_errors = (<div className='errors'>
       {props.errors.map(err_code => {

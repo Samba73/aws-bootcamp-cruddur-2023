@@ -8,7 +8,7 @@ import './MessageForm.css';
 export default function ActivityForm(props) {
   const [count, setCount] = React.useState(0);
   const [message, setMessage] = React.useState('');
-  const [errors, setErrors] = React.useState('');
+  const [errors, setErrors] = React.useState([]);
   const params = useParams();
 
   const classes = []
@@ -18,7 +18,7 @@ export default function ActivityForm(props) {
   }
 
   const onsubmit = async (event) => {
-    setErrors('')
+    setErrors([])
     event.preventDefault();
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/messages`
     let payload_data = { 'message': message }
@@ -27,6 +27,7 @@ export default function ActivityForm(props) {
     } else {
       payload_data.message_group_uuid = params.message_group_uuid
     }
+    console.log('message form', payload_data)
     post(url,payload_data,{
       auth: true,
       setErrors: setErrors,

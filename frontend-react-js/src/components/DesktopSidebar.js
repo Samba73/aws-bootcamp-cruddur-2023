@@ -9,11 +9,11 @@ export default function DesktopSidebar(props) {
     {"hashtag": "100DaysOfCloud", "count": 2053 },
     {"hashtag": "CloudProject", "count": 8253 },
     {"hashtag": "AWS", "count": 9053 },
-    {"hashtag": "FreeWillyReboot", "count": 7753 }
+    {"hashtag": "DevSecOps", "count": 7753 }
   ]
 
   const users = [
-    {"display_name": "Andrew Brown", "handle": "andrewbrown"}
+    {"display_name": "Vishnu R", "handle": "vishnu"}
   ]
 
   let trending;

@@ -6,8 +6,8 @@ import FormErrors   from '../components/FormErrors';
 import './ProfileForm.css';
 
 export default function ProfileForm(props) {
-  const [bio, setBio] = React.useState(0);
-  const [displayName, setDisplayName] = React.useState(0);
+  const [bio, setBio] = React.useState('');
+  const [displayName, setDisplayName] = React.useState('');
   const [errors, setErrors] = React.useState([]);
 
   React.useEffect(() => {
@@ -79,6 +79,7 @@ export default function ProfileForm(props) {
   }
 
   const onsubmit = async (event) => {
+    console.log('onsubmit')
     event.preventDefault();
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/profile/update`
     const payload_data = {
@@ -143,7 +144,7 @@ export default function ProfileForm(props) {
                 onChange={bio_onchange}
               />
             </div>
-            <FormErrors error={errors} />
+            <FormErrors errors={errors} />
           </div>
         </form>
       </div>

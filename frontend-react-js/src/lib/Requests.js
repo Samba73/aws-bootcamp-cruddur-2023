@@ -1,7 +1,7 @@
 import { getAuth } from '../lib/CheckAuth'
 async function request(method,url,payload_data,options){
   if (options.hasOwnProperty('setErrors')){
-    options.setErrors('')
+    options.setErrors([])
   }
   let res
   try {
@@ -43,7 +43,7 @@ async function request(method,url,payload_data,options){
         }
     } else {
       if (options.hasOwnProperty('setErrors')){
-        options.setErrors([`generic_500`]) // For network errors or any other errors
+        options.setErrors([`generic_500_${err.message}`]) // For network errors or any other errors
       }
     }
   }

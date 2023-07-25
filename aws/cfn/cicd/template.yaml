@@ -98,6 +98,7 @@ Resources:
             Principal:
               Service: codepipeline.amazonaws.com
             Action: 'sts:AssumeRole'
+      Path: /      
       Policies:
         - PolicyName: !Sub ${AWS::StackName}CodeStarPolicy
           PolicyDocument:

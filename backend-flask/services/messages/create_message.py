@@ -77,7 +77,7 @@ class CreateMessage:
 
         if trans == 'new':
             message = DDB.create_message_group(
-                client=ddb, tableName=os.getenv("DDB_TABLENAME"),
+                client=ddb, tableName=os.getenv("DDBTABLENAME"),
                 message=message, my_user_uuid=my_user['uuid'],
                 my_user_display_name=my_user['display_name'],
                 my_user_handle=my_user['handle'],
