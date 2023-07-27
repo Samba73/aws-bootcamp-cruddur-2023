@@ -1,7 +1,7 @@
 import React        from "react";
 import process      from 'process';
 import { getAuth }  from '../lib/CheckAuth';
-import { put }      from '../lib/Requests';
+import { post }      from '../lib/Requests';
 import FormErrors   from '../components/FormErrors';
 import './ProfileForm.css';
 
@@ -86,7 +86,7 @@ export default function ProfileForm(props) {
       bio: bio,
       display_name: displayName
     }
-    put(url,payload_data,{
+    post(url,payload_data,{
       auth: true,
       setErrors: setErrors,
       success: function(data){
