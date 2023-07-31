@@ -84,12 +84,12 @@ Resources:
       PropagateTags: SERVICE
       ServiceConnectConfiguration: 
         Enabled: true
-        Namespace: cruddur
+        Namespace: 'cruddur'
         Services:
-          - DiscoveryName: !Ref ServiceName
+          - DiscoveryName: backend-flask
             ClientAliases: 
               - Port: !Ref BEPort
-            PortName: !Ref ServiceName
+            PortName: backend-flask
       ServiceName: !Ref ServiceName
       Tags: 
         - Key: service
@@ -116,7 +116,7 @@ Resources:
               - 'python /backend-flask/lib/health-check'
             Interval: 30
             Timeout: 5
-            Retries: 3
+            Retries: 2
             StartPeriod: 60  
           PortMappings:
             - Name: !Ref ContainerName
