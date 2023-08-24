@@ -12,7 +12,7 @@
             2) Run a script from Dockerfile
 ### 2) Push and tag a image to DockerHub
             1) Image is tagged first
-            2) Post tag completion image is pushed to dockerhub (samba73/script-sample)
+            2) Post tag completion image is pushed to dockerhub (Samba73/script-sample)
 ### 3) Use multi-stage building for a Dockerfile build
             1) First single stage build was done (react-js) and noted the size of image to be 1.19GB
             2) Created another dockerfile (Dockerfile-ms) with stage 0 and stage 1 and noted the size of image to be 144MB
