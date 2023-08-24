@@ -41,7 +41,7 @@ Parameters:
     Default: 15
   BEHealthCheckPath:
     Type: String
-    Default: /api/health_check
+    Default: /api/health-check
   BEHealthCheckPort: 
     Type: String
     Default: 4567
